@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI内容管理后台 - 创意工具</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background-color: #f5f5f5;
+            color: #333;
+            overflow-y: auto;
+            height: 100vh;
+        }
+
+        .app-container {
+            display: flex;
+            height: 100vh;
+            background-color: #fff;
+        }
+
+        .sidebar {
+            width: 240px;
+            background: linear-gradient(180deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px 0;
+        }
+
+        .logo {
+            padding: 0 20px 20px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            margin-bottom: 20px;
+        }
+
+        .logo h1 {
+            font-size: 16px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .nav-menu {
+            list-style: none;
+        }
+
+        .nav-item {
+            margin-bottom: 4px;
+        }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            padding: 12px 20px;
+            color: rgba(255,255,255,0.8);
+            text-decoration: none;
+            transition: all 0.3s;
+            border-radius: 0 20px 20px 0;
+            margin-right: 20px;
+        }
+
+        .nav-link:hover {
+            background-color: rgba(255,255,255,0.1);
+            color: white;
+        }
+
+        .nav-link.active {
+            background-color: rgba(255,255,255,0.2);
+            color: white;
+        }
+
+        .main-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .header {
+            height: 60px;
+            background: white;
+            border-bottom: 1px solid #e8e8e8;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 24px;
+        }
+
+        .breadcrumb {
+            font-size: 16px;
+            font-weight: 500;
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .btn {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+
+        .btn-primary {
+            background-color: #1890ff;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: #40a9ff;
+        }
+
+        .btn-secondary {
+            background-color: #f0f0f0;
+            color: #333;
+        }
+
+        .content-area {
+            flex: 1;
+            display: flex;
+            padding: 24px;
+            gap: 24px;
+            overflow-y: auto;
+        }
+
+        .panel {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .panel-header {
+            padding: 16px 20px;
+            border-bottom: 1px solid #f0f0f0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .panel-title {
+            font-size: 16px;
+            font-weight: 500;
+        }
+
+        .panel-content {
+            padding: 20px;
+            height: calc(100% - 60px);
+            overflow-y: auto;
+        }
+
+        .left-panel {
+            width: 450px;
+            min-width: 350px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .middle-panel {
+            flex: 1;
+            min-width: 300px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .right-panel {
+            width: 350px;
+            min-width: 300px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+
+        .form-label.required::after {
+            content: '*';
+            color: #ff4d4f;
+            margin-left: 4px;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid #d9d9d9;
+            border-radius: 6px;
+            font-size: 14px;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: #1890ff;
+            box-shadow: 0 0 0 2px rgba(24, 144, 255, 0.2);
+        }
+
+        .input-group {
+            display: flex;
+            gap: 8px;
+        }
+
+        .input-group .form-input {
+            flex: 1;
+        }
+
+        .tabs {
+            display: flex;
+            border-bottom: 1px solid #e8e8e8;
+            margin-bottom: 20px;
+        }
+
+        .tab {
+            padding: 12px 20px;
+            cursor: pointer;
+            border-bottom: 2px solid transparent;
+        }
+
+        .tab.active {
+            color: #1890ff;
+            border-bottom-color: #1890ff;
+        }
+
+        .message {
+            padding: 12px 16px;
+            border-radius: 6px;
+            margin-bottom: 16px;
+            font-size: 14px;
+        }
+
+        .message.success {
+            background-color: #f6ffed;
+            border: 1px solid #b7eb8f;
+            color: #52c41a;
+        }
+
+        .image-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+            gap: 12px;
+            margin-top: 16px;
+        }
+
+        .image-item {
+            border: 2px solid transparent;
+            border-radius: 8px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.3s;
+            position: relative;
+        }
+
+        .image-item:hover {
+            border-color: #1890ff;
+        }
+
+        .image-item.selected {
+            border-color: #1890ff;
+            background-color: rgba(24,144,255,0.1);
+        }
+
+        .image-item img {
+            width: 100%;
+            height: 120px;
+            object-fit: cover;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 40px 20px;
+            color: #999;
+        }
+
+        /* 图标字体 */
+        .material-icons {
+            font-family: 'Material Icons';
+            font-weight: normal;
+            font-style: normal;
+            font-size: 24px;
+            line-height: 1;
+            letter-spacing: normal;
+            text-transform: none;
+            display: inline-block;
+            white-space: nowrap;
+            word-wrap: normal;
+            direction: ltr;
+            -webkit-font-feature-settings: 'liga';
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .app-container {
+                flex-direction: column;
+            }
+            
+            .sidebar {
+                width: 100%;
+                height: auto;
+                padding: 10px 0;
+            }
+            
+            .main-content {
+                width: 100%;
+            }
+            
+            .content-area {
+                padding: 16px;
+                gap: 12px;
+            }
+            
+            .left-panel {
+                width: 100%;
+                min-width: auto;
+            }
+            
+            .middle-panel {
+                width: 100%;
+                min-width: auto;
+            }
+        }
+    </style>
+    <!-- 内联Material Icons字体 -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+</head>
+<body>
+    <div class="app-container">
+        <!-- 侧边栏 -->
+        <div class="sidebar">
+            <div class="logo">
+                <h1>
+                    <span class="material-icons">favorite</span>
+                    AI内容管理后台
+                </h1>
+            </div>
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        <span class="material-icons">home</span>
+                        首页
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        <span class="material-icons">upload</span>
+                        上传
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link active">
+                        <span class="material-icons">lightbulb</span>
+                        创意工具
+                    </a>
+                </li>
+            </ul>
+        </div>
+
+        <!-- 主内容区域 -->
+        <div class="main-content">
+            <div class="header">
+                <div class="breadcrumb">创意工具 / 扩图</div>
+                <div class="header-actions">
+                    <a href="#" style="color: #1890ff; text-decoration: none; margin-right: 16px;">操作说明</a>
+                    <button class="btn btn-primary">生产</button>
+                    <span class="material-icons">dark_mode</span>
+                    <span>lucien.xu ▼</span>
+                </div>
+            </div>
+
+            <div class="content-area">
+                <!-- 左侧面板 -->
+                <div class="left-panel">
+                    <div class="panel">
+                        <div class="panel-header">
+                            <div class="panel-title">上传信息</div>
+                            <div>
+                                <button class="btn btn-secondary">重置</button>
+                            </div>
+                        </div>
+                        <div class="panel-content">
+                            <div class="tabs">
+                                <div class="tab active">选择商品</div>
+                                <div class="tab">自行上传</div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label class="form-label required">商品ID</label>
+                                <div class="input-group">
+                                    <input type="text" class="form-input" placeholder="请输入一个商品ID" value="6920234553221107522">
+                                    <button class="btn btn-primary">查询</button>
+                                </div>
+                            </div>
+
+                            <div class="message success">
+                                查询到以上商品ID对应SPUID全部商品图
+                            </div>
+                            
+                            <div style="margin-bottom: 20px;">
+                                <h4 style="margin-bottom: 10px; color: #333;">商品1: 6920234553255788354</h4>
+                                <div class="image-grid">
+                                    <div class="image-item selected">
+                                        <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTIwIiBoZWlnaHQ9IjEyMCIgdmlld0JveD0iMCAwIDEyMCAxMjAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIxMjAiIGhlaWdodD0iMTIwIiBmaWxsPSIjRjVGNUY1Ii8+Cjx0ZXh0IHg9IjYwIiB5PSI2MCIgZm9udC1mYW1pbHk9IkFyaWFsIiBmb250LXNpemU9IjEyIiBmaWxsPSIjOTk5IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBkeT0iLjNlbSI+5Zu+54mH5Y2g5L2N5L2N5Y2gPC90ZXh0Pgo8L3N2Zz4K" alt="商品图片">
+                                        <div style="position: absolute; bottom: 5px; left: 5px; background: #1890ff; color: white; padding: 2px 6px; border-radius: 3px; font-size: 12px;">✓</div>
+                                    </div>
+                                    <div class="image-item selected">
+                                        <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTIwIiBoZWlnaHQ9IjEyMCIgdmlld0JveD0iMCAwIDEyMCAxMjAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIxMjAiIGhlaWdodD0iMTIwIiBmaWxsPSIjRjVGNUY1Ii8+Cjx0ZXh0IHg9IjYwIiB5PSI2MCIgZm9udC1mYW1pbHk9IkFyaWFsIiBmb250LXNpemU9IjEyIiBmaWxsPSIjOTk5IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBkeT0iLjNlbSI+5Zu+54mH5Y2g5L2N5L2N5Y2gPC90ZXh0Pgo8L3N2Zz4K" alt="商品图片">
+                                        <div style="position: absolute; bottom: 5px; left: 5px; background: #1890ff; color: white; padding: 2px 6px; border-radius: 3px; font-size: 12px;">✓</div>
+                                    </div>
+                                    <div class="image-item">
+                                        <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTIwIiBoZWlnaHQ9IjEyMCIgdmlld0JveD0iMCAwIDEyMCAxMjAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIxMjAiIGhlaWdodD0iMTIwIiBmaWxsPSIjRjVGNUY1Ii8+Cjx0ZXh0IHg9IjYwIiB5PSI2MCIgZm9udC1mYW1pbHk9IkFyaWFsIiBmb250LXNpemU9IjEyIiBmaWxsPSIjOTk5IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBkeT0iLjNlbSI+5Zu+54mH5Y2g5L2N5L2N5Y2gPC90ZXh0Pgo8L3N2Zz4K" alt="商品图片">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 中间面板 -->
+                <div class="middle-panel">
+                    <div class="panel">
+                        <div class="panel-header">
+                            <div class="panel-title">生成记录</div>
+                            <button class="btn btn-primary">全部下载</button>
+                        </div>
+                        <div class="panel-content">
+                            <div class="empty-state">
+                                <div style="font-size: 48px; color: #d9d9d9; margin-bottom: 16px;">📦</div>
+                                <p style="color: #999; font-size: 14px;">暂无数据</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 简单的交互功能
+        document.addEventListener('DOMContentLoaded', function() {
+            // Tab切换
+            const tabs = document.querySelectorAll('.tab');
+            tabs.forEach(tab => {
+                tab.addEventListener('click', function() {
+                    tabs.forEach(t => t.classList.remove('active'));
+                    this.classList.add('active');
+                });
+            });
+
+            // 图片选择
+            const imageItems = document.querySelectorAll('.image-item');
+            imageItems.forEach(item => {
+                item.addEventListener('click', function() {
+                    this.classList.toggle('selected');
+                });
+            });
+
+            // 按钮点击事件
+            const buttons = document.querySelectorAll('.btn');
+            buttons.forEach(button => {
+                button.addEventListener('click', function() {
+                    if (this.textContent === '生产') {
+                        alert('开始生产...');
+                    } else if (this.textContent === '查询') {
+                        alert('查询商品信息...');
+                    } else if (this.textContent === '重置') {
+                        alert('重置表单...');
+                    } else if (this.textContent === '全部下载') {
+                        alert('下载所有生成结果...');
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html> 
