@@ -1,0 +1,20 @@
+# Jekyll configuration for GitHub Pages
+title: AI内容管理后台
+description: AI创意智能运营平台演示
+baseurl: "/ai-admin-demo"
+url: "https://xuyan14.github.io"
+
+# Build settings
+markdown: kramdown
+plugins:
+  - jekyll-feed
+
+# Exclude from processing
+exclude:
+  - Gemfile
+  - Gemfile.lock
+  - node_modules
+  - vendor/bundle/
+  - vendor/cache/
+  - vendor/gems/
+  - vendor/ruby/ 
