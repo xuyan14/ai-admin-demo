@@ -688,6 +688,11 @@
             height: 30px;
         }
 
+        .ratio-visual.ratio-1-1 {
+            width: 36px;
+            height: 36px;
+        }
+
         .ratio-visual.ratio-custom {
             width: 40px;
             height: 30px;
@@ -1133,6 +1138,125 @@
             transform: none;
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
             border-color: transparent;
+        }
+
+        /* 图层编辑样式 */
+        .layer-editor {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        .editable-layer {
+            position: absolute;
+            cursor: move;
+            user-select: none;
+        }
+
+        .editable-layer.selected {
+            outline: 2px dashed #1890ff;
+        }
+
+        .layer-controls {
+            position: absolute;
+            top: -10px;
+            left: -10px;
+            right: -10px;
+            bottom: -10px;
+            pointer-events: none;
+        }
+
+        .resize-handle {
+            position: absolute;
+            width: 12px;
+            height: 12px;
+            background: #1890ff;
+            border: 2px solid white;
+            border-radius: 50%;
+            cursor: pointer;
+            pointer-events: all;
+        }
+
+        .resize-handle.nw { top: -6px; left: -6px; cursor: nw-resize; }
+        .resize-handle.ne { top: -6px; right: -6px; cursor: ne-resize; }
+        .resize-handle.sw { bottom: -6px; left: -6px; cursor: sw-resize; }
+        .resize-handle.se { bottom: -6px; right: -6px; cursor: se-resize; }
+        .resize-handle.n { top: -6px; left: 50%; transform: translateX(-50%); cursor: n-resize; }
+        .resize-handle.s { bottom: -6px; left: 50%; transform: translateX(-50%); cursor: s-resize; }
+        .resize-handle.w { left: -6px; top: 50%; transform: translateY(-50%); cursor: w-resize; }
+        .resize-handle.e { right: -6px; top: 50%; transform: translateY(-50%); cursor: e-resize; }
+
+        .rotate-handle {
+            position: absolute;
+            top: -30px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 20px;
+            height: 20px;
+            background: #1890ff;
+            border: 2px solid white;
+            border-radius: 50%;
+            cursor: pointer;
+            pointer-events: all;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 12px;
+        }
+
+        .edit-mode-tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            padding: 10px;
+            background: #f8f9fa;
+            border-radius: 8px;
+        }
+
+        .edit-mode-tab {
+            padding: 8px 16px;
+            border: 1px solid #d9d9d9;
+            border-radius: 6px;
+            background: white;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .edit-mode-tab.active {
+            background: #1890ff;
+            color: white;
+            border-color: #1890ff;
+        }
+
+        .edit-controls {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 8px;
+        }
+
+        .edit-control-btn {
+            padding: 6px 12px;
+            border: 1px solid #d9d9d9;
+            border-radius: 4px;
+            background: white;
+            cursor: pointer;
+            font-size: 12px;
+            transition: all 0.3s;
+        }
+
+        .edit-control-btn:hover {
+            background: #f0f0f0;
+        }
+
+        .edit-control-btn.active {
+            background: #1890ff;
+            color: white;
+            border-color: #1890ff;
         }
 
         /* 编辑操作按钮样式 */
@@ -1995,6 +2119,131 @@
             }
         }
 
+        /* 图片放大相关样式 */
+        .image-item {
+            position: relative;
+        }
+
+        .image-hover-icons {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            display: flex;
+            gap: 10px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: 10;
+        }
+
+        .image-item:hover .image-hover-icons {
+            opacity: 1;
+        }
+
+        .hover-icon {
+            width: 32px;
+            height: 32px;
+            background: rgba(0, 0, 0, 0.7);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            color: white;
+            font-size: 16px;
+            transition: background 0.3s ease;
+        }
+
+        .hover-icon:hover {
+            background: rgba(0, 0, 0, 0.9);
+        }
+
+        /* 图片放大弹窗 */
+        .image-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1002;
+        }
+
+        .image-modal-content {
+            position: relative;
+            max-width: 90%;
+            max-height: 90%;
+        }
+
+        .modal-image {
+            max-width: 80%;
+            max-height: 80%;
+            object-fit: contain;
+        }
+
+        .modal-arrow {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 50px;
+            height: 50px;
+            background: rgba(0, 0, 0, 0.7);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            color: white;
+            font-size: 24px;
+            transition: background 0.3s ease;
+        }
+
+        .modal-arrow:hover {
+            background: rgba(0, 0, 0, 0.9);
+        }
+
+        .modal-arrow.prev {
+            left: -60px;
+        }
+
+        .modal-arrow.next {
+            right: -60px;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: -50px;
+            right: 0;
+            width: 32px;
+            height: 32px;
+            background: rgba(0, 0, 0, 0.7);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            color: white;
+            font-size: 18px;
+            transition: background 0.3s ease;
+        }
+
+        .modal-close:hover {
+            background: rgba(0, 0, 0, 0.9);
+        }
+
+        .modal-info {
+            position: absolute;
+            bottom: -40px;
+            left: 0;
+            right: 0;
+            text-align: center;
+            color: white;
+            font-size: 14px;
+        }
+
         .image-item {
             border: 2px solid transparent;
             border-radius: 8px;
@@ -2177,6 +2426,35 @@
             justify-content: flex-end;
             gap: 10px;
             margin-top: 16px;
+        }
+
+        /* 反馈内容编辑样式 */
+        .feedback-edit-container {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .feedback-edit-textarea {
+            width: 100%;
+            min-height: 60px;
+            padding: 8px;
+            border: 1px solid #d9d9d9;
+            border-radius: 4px;
+            resize: vertical;
+            font-family: inherit;
+            font-size: 12px;
+        }
+
+        .feedback-edit-buttons {
+            display: flex;
+            gap: 8px;
+            justify-content: flex-end;
+        }
+
+        .feedback-edit-buttons .btn {
+            padding: 4px 8px;
+            font-size: 12px;
         }
 
         /* 图片放大相关样式 */
@@ -2393,7 +2671,6 @@
                 <div class="breadcrumb" id="breadcrumb">创意工具 / 扩图</div>
                 <div class="header-actions">
                     <a href="#" style="color: #1890ff; text-decoration: none; margin-right: 16px;" onclick="showOperationGuide()">操作说明</a>
-                    <button class="btn btn-primary" onclick="startProduction()">生产</button>
                     <span class="material-icons">dark_mode</span>
                     <span>lucien.xu ▼</span>
                 </div>
@@ -2406,6 +2683,7 @@
                         <div class="panel-header">
                             <div class="panel-title">上传信息</div>
                             <div>
+                                <button class="btn btn-primary" onclick="startProduction()">生产</button>
                                 <button class="btn btn-secondary" onclick="resetForm()">重置</button>
                             </div>
                         </div>
@@ -2675,6 +2953,12 @@
                                     <div class="ratio-label">横图</div>
                                     <div class="ratio-value">3:2</div>
                                 </label>
+                                <label class="ratio-option" onclick="selectRatioOption(this)">
+                                    <input type="radio" name="expandRatio" value="1:1" onchange="handleRatioChange(false, this)">
+                                    <div class="ratio-visual ratio-1-1"></div>
+                                    <div class="ratio-label">方图</div>
+                                    <div class="ratio-value">1:1</div>
+                                </label>
                                 <label class="ratio-option custom-ratio-card" onclick="selectRatioOption(this)">
                                     <input type="radio" name="expandRatio" value="custom" onchange="handleRatioChange(true, this)">
                                     <div class="ratio-visual ratio-custom">
@@ -2789,6 +3073,12 @@
                                     <div class="ratio-visual ratio-3-2"></div>
                                     <div class="ratio-label">横图</div>
                                     <div class="ratio-value">3:2</div>
+                                </label>
+                                <label class="ratio-option" onclick="selectRatioOption(this)">
+                                    <input type="radio" name="expandRatio" value="1:1" onchange="handleRatioChange(false, this)">
+                                    <div class="ratio-visual ratio-1-1"></div>
+                                    <div class="ratio-label">方图</div>
+                                    <div class="ratio-value">1:1</div>
                                 </label>
                                 <label class="ratio-option custom-ratio-card" onclick="selectRatioOption(this)">
                                     <input type="radio" name="expandRatio" value="custom" onchange="handleRatioChange(true, this)">
@@ -2992,6 +3282,19 @@
                             <div class="image-item" style="position: relative;">
                                 <div style="position: absolute; top: 5px; left: 5px; background: #1890ff; color: white; padding: 2px 6px; border-radius: 3px; font-size: 12px;">6000</div>
                                 <img src="https://youke1.picui.cn/s1/2025/08/04/689037a51d9bb.png" alt="换背景结果1" style="width: 100%; height: 120px; object-fit: cover;">
+                                <!-- Hover Icons -->
+                                <div class="image-hover-icons">
+                                    <div class="hover-icon" onclick="copyImageLink('6000')" title="复制链接">
+                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                                            <path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/>
+                                        </svg>
+                                    </div>
+                                    <div class="hover-icon" onclick="previewImage('6000', 'https://youke1.picui.cn/s1/2025/08/04/689037a51d9bb.png')" title="预览图片">
+                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                                            <path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/>
+                                        </svg>
+                                    </div>
+                                </div>
                                 <div style="display: flex; gap: 5px; margin-top: 8px; align-items: center;">
                                     <button class="btn btn-secondary" style="font-size: 12px; padding: 4px 8px;" onclick="approveImage('6000')">通过</button>
                                     <button class="btn btn-primary" style="font-size: 12px; padding: 4px 8px;" onclick="downloadSingleImage('6000')">下载</button>
@@ -3003,6 +3306,19 @@
                             <div class="image-item" style="position: relative;">
                                 <div style="position: absolute; top: 5px; left: 5px; background: #1890ff; color: white; padding: 2px 6px; border-radius: 3px; font-size: 12px;">6001</div>
                                 <img src="https://youke1.picui.cn/s1/2025/08/04/689037a51d9bb.png" alt="换背景结果2" style="width: 100%; height: 120px; object-fit: cover;">
+                                <!-- Hover Icons -->
+                                <div class="image-hover-icons">
+                                    <div class="hover-icon" onclick="copyImageLink('6001')" title="复制链接">
+                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                                            <path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/>
+                                        </svg>
+                                    </div>
+                                    <div class="hover-icon" onclick="previewImage('6001', 'https://youke1.picui.cn/s1/2025/08/04/689037a51d9bb.png')" title="预览图片">
+                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                                            <path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/>
+                                        </svg>
+                                    </div>
+                                </div>
                                 <div style="display: flex; gap: 5px; margin-top: 8px; align-items: center;">
                                     <button class="btn btn-secondary" style="font-size: 12px; padding: 4px 8px;" onclick="approveImage('6001')">通过</button>
                                     <button class="btn btn-primary" style="font-size: 12px; padding: 4px 8px;" onclick="downloadSingleImage('6001')">下载</button>
@@ -3110,171 +3426,6 @@
                     { id: 5, title: '背景裂变任务20250728-975', status: '已完成' }
                 ]
             },
-            virtualFitting: {
-                title: '虚拟换衣',
-                breadcrumb: '创意工具 / 虚拟换衣',
-                middlePanelTitle: '生图任务信息编辑',
-                uploadInfo: `
-                    <div class="tabs">
-                        <div class="tab active" onclick="switchVirtualFittingTab('select')">选择商品</div>
-                        <div class="tab" onclick="switchVirtualFittingTab('upload')">自行上传</div>
-                    </div>
-                    
-                    <div id="selectProductTab" style="display: block;">
-                        <div style="margin-bottom: 20px;">
-                            <h4 style="margin-bottom: 15px; color: #333;">信息编辑</h4>
-                            <div class="form-group">
-                                <label class="form-label required">商品ID</label>
-                                <div class="input-group">
-                                    <input type="text" class="form-input" id="virtualFittingGoodsId" placeholder="请输入一个商品ID" value="6921308899201171974">
-                                    <button class="btn btn-primary" onclick="searchVirtualFittingGoods()">查询</button>
-                                </div>
-                            </div>
-                            
-                            <div id="virtualFittingProductInfo" style="display: none;">
-                                <div style="margin-top: 15px;">
-                                    <h4 style="margin-bottom: 10px; color: #333;">商品1: 6921308899201171974</h4>
-                                    <div class="image-grid" style="grid-template-columns: repeat(3, 1fr); gap: 8px;">
-                                        <div class="image-item selected" onclick="selectVirtualFittingImage(this)">
-                                            <img src="https://youke1.picui.cn/s1/2025/08/01/688cb7e3003d7.jpg" alt="商品图片">
-                                            <div style="position: absolute; bottom: 5px; left: 5px; background: #1890ff; color: white; padding: 2px 6px; border-radius: 3px; font-size: 12px;">✓</div>
-                                        </div>
-                                        <div class="image-item" onclick="selectVirtualFittingImage(this)">
-                                            <img src="https://youke1.picui.cn/s1/2025/08/01/688cb7e3003d7.jpg" alt="商品图片">
-                                        </div>
-                                        <div class="image-item" onclick="selectVirtualFittingImage(this)">
-                                            <img src="https://youke1.picui.cn/s1/2025/08/01/688cb7e3003d7.jpg" alt="商品图片">
-                                        </div>
-                                    </div>
-                                </div>
-                                
-                                <div style="margin-top: 20px;">
-                                    <h4 style="margin-bottom: 15px; color: #333;">请确认用于虚拟试衣的该SPUID所属品类 (单选)</h4>
-                                    <div style="display: flex; gap: 15px;">
-                                        <label style="display: flex; align-items: center; gap: 5px;">
-                                            <input type="radio" name="productCategory" value="top"> 上装
-                                        </label>
-                                        <label style="display: flex; align-items: center; gap: 5px;">
-                                            <input type="radio" name="productCategory" value="bottom" checked> 下装
-                                        </label>
-                                        <label style="display: flex; align-items: center; gap: 5px;">
-                                            <input type="radio" name="productCategory" value="set"> 套装
-                                        </label>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div id="uploadTab" style="display: none;">
-                        <div style="margin-bottom: 20px;">
-                            <h4 style="margin-bottom: 15px; color: #333;">上传商品图</h4>
-                            <div style="margin-bottom: 10px; font-size: 14px; color: #666;">
-                                请上传商品图片用于虚拟试衣
-                            </div>
-                            
-                            <div class="image-grid" style="grid-template-columns: repeat(3, 1fr); gap: 12px;">
-                                <div class="image-item" onclick="uploadProductImage(0)" style="border: 2px dashed #d9d9d9; display: flex; align-items: center; justify-content: center; background: #fafafa;">
-                                    <div style="text-align: center; color: #999;">
-                                        <div style="font-size: 24px; margin-bottom: 5px;">+</div>
-                                        <div style="font-size: 12px;">上传商品图</div>
-                                    </div>
-                                </div>
-                            </div>
-                            
-                            <div style="margin-top: 10px; font-size: 12px; color: #666;">
-                                图片要求:分辨率不小于800*800,大小不超过10MB, 格式JPG/JPEG/PNG
-                            </div>
-                        </div>
-                    </div>
-                `,
-                middlePanelContent: `
-                    <div style="margin-bottom: 20px;">
-                        <h4 style="margin-bottom: 15px; color: #333;">搭配建议 (可选)</h4>
-                        <div class="form-group">
-                            <label class="form-label">搭配建议</label>
-                            <div style="display: flex; gap: 10px; align-items: center;">
-                                <input type="text" class="form-input" id="stylingSuggestion" value="white Tshirt" style="flex: 1;">
-                                <span style="font-size: 12px; color: #999;">12/50</span>
-                            </div>
-                            <div style="margin-top: 8px; font-size: 12px; color: #666;">
-                                选填项;当商品图有选平铺图时,建议指定搭配服饰,未填写则系统将使用默认搭配,可能影响试衣效果;商品图为模特上身图时,无需填写搭配建议,系统将默认使用商品图中的搭配服饰进行试衣。若填写此项,请二次确认用于虚拟试衣的该搭配服饰所属品类 (单选)
-                            </div>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label class="form-label">搭配服饰品类</label>
-                            <div style="display: flex; gap: 15px;">
-                                <label style="display: flex; align-items: center; gap: 5px;">
-                                    <input type="radio" name="stylingCategory" value="top" checked> 上装
-                                </label>
-                                <label style="display: flex; align-items: center; gap: 5px;">
-                                    <input type="radio" name="stylingCategory" value="bottom"> 下装
-                                </label>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div style="margin-bottom: 20px;">
-                        <h4 style="margin-bottom: 15px; color: #333;">上传参考图 <span style="color: red;">*</span></h4>
-                        <div style="margin-bottom: 10px; font-size: 14px; color: #666;">
-                            请上传用于虚拟试衣的效果参考图1-3张, 每一张参考图将生成4张试衣图
-                        </div>
-                        
-                        <div class="image-grid" style="grid-template-columns: repeat(3, 1fr); gap: 12px;">
-                            <div class="image-item" onclick="uploadReferenceImage(0)" style="border: 2px dashed #d9d9d9; display: flex; align-items: center; justify-content: center; background: #fafafa;">
-                                <div style="text-align: center; color: #999;">
-                                    <div style="font-size: 24px; margin-bottom: 5px;">+</div>
-                                    <div style="font-size: 12px;">上传参考图</div>
-                                </div>
-                            </div>
-                            <div class="image-item" onclick="uploadReferenceImage(1)" style="border: 2px dashed #d9d9d9; display: flex; align-items: center; justify-content: center; background: #fafafa;">
-                                <div style="text-align: center; color: #999;">
-                                    <div style="font-size: 24px; margin-bottom: 5px;">+</div>
-                                    <div style="font-size: 12px;">上传参考图</div>
-                                </div>
-                            </div>
-                            <div class="image-item" onclick="uploadReferenceImage(2)" style="border: 2px dashed #d9d9d9; display: flex; align-items: center; justify-content: center; background: #fafafa;">
-                                <div style="text-align: center; color: #999;">
-                                    <div style="font-size: 24px; margin-bottom: 5px;">+</div>
-                                    <div style="font-size: 12px;">上传参考图</div>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div style="margin-top: 10px; font-size: 12px; color: #666;">
-                            图片要求:分辨率不小于800*800,大小不超过10MB, 格式JPG/JPEG/PNG
-                        </div>
-                    </div>
-                    
-                    <div style="margin-bottom: 20px;">
-                        <h4 style="margin-bottom: 15px; color: #333;">任务信息</h4>
-                        <div class="form-group">
-                            <label class="form-label required">任务名称</label>
-                            <div style="display: flex; gap: 10px; align-items: center;">
-                                <input type="text" class="form-input" id="taskName" value="AI虚拟试衣-20250804-1060" style="flex: 1;">
-                                <button class="btn btn-secondary" onclick="resetTaskName()">重置任务名</button>
-                                <span style="font-size: 12px; color: #999;">20/45</span>
-                            </div>
-                        </div>
-                        
-                        <div style="margin-top: 10px; font-size: 12px; color: #666;">
-                            生图比例与参考图尺寸相同
-                        </div>
-                    </div>
-                `,
-                middlePanelContent: `
-                    <div class="empty-state">
-                        <span class="material-icons">folder</span>
-                        <p>暂无数据</p>
-                    </div>
-                `,
-                tasks: [
-                    { id: 1, title: '虚拟换衣任务20250101', status: '已完成' },
-                    { id: 2, title: '虚拟换衣任务20250102', status: '进行中' },
-                    { id: 3, title: '虚拟换衣任务20250103', status: '等待中' }
-                ]
-            },
             feedbackManagement: {
                 title: '意见管理',
                 breadcrumb: '创意工具 / 意见管理',
@@ -3316,11 +3467,9 @@
                                     <th style="padding: 12px; text-align: left; border-bottom: 1px solid #e8e8e8; width: 120px;">原图及商品ID</th>
                                     <th style="padding: 12px; text-align: left; border-bottom: 1px solid #e8e8e8; width: 120px;">结果图</th>
                                     <th style="padding: 12px; text-align: left; border-bottom: 1px solid #e8e8e8; min-width: 200px;">意见记录</th>
-                                    <th style="padding: 12px; text-align: left; border-bottom: 1px solid #e8e8e8; width: 120px;">操作快照</th>
                                     <th style="padding: 12px; text-align: left; border-bottom: 1px solid #e8e8e8; width: 100px;">提出人</th>
                                     <th style="padding: 12px; text-align: left; border-bottom: 1px solid #e8e8e8; width: 120px;">提出日期</th>
-                                    <th style="padding: 12px; text-align: left; border-bottom: 1px solid #e8e8e8; width: 100px;">反馈</th>
-                                    <th style="padding: 12px; text-align: left; border-bottom: 1px solid #e8e8e8; width: 80px;">操作</th>
+                                    <th style="padding: 12px; text-align: left; border-bottom: 1px solid #e8e8e8; width: 150px;">反馈内容</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -3336,14 +3485,13 @@
                                         <img src="https://youke1.picui.cn/s1/2025/08/04/689037a51d9bb.png" alt="结果图" style="width: 60px; height: 40px; object-fit: cover; border-radius: 4px; cursor: pointer;" onclick="openImageModal('https://youke1.picui.cn/s1/2025/08/04/689037a51d9bb.png')">
                                     </td>
                                     <td style="padding: 12px;" class="feedback-content">生成的图片质量不够清晰，边缘模糊，希望能提高分辨率</td>
-                                    <td style="padding: 12px;">
-                                        <button class="btn btn-secondary" style="padding: 4px 8px; font-size: 12px;" onclick="viewOperationSnapshot('扩图配置截图')">查看</button>
-                                    </td>
                                     <td style="padding: 12px;">张三</td>
                                     <td style="padding: 12px;">2025-01-15</td>
-                                    <td style="padding: 12px;" class="feedback-status">待处理</td>
                                     <td style="padding: 12px;">
-                                        <button class="btn btn-secondary" style="padding: 4px 8px; font-size: 12px;" onclick="editFeedback(this)">编辑</button>
+                                        <div class="feedback-response" data-edited="false">
+                                            <span class="feedback-text" style="color: #999;">无</span>
+                                            <button class="btn btn-primary" style="padding: 4px 8px; font-size: 12px; margin-left: 8px;" onclick="editFeedbackResponse(this)">编辑反馈</button>
+                                        </div>
                                     </td>
                                 </tr>
                                 <tr style="border-bottom: 1px solid #f0f0f0;" data-tool="换背景">
@@ -3358,14 +3506,13 @@
                                         <img src="https://youke1.picui.cn/s1/2025/08/01/688cb7e3003d7.jpg" alt="结果图" style="width: 60px; height: 40px; object-fit: cover; border-radius: 4px; cursor: pointer;" onclick="openImageModal('https://youke1.picui.cn/s1/2025/08/01/688cb7e3003d7.jpg')">
                                     </td>
                                     <td style="padding: 12px;" class="feedback-content">背景替换后商品主体被遮挡，建议优化算法</td>
-                                    <td style="padding: 12px;">
-                                        <button class="btn btn-secondary" style="padding: 4px 8px; font-size: 12px;" onclick="viewOperationSnapshot('换背景配置截图')">查看</button>
-                                    </td>
                                     <td style="padding: 12px;">李四</td>
                                     <td style="padding: 12px;">2025-01-14</td>
-                                    <td style="padding: 12px;" class="feedback-status">已处理</td>
                                     <td style="padding: 12px;">
-                                        <button class="btn btn-secondary" style="padding: 4px 8px; font-size: 12px;" onclick="editFeedback(this)">编辑</button>
+                                        <div class="feedback-response" data-edited="true">
+                                            <span class="feedback-text" style="color: #333;">已优化背景替换算法，减少商品主体遮挡问题</span>
+                                            <button class="btn btn-primary" style="padding: 4px 8px; font-size: 12px; margin-left: 8px;" onclick="editFeedbackResponse(this)">编辑反馈</button>
+                                        </div>
                                     </td>
                                 </tr>
                                 <tr style="border-bottom: 1px solid #f0f0f0;" data-tool="背景裂变">
@@ -3380,58 +3527,55 @@
                                         <img src="https://youke1.picui.cn/s1/2025/08/04/68905925c8587.jpeg" alt="结果图" style="width: 60px; height: 40px; object-fit: cover; border-radius: 4px; cursor: pointer;" onclick="openImageModal('https://youke1.picui.cn/s1/2025/08/04/68905925c8587.jpeg')">
                                     </td>
                                     <td style="padding: 12px;" class="feedback-content">生成的背景图风格与参考图差异较大，相似度设置不够准确</td>
-                                    <td style="padding: 12px;">
-                                        <button class="btn btn-secondary" style="padding: 4px 8px; font-size: 12px;" onclick="viewOperationSnapshot('背景裂变配置截图')">查看</button>
-                                    </td>
                                     <td style="padding: 12px;">王五</td>
                                     <td style="padding: 12px;">2025-01-13</td>
-                                    <td style="padding: 12px;" class="feedback-status">处理中</td>
                                     <td style="padding: 12px;">
-                                        <button class="btn btn-secondary" style="padding: 4px 8px; font-size: 12px;" onclick="editFeedback(this)">编辑</button>
+                                        <div class="feedback-response" data-edited="true">
+                                            <span class="feedback-text" style="color: #333;">正在调整相似度算法，预计本周完成优化</span>
+                                            <button class="btn btn-primary" style="padding: 4px 8px; font-size: 12px; margin-left: 8px;" onclick="editFeedbackResponse(this)">编辑反馈</button>
+                                        </div>
                                     </td>
                                 </tr>
                                 <tr style="border-bottom: 1px solid #f0f0f0;" data-tool="虚拟换衣">
                                     <td style="padding: 12px;">虚拟换衣</td>
                                     <td style="padding: 12px;">
                                         <div style="margin-bottom: 4px;">
-                                            <img src="https://youke1.picui.cn/s1/2025/08/04/68905925d6370.jpeg" alt="原图" style="width: 60px; height: 40px; object-fit: cover; border-radius: 4px; cursor: pointer;" onclick="openImageModal('https://youke1.picui.cn/s1/2025/08/04/68905925d6370.jpeg')">
+                                            <img src="https://youke1.picui.cn/s1/2025/08/04/689033dd3295b.jpeg" alt="原图" style="width: 60px; height: 40px; object-fit: cover; border-radius: 4px; cursor: pointer;" onclick="openImageModal('https://youke1.picui.cn/s1/2025/08/04/689033dd3295b.jpeg')">
                                         </div>
                                         <div style="font-size: 12px; color: #666;">商品ID: 6921461213816069463</div>
                                     </td>
                                     <td style="padding: 12px;">
-                                        <img src="https://youke1.picui.cn/s1/2025/08/04/68905925d6370.jpeg" alt="结果图" style="width: 60px; height: 40px; object-fit: cover; border-radius: 4px; cursor: pointer;" onclick="openImageModal('https://youke1.picui.cn/s1/2025/08/04/68905925d6370.jpeg')">
+                                        <img src="https://youke1.picui.cn/s1/2025/08/04/689033dd3295b.jpeg" alt="结果图" style="width: 60px; height: 40px; object-fit: cover; border-radius: 4px; cursor: pointer;" onclick="openImageModal('https://youke1.picui.cn/s1/2025/08/04/689033dd3295b.jpeg')">
                                     </td>
                                     <td style="padding: 12px;" class="feedback-content">换衣效果不自然，衣服褶皱处理需要改进</td>
-                                    <td style="padding: 12px;">
-                                        <button class="btn btn-secondary" style="padding: 4px 8px; font-size: 12px;" onclick="viewOperationSnapshot('虚拟换衣配置截图')">查看</button>
-                                    </td>
                                     <td style="padding: 12px;">赵六</td>
                                     <td style="padding: 12px;">2025-01-12</td>
-                                    <td style="padding: 12px;" class="feedback-status">待处理</td>
                                     <td style="padding: 12px;">
-                                        <button class="btn btn-secondary" style="padding: 4px 8px; font-size: 12px;" onclick="editFeedback(this)">编辑</button>
+                                        <div class="feedback-response" data-edited="false">
+                                            <span class="feedback-text" style="color: #999;">无</span>
+                                            <button class="btn btn-primary" style="padding: 4px 8px; font-size: 12px; margin-left: 8px;" onclick="editFeedbackResponse(this)">编辑反馈</button>
+                                        </div>
                                     </td>
                                 </tr>
                                 <tr style="border-bottom: 1px solid #f0f0f0;" data-tool="图片创作">
                                     <td style="padding: 12px;">图片创作</td>
                                     <td style="padding: 12px;">
                                         <div style="margin-bottom: 4px;">
-                                            <img src="https://youke1.picui.cn/s1/2025/08/04/689059264c66b.jpeg" alt="原图" style="width: 60px; height: 40px; object-fit: cover; border-radius: 4px; cursor: pointer;" onclick="openImageModal('https://youke1.picui.cn/s1/2025/08/04/689059264c66b.jpeg')">
+                                            <img src="https://youke1.picui.cn/s1/2025/08/04/689033dd3295b.jpeg" alt="原图" style="width: 60px; height: 40px; object-fit: cover; border-radius: 4px; cursor: pointer;" onclick="openImageModal('https://youke1.picui.cn/s1/2025/08/04/689033dd3295b.jpeg')">
                                         </div>
                                         <div style="font-size: 12px; color: #666;">商品ID: 6920898667058027100</div>
                                     </td>
                                     <td style="padding: 12px;">
-                                        <img src="https://youke1.picui.cn/s1/2025/08/04/689059264c66b.jpeg" alt="结果图" style="width: 60px; height: 40px; object-fit: cover; border-radius: 4px; cursor: pointer;" onclick="openImageModal('https://youke1.picui.cn/s1/2025/08/04/689059264c66b.jpeg')">
+                                        <img src="https://youke1.picui.cn/s1/2025/08/04/689033dd3295b.jpeg" alt="结果图" style="width: 60px; height: 40px; object-fit: cover; border-radius: 4px; cursor: pointer;" onclick="openImageModal('https://youke1.picui.cn/s1/2025/08/04/689033dd3295b.jpeg')">
                                     </td>
                                     <td style="padding: 12px;" class="feedback-content">模板选择太少，希望能增加更多风格选项</td>
-                                    <td style="padding: 12px;">
-                                        <button class="btn btn-secondary" style="padding: 4px 8px; font-size: 12px;" onclick="viewOperationSnapshot('图片创作配置截图')">查看</button>
-                                    </td>
                                     <td style="padding: 12px;">孙七</td>
                                     <td style="padding: 12px;">2025-01-11</td>
-                                    <td style="padding: 12px;" class="feedback-status">已处理</td>
                                     <td style="padding: 12px;">
-                                        <button class="btn btn-secondary" style="padding: 4px 8px; font-size: 12px;" onclick="editFeedback(this)">编辑</button>
+                                        <div style="display: flex; align-items: center; gap: 8px;">
+                                            <span class="feedback-status" style="color: #52c41a; font-weight: 500;">已处理</span>
+                                            <button class="btn btn-primary" style="padding: 4px 8px; font-size: 12px;" onclick="editFeedback(this)">编辑反馈</button>
+                                        </div>
                                     </td>
                                 </tr>
                             </tbody>
@@ -3565,6 +3709,25 @@
                                 </div>
                             </div>
                         </div>
+                        
+                        <div style="margin-bottom: 20px;">
+                            <h4 style="margin-bottom: 10px; color: #333;">添加利益点 <span class="help-icon" title="输入该商品在海报上展示的利益点">?</span></h4>
+                            <textarea class="form-input" placeholder="填写该商品在海报上展示的利益点" rows="3" style="width: 100%; resize: vertical;"></textarea>
+                        </div>
+                    </div>
+                    
+                    <div class="form-section">
+                        <h4>填写价格 <span class="help-icon" title="设置商品价格">?</span> <span style="color: #ff4d4f;">*</span></h4>
+                        <div class="form-group">
+                            <div style="display: flex; gap: 8px; margin-bottom: 8px;">
+                                <label style="min-width: 60px;">商品价格:</label>
+                                <input type="number" class="form-input" value="128.00" step="0.01" style="width: 120px;">
+                            </div>
+                            <div style="display: flex; gap: 8px;">
+                                <label style="min-width: 60px;">特卖价:</label>
+                                <input type="number" class="form-input" value="599.00" step="0.01" style="width: 120px;">
+                            </div>
+                        </div>
                     </div>
                     
                     <div class="form-section">
@@ -3594,20 +3757,6 @@
                         <div class="form-group">
                             <input type="number" class="form-input" value="1" min="1" max="10" style="width: 80px;">
                             <span style="margin-left: 8px; color: #666;">张图/每一个模板</span>
-                        </div>
-                    </div>
-                    
-                    <div class="form-section">
-                        <h4>填写价格 <span class="help-icon" title="设置商品价格">?</span> <span style="color: #ff4d4f;">*</span></h4>
-                        <div class="form-group">
-                            <div style="display: flex; gap: 8px; margin-bottom: 8px;">
-                                <label style="min-width: 60px;">到手价:</label>
-                                <input type="number" class="form-input" value="80.00" step="0.01" style="width: 120px;">
-                            </div>
-                            <div style="display: flex; gap: 8px;">
-                                <label style="min-width: 60px;">唯品价:</label>
-                                <input type="number" class="form-input" value="180.00" step="0.01" style="width: 120px;">
-                            </div>
                         </div>
                     </div>
                     
@@ -3692,8 +3841,68 @@
 
         // 显示模块
         function showModule(moduleName) {
+            console.log('showModule called with:', moduleName);
+            
+            // 重置任何可能阻止导航的状态
+            document.body.style.pointerEvents = '';
+            
             currentModule = moduleName;
             const data = mockData[moduleName];
+            
+            // 检查必要的DOM元素是否存在
+            const breadcrumbElement = document.getElementById('breadcrumb');
+            const middlePanelTitleElement = document.getElementById('middlePanelTitle');
+            const uploadInfoElement = document.getElementById('uploadInfo');
+            const middlePanelContentElement = document.getElementById('middlePanelContent');
+            
+            console.log('DOM elements check:', {
+                breadcrumb: !!breadcrumbElement,
+                middlePanelTitle: !!middlePanelTitleElement,
+                uploadInfo: !!uploadInfoElement,
+                middlePanelContent: !!middlePanelContentElement
+            });
+            
+            // 更新面包屑
+            if (breadcrumbElement) {
+                breadcrumbElement.textContent = data.breadcrumb;
+            }
+            
+            // 更新中间面板标题
+            if (middlePanelTitleElement) {
+                middlePanelTitleElement.textContent = data.middlePanelTitle;
+            }
+            
+            // 更新上传信息
+            if (uploadInfoElement) {
+                uploadInfoElement.innerHTML = data.uploadInfo;
+            }
+            
+            // 更新中间面板内容
+            if (middlePanelContentElement) {
+                middlePanelContentElement.innerHTML = data.middlePanelContent;
+            }
+            
+            // 重置中间面板的panel结构，确保没有残留的生产结果内容
+            const middlePanelElement = document.querySelector('.middle-panel');
+            if (middlePanelElement) {
+                const existingPanel = middlePanelElement.querySelector('.panel');
+                if (existingPanel) {
+                    // 确保panel结构正确
+                    const panelHeader = existingPanel.querySelector('.panel-header');
+                    const panelContent = existingPanel.querySelector('.panel-content');
+                    
+                    if (panelHeader) {
+                        panelHeader.innerHTML = `
+                            <div class="panel-title">${data.middlePanelTitle}</div>
+                            <button class="btn btn-primary" onclick="downloadAll()">全部下载</button>
+                        `;
+                    }
+                    
+                    if (panelContent) {
+                        panelContent.innerHTML = data.middlePanelContent;
+                    }
+                }
+            }
             
             // 重置左侧面板显示状态（如果之前被隐藏）
             const leftPanel = document.querySelector('.left-panel');
@@ -3713,17 +3922,7 @@
                 rightPanel.style.display = 'flex';
             }
             
-            // 更新面包屑
-            document.getElementById('breadcrumb').textContent = data.breadcrumb;
-            
-            // 更新中间面板标题
-            document.getElementById('middlePanelTitle').textContent = data.middlePanelTitle;
-            
-            // 更新上传信息
-            document.getElementById('uploadInfo').innerHTML = data.uploadInfo;
-            
-            // 更新中间面板内容
-            document.getElementById('middlePanelContent').innerHTML = data.middlePanelContent;
+
             
             // 更新导航状态
             updateNavigation(moduleName);
@@ -3739,7 +3938,7 @@
             // 只在特定页面显示Toast提示
             const toastModules = ['expand', 'bgChange', 'bgFission', 'imageCreation', 'virtualTryOn'];
             if (toastModules.includes(moduleName)) {
-                showToast();
+                showToast('生成素材后请记得打上AIGC标签哦');
             }
             
             // 初始化字符计数功能（已移除）
@@ -3765,13 +3964,77 @@
                 }, 100);
             }
             
+            // 确保生产按钮显示在上传信息面板中
+            const leftPanelHeader = document.querySelector('.left-panel .panel-header');
+            if (leftPanelHeader) {
+                const existingProductionBtn = leftPanelHeader.querySelector('button[onclick="startProduction()"]');
+                if (!existingProductionBtn) {
+                    const resetBtn = leftPanelHeader.querySelector('button[onclick="resetForm()"]');
+                    if (resetBtn) {
+                        const productionBtn = document.createElement('button');
+                        productionBtn.className = 'btn btn-primary';
+                        productionBtn.onclick = startProduction;
+                        productionBtn.textContent = '生产';
+                        resetBtn.parentNode.insertBefore(productionBtn, resetBtn);
+                    }
+                }
+            }
+            
             // 特殊处理背景裂变功能
             if (moduleName === 'bgFission') {
                 resetBgFissionForm();
                 hideTabsAndGoodsId();
+                // 恢复正常布局（防止从意见管理等特殊布局切换过来时出现问题）
+                document.querySelector('.left-panel').style.display = 'flex';
+                document.querySelector('.middle-panel').style.flex = '';
+                // 恢复中间面板的"全部下载"按钮显示
+                const middlePanelHeader = document.querySelector('.middle-panel .panel-header');
+                if (middlePanelHeader) {
+                    const downloadAllBtn = middlePanelHeader.querySelector('button[onclick="downloadAll()"]');
+                    if (downloadAllBtn) {
+                        downloadAllBtn.style.display = 'inline-block';
+                    }
+                }
+                // 恢复生产按钮显示
+                const headerActions = document.querySelector('.header-actions');
+                if (headerActions) {
+                    const productionBtn = headerActions.querySelector('.btn-primary');
+                    if (productionBtn && productionBtn.textContent === '生产') {
+                        productionBtn.style.display = 'inline-block';
+                    }
+                    // 移除可能存在的导出按钮
+                    const existingExportBtn = headerActions.querySelector('.export-btn');
+                    if (existingExportBtn) {
+                        existingExportBtn.remove();
+                    }
+                }
             } else if (moduleName === 'imageCreation') {
                 // 图片创作特殊处理
                 hideTabsAndGoodsId();
+                // 恢复正常布局（防止从意见管理等特殊布局切换过来时出现问题）
+                document.querySelector('.left-panel').style.display = 'flex';
+                document.querySelector('.middle-panel').style.flex = '';
+                // 恢复中间面板的"全部下载"按钮显示
+                const middlePanelHeader = document.querySelector('.middle-panel .panel-header');
+                if (middlePanelHeader) {
+                    const downloadAllBtn = middlePanelHeader.querySelector('button[onclick="downloadAll()"]');
+                    if (downloadAllBtn) {
+                        downloadAllBtn.style.display = 'inline-block';
+                    }
+                }
+                // 恢复生产按钮显示
+                const headerActions = document.querySelector('.header-actions');
+                if (headerActions) {
+                    const productionBtn = headerActions.querySelector('.btn-primary');
+                    if (productionBtn && productionBtn.textContent === '生产') {
+                        productionBtn.style.display = 'inline-block';
+                    }
+                    // 移除可能存在的导出按钮
+                    const existingExportBtn = headerActions.querySelector('.export-btn');
+                    if (existingExportBtn) {
+                        existingExportBtn.remove();
+                    }
+                }
                 // 初始化模板网格和配置监听器
                 setTimeout(() => {
                     updateTemplates();
@@ -4396,6 +4659,14 @@
         }
 
         function showExpandResultPage() {
+            // 确保导航仍然可用
+            document.body.style.pointerEvents = '';
+            const leftPanel = document.querySelector('.left-panel');
+            if (leftPanel) {
+                leftPanel.style.pointerEvents = '';
+                leftPanel.style.display = 'flex';
+            }
+            
             // 更新中间面板显示扩图结果
             const middlePanel = document.querySelector('.middle-panel');
             const rightPanel = document.querySelector('.right-panel');
@@ -4420,37 +4691,66 @@
                                     <div class="image-item">
                                         <div class="image-id">5978</div>
                                         <img src="https://youke1.picui.cn/s1/2025/08/01/688cb7e3003d7.jpg" alt="扩图结果1">
+                                        <div class="image-hover-icons">
+                                            <div class="hover-icon" onclick="copyLink('5978')" title="复制链接">
+                                                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                                                    <path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/>
+                                                </svg>
+                                            </div>
+                                            <div class="hover-icon" onclick="previewImage('5978')" title="预览图片">
+                                                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                                                    <path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/>
+                                                </svg>
+                                            </div>
+                                        </div>
                                         <div class="image-actions">
                                             <button class="btn btn-secondary" onclick="passResult('5978')">通过</button>
                                             <button class="btn btn-primary" onclick="downloadResult('5978')">下载</button>
-                                            <button class="btn btn-feedback" onclick="feedbackResult('5978')">👎</button>
+                                            <span class="feedback-icon" onclick="feedbackResult('5978')" title="负向反馈">
+                                                <img src="https://youke1.picui.cn/s1/2025/08/04/6890570a0432b.png" alt="负向反馈" style="width: 16px; height: 16px;">
+                                            </span>
                                         </div>
                                     </div>
                                     <div class="image-item">
                                         <div class="image-id">5977</div>
                                         <img src="https://youke1.picui.cn/s1/2025/08/01/688cb7e3003d7.jpg" alt="扩图结果2">
+                                        <div class="image-hover-icons">
+                                            <div class="hover-icon" onclick="copyLink('5977')">🔗</div>
+                                            <div class="hover-icon" onclick="previewImage('5977')">🔎</div>
+                                        </div>
                                         <div class="image-actions">
                                             <button class="btn btn-secondary" onclick="passResult('5977')">通过</button>
                                             <button class="btn btn-primary" onclick="downloadResult('5977')">下载</button>
-                                            <button class="btn btn-feedback" onclick="feedbackResult('5977')">👎</button>
+                                            <span class="feedback-icon" onclick="feedbackResult('5977')" title="负向反馈">                                                <img src="https://youke1.picui.cn/s1/2025/08/04/6890570a0432b.png" alt="负向反馈" style="width: 16px; height: 16px;">
+                                            </span>
                                         </div>
                                     </div>
                                     <div class="image-item">
                                         <div class="image-id">5976</div>
                                         <img src="https://youke1.picui.cn/s1/2025/08/01/688cb7e3003d7.jpg" alt="扩图结果3">
+                                        <div class="image-hover-icons">
+                                            <div class="hover-icon" onclick="copyLink('5976')">🔗</div>
+                                            <div class="hover-icon" onclick="previewImage('5976')">🔎</div>
+                                        </div>
                                         <div class="image-actions">
                                             <button class="btn btn-secondary" onclick="passResult('5976')">通过</button>
                                             <button class="btn btn-primary" onclick="downloadResult('5976')">下载</button>
-                                            <button class="btn btn-feedback" onclick="feedbackResult('5976')">👎</button>
+                                            <span class="feedback-icon" onclick="feedbackResult('5976')" title="负向反馈">                                                <img src="https://youke1.picui.cn/s1/2025/08/04/6890570a0432b.png" alt="负向反馈" style="width: 16px; height: 16px;">
+                                            </span>
                                         </div>
                                     </div>
                                     <div class="image-item">
                                         <div class="image-id">5975</div>
                                         <img src="https://youke1.picui.cn/s1/2025/08/01/688cb7e3003d7.jpg" alt="扩图结果4">
+                                        <div class="image-hover-icons">
+                                            <div class="hover-icon" onclick="copyLink('5975')">🔗</div>
+                                            <div class="hover-icon" onclick="previewImage('5975')">🔎</div>
+                                        </div>
                                         <div class="image-actions">
                                             <button class="btn btn-secondary" onclick="passResult('5975')">通过</button>
                                             <button class="btn btn-primary" onclick="downloadResult('5975')">下载</button>
-                                            <button class="btn btn-feedback" onclick="feedbackResult('5975')">👎</button>
+                                            <span class="feedback-icon" onclick="feedbackResult('5975')" title="负向反馈">                                                <img src="https://youke1.picui.cn/s1/2025/08/04/6890570a0432b.png" alt="负向反馈" style="width: 16px; height: 16px;">
+                                            </span>
                                         </div>
                                     </div>
                                 </div>
@@ -4468,37 +4768,57 @@
                                     <div class="image-item">
                                         <div class="image-id">5982</div>
                                         <img src="https://youke1.picui.cn/s1/2025/08/01/688cb7e3003d7.jpg" alt="扩图结果5">
+                                        <div class="image-hover-icons">
+                                            <div class="hover-icon" onclick="copyLink('5982')">🔗</div>
+                                            <div class="hover-icon" onclick="previewImage('5982')">🔎</div>
+                                        </div>
                                         <div class="image-actions">
                                             <button class="btn btn-secondary" onclick="passResult('5982')">通过</button>
                                             <button class="btn btn-primary" onclick="downloadResult('5982')">下载</button>
-                                            <button class="btn btn-feedback" onclick="feedbackResult('5982')">👎</button>
+                                            <span class="feedback-icon" onclick="feedbackResult('5982')" title="负向反馈">                                                <img src="https://youke1.picui.cn/s1/2025/08/04/6890570a0432b.png" alt="负向反馈" style="width: 16px; height: 16px;">
+                                            </span>
                                         </div>
                                     </div>
                                     <div class="image-item">
                                         <div class="image-id">5981</div>
                                         <img src="https://youke1.picui.cn/s1/2025/08/01/688cb7e3003d7.jpg" alt="扩图结果6">
+                                        <div class="image-hover-icons">
+                                            <div class="hover-icon" onclick="copyLink('5981')">🔗</div>
+                                            <div class="hover-icon" onclick="previewImage('5981')">🔎</div>
+                                        </div>
                                         <div class="image-actions">
                                             <button class="btn btn-secondary" onclick="passResult('5981')">通过</button>
                                             <button class="btn btn-primary" onclick="downloadResult('5981')">下载</button>
-                                            <button class="btn btn-feedback" onclick="feedbackResult('5981')">👎</button>
+                                            <span class="feedback-icon" onclick="feedbackResult('5981')" title="负向反馈">                                                <img src="https://youke1.picui.cn/s1/2025/08/04/6890570a0432b.png" alt="负向反馈" style="width: 16px; height: 16px;">
+                                            </span>
                                         </div>
                                     </div>
                                     <div class="image-item">
                                         <div class="image-id">5980</div>
                                         <img src="https://youke1.picui.cn/s1/2025/08/01/688cb7e3003d7.jpg" alt="扩图结果7">
+                                        <div class="image-hover-icons">
+                                            <div class="hover-icon" onclick="copyLink('5980')">🔗</div>
+                                            <div class="hover-icon" onclick="previewImage('5980')">🔎</div>
+                                        </div>
                                         <div class="image-actions">
                                             <button class="btn btn-secondary" onclick="passResult('5980')">通过</button>
                                             <button class="btn btn-primary" onclick="downloadResult('5980')">下载</button>
-                                            <button class="btn btn-feedback" onclick="feedbackResult('5980')">👎</button>
+                                            <span class="feedback-icon" onclick="feedbackResult('5980')" title="负向反馈">                                                <img src="https://youke1.picui.cn/s1/2025/08/04/6890570a0432b.png" alt="负向反馈" style="width: 16px; height: 16px;">
+                                            </span>
                                         </div>
                                     </div>
                                     <div class="image-item">
                                         <div class="image-id">5979</div>
                                         <img src="https://youke1.picui.cn/s1/2025/08/01/688cb7e3003d7.jpg" alt="扩图结果8">
+                                        <div class="image-hover-icons">
+                                            <div class="hover-icon" onclick="copyLink('5979')">🔗</div>
+                                            <div class="hover-icon" onclick="previewImage('5979')">🔎</div>
+                                        </div>
                                         <div class="image-actions">
                                             <button class="btn btn-secondary" onclick="passResult('5979')">通过</button>
                                             <button class="btn btn-primary" onclick="downloadResult('5979')">下载</button>
-                                            <button class="btn btn-feedback" onclick="feedbackResult('5979')">👎</button>
+                                            <span class="feedback-icon" onclick="feedbackResult('5979')" title="负向反馈">                                                <img src="https://youke1.picui.cn/s1/2025/08/04/6890570a0432b.png" alt="负向反馈" style="width: 16px; height: 16px;">
+                                            </span>
                                         </div>
                                     </div>
                                 </div>
@@ -4540,6 +4860,14 @@
         }
 
         function showChangeBgResultPage() {
+            // 确保导航仍然可用
+            document.body.style.pointerEvents = '';
+            const leftPanel = document.querySelector('.left-panel');
+            if (leftPanel) {
+                leftPanel.style.pointerEvents = '';
+                leftPanel.style.display = 'flex';
+            }
+            
             // 更新中间面板显示换背景结果
             const middlePanel = document.querySelector('.middle-panel');
             const rightPanel = document.querySelector('.right-panel');
@@ -4564,37 +4892,57 @@
                                     <div class="image-item">
                                         <div class="image-id">5986</div>
                                         <img src="https://youke1.picui.cn/s1/2025/08/01/688cb7e3003d7.jpg" alt="换背景结果1">
+                                        <div class="image-hover-icons">
+                                            <div class="hover-icon" onclick="copyLink('5986')">🔗</div>
+                                            <div class="hover-icon" onclick="previewImage('5986')">🔎</div>
+                                        </div>
                                         <div class="image-actions">
                                             <button class="btn btn-secondary" onclick="passResult('5986')">通过</button>
                                             <button class="btn btn-primary" onclick="downloadResult('5986')">下载</button>
-                                            <button class="btn btn-feedback" onclick="feedbackResult('5986')">👎</button>
+                                            <span class="feedback-icon" onclick="feedbackResult('5986')" title="负向反馈">                                                <img src="https://youke1.picui.cn/s1/2025/08/04/6890570a0432b.png" alt="负向反馈" style="width: 16px; height: 16px;">
+                                            </span>
                                         </div>
                                     </div>
                                     <div class="image-item">
                                         <div class="image-id">5985</div>
                                         <img src="https://youke1.picui.cn/s1/2025/08/01/688cb7e3003d7.jpg" alt="换背景结果2">
+                                        <div class="image-hover-icons">
+                                            <div class="hover-icon" onclick="copyLink('5985')">🔗</div>
+                                            <div class="hover-icon" onclick="previewImage('5985')">🔎</div>
+                                        </div>
                                         <div class="image-actions">
                                             <button class="btn btn-secondary" onclick="passResult('5985')">通过</button>
                                             <button class="btn btn-primary" onclick="downloadResult('5985')">下载</button>
-                                            <button class="btn btn-feedback" onclick="feedbackResult('5985')">👎</button>
+                                            <span class="feedback-icon" onclick="feedbackResult('5985')" title="负向反馈">                                                <img src="https://youke1.picui.cn/s1/2025/08/04/6890570a0432b.png" alt="负向反馈" style="width: 16px; height: 16px;">
+                                            </span>
                                         </div>
                                     </div>
                                     <div class="image-item">
                                         <div class="image-id">5984</div>
                                         <img src="https://youke1.picui.cn/s1/2025/08/01/688cb7e3003d7.jpg" alt="换背景结果3">
+                                        <div class="image-hover-icons">
+                                            <div class="hover-icon" onclick="copyLink('5984')">🔗</div>
+                                            <div class="hover-icon" onclick="previewImage('5984')">🔎</div>
+                                        </div>
                                         <div class="image-actions">
                                             <button class="btn btn-secondary" onclick="passResult('5984')">通过</button>
                                             <button class="btn btn-primary" onclick="downloadResult('5984')">下载</button>
-                                            <button class="btn btn-feedback" onclick="feedbackResult('5984')">👎</button>
+                                            <span class="feedback-icon" onclick="feedbackResult('5984')" title="负向反馈">                                                <img src="https://youke1.picui.cn/s1/2025/08/04/6890570a0432b.png" alt="负向反馈" style="width: 16px; height: 16px;">
+                                            </span>
                                         </div>
                                     </div>
                                     <div class="image-item">
                                         <div class="image-id">5983</div>
                                         <img src="https://youke1.picui.cn/s1/2025/08/01/688cb7e3003d7.jpg" alt="换背景结果4">
+                                        <div class="image-hover-icons">
+                                            <div class="hover-icon" onclick="copyLink('5983')">🔗</div>
+                                            <div class="hover-icon" onclick="previewImage('5983')">🔎</div>
+                                        </div>
                                         <div class="image-actions">
                                             <button class="btn btn-secondary" onclick="passResult('5983')">通过</button>
                                             <button class="btn btn-primary" onclick="downloadResult('5983')">下载</button>
-                                            <button class="btn btn-feedback" onclick="feedbackResult('5983')">👎</button>
+                                            <span class="feedback-icon" onclick="feedbackResult('5983')" title="负向反馈">                                                <img src="https://youke1.picui.cn/s1/2025/08/04/6890570a0432b.png" alt="负向反馈" style="width: 16px; height: 16px;">
+                                            </span>
                                         </div>
                                     </div>
                                 </div>
@@ -4628,6 +4976,14 @@
         }
 
         function showBgFissionResultPage() {
+            // 确保导航仍然可用
+            document.body.style.pointerEvents = '';
+            const leftPanel = document.querySelector('.left-panel');
+            if (leftPanel) {
+                leftPanel.style.pointerEvents = '';
+                leftPanel.style.display = 'flex';
+            }
+            
             // 更新中间面板显示背景裂变结果
             const middlePanel = document.querySelector('.middle-panel');
             const rightPanel = document.querySelector('.right-panel');
@@ -4652,37 +5008,57 @@
                                     <div class="image-item">
                                         <div class="image-id">5990</div>
                                         <img src="https://youke1.picui.cn/s1/2025/08/01/688cb7e3003d7.jpg" alt="背景裂变结果1">
+                                        <div class="image-hover-icons">
+                                            <div class="hover-icon" onclick="copyLink('5990')">🔗</div>
+                                            <div class="hover-icon" onclick="previewImage('5990')">🔎</div>
+                                        </div>
                                         <div class="image-actions">
                                             <button class="btn btn-secondary" onclick="passResult('5990')">通过</button>
                                             <button class="btn btn-primary" onclick="downloadResult('5990')">下载</button>
-                                            <button class="btn btn-feedback" onclick="feedbackResult('5990')">👎</button>
+                                            <span class="feedback-icon" onclick="feedbackResult('5990')" title="负向反馈">                                                <img src="https://youke1.picui.cn/s1/2025/08/04/6890570a0432b.png" alt="负向反馈" style="width: 16px; height: 16px;">
+                                            </span>
                                         </div>
                                     </div>
                                     <div class="image-item">
                                         <div class="image-id">5989</div>
                                         <img src="https://youke1.picui.cn/s1/2025/08/01/688cb7e3003d7.jpg" alt="背景裂变结果2">
+                                        <div class="image-hover-icons">
+                                            <div class="hover-icon" onclick="copyLink('5989')">🔗</div>
+                                            <div class="hover-icon" onclick="previewImage('5989')">🔎</div>
+                                        </div>
                                         <div class="image-actions">
                                             <button class="btn btn-secondary" onclick="passResult('5989')">通过</button>
                                             <button class="btn btn-primary" onclick="downloadResult('5989')">下载</button>
-                                            <button class="btn btn-feedback" onclick="feedbackResult('5989')">👎</button>
+                                            <span class="feedback-icon" onclick="feedbackResult('5989')" title="负向反馈">                                                <img src="https://youke1.picui.cn/s1/2025/08/04/6890570a0432b.png" alt="负向反馈" style="width: 16px; height: 16px;">
+                                            </span>
                                         </div>
                                     </div>
                                     <div class="image-item">
                                         <div class="image-id">5988</div>
                                         <img src="https://youke1.picui.cn/s1/2025/08/01/688cb7e3003d7.jpg" alt="背景裂变结果3">
+                                        <div class="image-hover-icons">
+                                            <div class="hover-icon" onclick="copyLink('5988')">🔗</div>
+                                            <div class="hover-icon" onclick="previewImage('5988')">🔎</div>
+                                        </div>
                                         <div class="image-actions">
                                             <button class="btn btn-secondary" onclick="passResult('5988')">通过</button>
                                             <button class="btn btn-primary" onclick="downloadResult('5988')">下载</button>
-                                            <button class="btn btn-feedback" onclick="feedbackResult('5988')">👎</button>
+                                            <span class="feedback-icon" onclick="feedbackResult('5988')" title="负向反馈">                                                <img src="https://youke1.picui.cn/s1/2025/08/04/6890570a0432b.png" alt="负向反馈" style="width: 16px; height: 16px;">
+                                            </span>
                                         </div>
                                     </div>
                                     <div class="image-item">
                                         <div class="image-id">5987</div>
                                         <img src="https://youke1.picui.cn/s1/2025/08/01/688cb7e3003d7.jpg" alt="背景裂变结果4">
+                                        <div class="image-hover-icons">
+                                            <div class="hover-icon" onclick="copyLink('5987')">🔗</div>
+                                            <div class="hover-icon" onclick="previewImage('5987')">🔎</div>
+                                        </div>
                                         <div class="image-actions">
                                             <button class="btn btn-secondary" onclick="passResult('5987')">通过</button>
                                             <button class="btn btn-primary" onclick="downloadResult('5987')">下载</button>
-                                            <button class="btn btn-feedback" onclick="feedbackResult('5987')">👎</button>
+                                            <span class="feedback-icon" onclick="feedbackResult('5987')" title="负向反馈">                                                <img src="https://youke1.picui.cn/s1/2025/08/04/6890570a0432b.png" alt="负向反馈" style="width: 16px; height: 16px;">
+                                            </span>
                                         </div>
                                     </div>
                                 </div>
@@ -4716,6 +5092,11 @@
         }
 
         function showResultPage() {
+            console.log('showResultPage called');
+            
+            // 确保导航仍然可用
+            document.body.style.pointerEvents = '';
+            
             // 更新左侧面板为编辑功能
             const leftPanel = document.querySelector('.left-panel');
             const middlePanel = document.querySelector('.middle-panel');
@@ -4724,23 +5105,30 @@
             // 确保当前模块状态正确
             currentModule = 'imageCreation';
             
-            // 确保导航元素仍然可点击
+            // 确保左侧面板可见和可点击
+            if (leftPanel) {
+                leftPanel.style.pointerEvents = '';
+                leftPanel.style.display = 'flex';
+            }
+            
+            // 确保导航链接正常工作
             const navLinks = document.querySelectorAll('.nav-link');
             navLinks.forEach(link => {
                 link.style.pointerEvents = 'auto';
                 link.style.cursor = 'pointer';
+                console.log('Nav link found:', link.textContent.trim());
             });
             
-            // 更新左侧面板为编辑功能
+            // 恢复左侧面板的模版编辑功能
             if (leftPanel) {
                 leftPanel.innerHTML = `
                     <div class="panel">
                         <div class="panel-header">
-                            <h3>编辑</h3>
+                            <h3>模版编辑</h3>
                         </div>
                         <div class="panel-content">
                             <div class="edit-tabs">
-                                <div class="edit-tab active" onclick="switchEditTab(this, 'template')">模板</div>
+                                <div class="edit-tab active" onclick="switchEditTab(this, 'template')">模版</div>
                                 <div class="edit-tab" onclick="switchEditTab(this, 'background')">背景图</div>
                                 <div class="edit-tab" onclick="switchEditTab(this, 'price')">价格标</div>
                             </div>
@@ -4790,23 +5178,18 @@
                         item.classList.add('disabled');
                     });
                     
-                    // 确保导航状态正确
-                    updateNavigation('imageCreation');
+                    // 模拟加载编辑内容
+                    updateEditGrid('template');
                     
-                    // 确保导航元素仍然可点击
-                    const navLinks = document.querySelectorAll('.nav-link');
-                    navLinks.forEach(link => {
-                        link.style.pointerEvents = 'auto';
-                        link.style.cursor = 'pointer';
-                        // 重新绑定点击事件
-                        if (link.onclick) {
-                            const onclickAttr = link.getAttribute('onclick');
-                            if (onclickAttr) {
-                                link.onclick = null;
-                                link.setAttribute('onclick', onclickAttr);
-                            }
-                        }
-                    });
+                    // 确保初始状态下所有编辑项目都是disabled
+                    setTimeout(() => {
+                        const editItems = leftPanel.querySelectorAll('.edit-item');
+                        editItems.forEach(item => {
+                            item.classList.add('disabled');
+                            item.style.pointerEvents = 'none';
+                            item.style.opacity = '0.5';
+                        });
+                    }, 200);
                 }, 100);
             }
             
@@ -4824,19 +5207,95 @@
                             </div>
                         </div>
                         <div class="panel-content">
-                            <div class="main-preview">
-                                <div class="preview-container">
-                                    <div class="preview-paper">
+                            <!-- 编辑模式选择 -->
+                            <div id="editModeSelector" style="display: none;">
+                                <div class="edit-mode-tabs">
+                                    <div class="edit-mode-tab active" onclick="switchEditMode('template')">模版编辑</div>
+                                    <div class="edit-mode-tab" onclick="switchEditMode('layer')">图层编辑</div>
+                                </div>
+                            </div>
+                            
+                            <!-- 图层编辑控制栏 -->
+                            <div id="layerEditControls" style="display: none;">
+                                <div class="edit-controls">
+                                    <button class="btn btn-primary" onclick="confirmLayerEdit()" style="margin-left: auto;">确认后可重新生产</button>
+                                </div>
+                            </div>
+                            
+                            <div class="main-preview" style="margin-bottom: 40px;">
+                                <div class="preview-container" style="padding: 20px;">
+                                    <div class="preview-paper" id="previewPaper">
                                         <div class="paper-header">
                                             <div class="brand-title">唯品会 × UR</div>
                                             <div class="brand-subtitle">上唯品会买URBAN REVIVO</div>
                                         </div>
-                                        <div class="product-display">
-                                            <img src="https://youke1.picui.cn/s1/2025/08/06/6892f6ef774d3.png" alt="商品图片" class="product-image">
-                                            <div class="price-tag">
-                                                <div class="discount">4.7折</div>
-                                                <div class="current-price">¥142</div>
-                                                <div class="original-price">¥299</div>
+                                        <div class="product-display" id="productDisplay" style="position: relative; width: 100%; height: 400px; overflow: hidden;">
+                                            <!-- 背景层 -->
+                                            <div class="background-layer" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);"></div>
+                                            
+                                            <!-- 商品主图层（底层） -->
+                                            <div class="editable-layer" id="productLayer" data-type="product" style="position: absolute; top: 80px; left: 80px; width: 180px; height: 180px; z-index: 1;">
+                                                <img src="https://youke1.picui.cn/s1/2025/08/06/6892f6ef774d3.png" alt="商品图片" class="product-image" style="width: 100%; height: 100%; object-fit: cover; border-radius: 8px;">
+                                                <div class="layer-controls" style="display: none;">
+                                                    <div class="resize-handle nw"></div>
+                                                    <div class="resize-handle ne"></div>
+                                                    <div class="resize-handle sw"></div>
+                                                    <div class="resize-handle se"></div>
+                                                    <div class="resize-handle n"></div>
+                                                    <div class="resize-handle s"></div>
+                                                    <div class="resize-handle w"></div>
+                                                    <div class="resize-handle e"></div>
+                                                    <div class="rotate-handle">↻</div>
+                                                </div>
+                                            </div>
+                                            
+                                            <!-- PNG模版层（中层） -->
+                                            <div class="editable-layer" id="templateLayer" data-type="template" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 2; pointer-events: none;">
+                                                <div class="template-frame" style="width: 100%; height: 100%; position: relative;">
+                                                    <!-- 上边框 -->
+                                                    <div style="position: absolute; top: 0; left: 0; right: 0; height: 60px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 8px 8px 0 0; pointer-events: auto;"></div>
+                                                    <!-- 下边框 -->
+                                                    <div style="position: absolute; bottom: 0; left: 0; right: 0; height: 40px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 0 0 8px 8px; pointer-events: auto;"></div>
+                                                    <!-- 左边框 -->
+                                                    <div style="position: absolute; top: 60px; left: 0; width: 40px; bottom: 40px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 0 0 0 8px; pointer-events: auto;"></div>
+                                                    <!-- 右边框 -->
+                                                    <div style="position: absolute; top: 60px; right: 0; width: 40px; bottom: 40px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 0 0 8px 0; pointer-events: auto;"></div>
+                                                    <!-- 装饰元素 -->
+                                                    <div style="position: absolute; top: 15px; left: 20px; width: 30px; height: 30px; background: rgba(255,255,255,0.2); border-radius: 50%; pointer-events: auto;"></div>
+                                                    <div style="position: absolute; top: 15px; right: 20px; width: 30px; height: 30px; background: rgba(255,255,255,0.2); border-radius: 50%; pointer-events: auto;"></div>
+                                                    <div style="position: absolute; bottom: 10px; left: 50%; transform: translateX(-50%); width: 60px; height: 4px; background: rgba(255,255,255,0.3); border-radius: 2px; pointer-events: auto;"></div>
+                                                </div>
+                                                <div class="layer-controls" style="display: none;">
+                                                    <div class="resize-handle nw"></div>
+                                                    <div class="resize-handle ne"></div>
+                                                    <div class="resize-handle sw"></div>
+                                                    <div class="resize-handle se"></div>
+                                                    <div class="resize-handle n"></div>
+                                                    <div class="resize-handle s"></div>
+                                                    <div class="resize-handle w"></div>
+                                                    <div class="resize-handle e"></div>
+                                                    <div class="rotate-handle">↻</div>
+                                                </div>
+                                            </div>
+                                            
+                                            <!-- 价格标层（顶层） -->
+                                            <div class="editable-layer" id="priceLayer" data-type="price" style="position: absolute; top: 120px; left: 220px; width: 80px; height: 60px; z-index: 3;">
+                                                <div class="price-tag" style="background: #ff4d4f; color: white; padding: 8px; border-radius: 8px; text-align: center; box-shadow: 0 2px 8px rgba(0,0,0,0.2);">
+                                                    <div class="discount" style="font-size: 12px;">4.7折</div>
+                                                    <div class="current-price" style="font-size: 16px; font-weight: bold;">¥142</div>
+                                                    <div class="original-price" style="font-size: 10px; text-decoration: line-through;">¥299</div>
+                                                </div>
+                                                <div class="layer-controls" style="display: none;">
+                                                    <div class="resize-handle nw"></div>
+                                                    <div class="resize-handle ne"></div>
+                                                    <div class="resize-handle sw"></div>
+                                                    <div class="resize-handle se"></div>
+                                                    <div class="resize-handle n"></div>
+                                                    <div class="resize-handle s"></div>
+                                                    <div class="resize-handle w"></div>
+                                                    <div class="resize-handle e"></div>
+                                                    <div class="rotate-handle">↻</div>
+                                                </div>
                                             </div>
                                         </div>
                                         <div class="disclaimer">
@@ -4846,54 +5305,93 @@
                                 </div>
                             </div>
                             
-                            <div class="generated-results">
-                                <div class="result-item">
-                                    <div class="result-id">6267</div>
-                                    <div class="result-image">
-                                        <img src="https://youke1.picui.cn/s1/2025/08/06/6892f6ef774d3.png" alt="生成结果1">
-                                    </div>
-                                    <div class="result-actions">
-                                        <button class="btn btn-secondary" onclick="passResult('6267')">通过</button>
-                                        <button class="btn btn-primary" onclick="downloadResult('6267')">下载</button>
-                                        <button class="btn btn-feedback" onclick="feedbackResult('6267')">👎</button>
-                                    </div>
-                                </div>
-                                <div class="result-item">
-                                    <div class="result-id">6266</div>
-                                    <div class="result-image">
-                                        <img src="https://youke1.picui.cn/s1/2025/08/06/6892f6ef774d3.png" alt="生成结果2">
-                                    </div>
-                                    <div class="result-actions">
-                                        <button class="btn btn-secondary" onclick="passResult('6266')">通过</button>
-                                        <button class="btn btn-primary" onclick="downloadResult('6266')">下载</button>
-                                        <button class="btn btn-feedback" onclick="feedbackResult('6266')">👎</button>
-                                    </div>
-                                </div>
-                                <div class="result-item failed">
-                                    <div class="result-id">6265</div>
-                                    <div class="result-image">
-                                        <div class="failed-placeholder">
-                                            <span class="material-icons">help</span>
-                                            <span>生成失败</span>
+                            <div style="margin-top: 120px;">
+                                <h3 style="margin-bottom: 20px; color: #333; font-size: 18px; font-weight: 600;">生成结果</h3>
+                                <div class="image-grid" style="grid-template-columns: repeat(4, 1fr); gap: 12px; padding: 16px;">
+                                <div class="image-item" style="position: relative;">
+                                    <div style="position: absolute; top: 5px; left: 5px; background: #1890ff; color: white; padding: 2px 6px; border-radius: 3px; font-size: 12px;">6267</div>
+                                    <img src="https://youke1.picui.cn/s1/2025/08/06/6892f6ef774d3.png" alt="生成结果1" style="width: 100%; height: 120px; object-fit: cover;">
+                                    <div class="image-hover-icons">
+                                        <div class="hover-icon" onclick="copyLink('6267')" title="复制链接">
+                                            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                                                <path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/>
+                                            </svg>
+                                        </div>
+                                        <div class="hover-icon" onclick="previewImage('6267')" title="预览图片">
+                                            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                                                <path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/>
+                                            </svg>
                                         </div>
                                     </div>
-                                    <div class="result-actions">
-                                        <button class="btn btn-secondary" onclick="passResult('6265')">通过</button>
-                                        <button class="btn btn-primary" onclick="downloadResult('6265')">下载</button>
-                                        <button class="btn btn-feedback" onclick="feedbackResult('6265')">👎</button>
+                                    <div style="display: flex; gap: 5px; margin-top: 8px; align-items: center;">
+                                        <button class="btn btn-secondary" style="font-size: 12px; padding: 4px 8px;" onclick="approveImage('6267')">通过</button>
+                                        <button class="btn btn-primary" style="font-size: 12px; padding: 4px 8px;" onclick="downloadSingleImage('6267')">下载</button>
+                                        <span class="feedback-icon" onclick="openFeedbackModal('6267')" title="负向反馈">
+                                            <img src="https://youke1.picui.cn/s1/2025/08/04/6890570a0432b.png" alt="负向反馈" style="width: 16px; height: 16px;">
+                                        </span>
                                     </div>
                                 </div>
-                                <div class="result-item">
-                                    <div class="result-id">6260</div>
-                                    <div class="result-image">
-                                        <img src="https://youke1.picui.cn/s1/2025/08/06/6892f6ef774d3.png" alt="生成结果4">
+                                <div class="image-item" style="position: relative;">
+                                    <div style="position: absolute; top: 5px; left: 5px; background: #1890ff; color: white; padding: 2px 6px; border-radius: 3px; font-size: 12px;">6266</div>
+                                    <img src="https://youke1.picui.cn/s1/2025/08/06/6892f6ef774d3.png" alt="生成结果2" style="width: 100%; height: 120px; object-fit: cover;">
+                                    <div class="image-hover-icons">
+                                        <div class="hover-icon" onclick="copyLink('6266')" title="复制链接">
+                                            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                                                <path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/>
+                                            </svg>
+                                        </div>
+                                        <div class="hover-icon" onclick="previewImage('6266')" title="预览图片">
+                                            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                                                <path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/>
+                                            </svg>
+                                        </div>
                                     </div>
-                                    <div class="result-actions">
-                                        <button class="btn btn-secondary" onclick="passResult('6260')">通过</button>
-                                        <button class="btn btn-primary" onclick="downloadResult('6260')">下载</button>
-                                        <button class="btn btn-feedback" onclick="feedbackResult('6260')">👎</button>
+                                    <div style="display: flex; gap: 5px; margin-top: 8px; align-items: center;">
+                                        <button class="btn btn-secondary" style="font-size: 12px; padding: 4px 8px;" onclick="approveImage('6266')">通过</button>
+                                        <button class="btn btn-primary" style="font-size: 12px; padding: 4px 8px;" onclick="downloadSingleImage('6266')">下载</button>
+                                        <span class="feedback-icon" onclick="openFeedbackModal('6266')" title="负向反馈">
+                                            <img src="https://youke1.picui.cn/s1/2025/08/04/6890570a0432b.png" alt="负向反馈" style="width: 16px; height: 16px;">
+                                        </span>
                                     </div>
                                 </div>
+                                <div class="image-item" style="position: relative; opacity: 0.5;">
+                                    <div style="position: absolute; top: 5px; left: 5px; background: #ff4d4f; color: white; padding: 2px 6px; border-radius: 3px; font-size: 12px;">6265</div>
+                                    <div style="width: 100%; height: 120px; display: flex; flex-direction: column; align-items: center; justify-content: center; background: #f5f5f5; color: #999;">
+                                        <span class="material-icons" style="font-size: 24px; margin-bottom: 4px;">error_outline</span>
+                                        <span style="font-size: 12px;">生成失败</span>
+                                    </div>
+                                    <div style="display: flex; gap: 5px; margin-top: 8px; align-items: center;">
+                                        <button class="btn btn-secondary" style="font-size: 12px; padding: 4px 8px;" disabled>通过</button>
+                                        <button class="btn btn-primary" style="font-size: 12px; padding: 4px 8px;" disabled>下载</button>
+                                        <span class="feedback-icon" onclick="openFeedbackModal('6265')" title="负向反馈">
+                                            <img src="https://youke1.picui.cn/s1/2025/08/04/6890570a0432b.png" alt="负向反馈" style="width: 16px; height: 16px;">
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="image-item" style="position: relative;">
+                                    <div style="position: absolute; top: 5px; left: 5px; background: #1890ff; color: white; padding: 2px 6px; border-radius: 3px; font-size: 12px;">6260</div>
+                                    <img src="https://youke1.picui.cn/s1/2025/08/06/6892f6ef774d3.png" alt="生成结果4" style="width: 100%; height: 120px; object-fit: cover;">
+                                    <div class="image-hover-icons">
+                                        <div class="hover-icon" onclick="copyLink('6260')" title="复制链接">
+                                            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                                                <path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/>
+                                            </svg>
+                                        </div>
+                                        <div class="hover-icon" onclick="previewImage('6260')" title="预览图片">
+                                            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                                                <path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/>
+                                            </svg>
+                                        </div>
+                                    </div>
+                                    <div style="display: flex; gap: 5px; margin-top: 8px; align-items: center;">
+                                        <button class="btn btn-secondary" style="font-size: 12px; padding: 4px 8px;" onclick="approveImage('6260')">通过</button>
+                                        <button class="btn btn-primary" style="font-size: 12px; padding: 4px 8px;" onclick="downloadSingleImage('6260')">下载</button>
+                                        <span class="feedback-icon" onclick="openFeedbackModal('6260')" title="负向反馈">
+                                            <img src="https://youke1.picui.cn/s1/2025/08/04/6890570a0432b.png" alt="负向反馈" style="width: 16px; height: 16px;">
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
                             </div>
                         </div>
                     </div>
@@ -5029,7 +5527,8 @@
             textarea.focus();
             
             // 修改按钮为保存
-            button.textContent = '保存';
+            button.textContent = '保存反馈';
+            button.className = 'btn btn-success';
             button.onclick = () => saveFeedback(button, textarea, feedbackStatus);
         }
 
@@ -5043,12 +5542,14 @@
             feedbackContent.textContent = newContent;
             
             // 恢复按钮
-            button.textContent = '编辑';
+            button.textContent = '编辑反馈';
+            button.className = 'btn btn-primary';
             button.onclick = () => editFeedback(button);
             
             // 更新状态
             feedbackStatus.textContent = '已更新';
             feedbackStatus.style.color = '#52c41a';
+            feedbackStatus.style.fontWeight = '500';
             
             showToast('反馈已保存');
         }
@@ -5063,7 +5564,13 @@
 
         // 编辑图片功能
         function editImage() {
-            // 更新中间面板的按钮
+            // 显示编辑模式选择器
+            const editModeSelector = document.getElementById('editModeSelector');
+            if (editModeSelector) {
+                editModeSelector.style.display = 'block';
+            }
+            
+            // 切换编辑按钮为重新生成和取消
             const resultControls = document.querySelector('.result-controls');
             if (resultControls) {
                 resultControls.innerHTML = `
@@ -5074,25 +5581,18 @@
                 `;
             }
             
-            // 显示左侧编辑面板并启用选择功能
+            // 启用左侧面板的编辑功能
             const leftPanel = document.querySelector('.left-panel');
             if (leftPanel) {
-                leftPanel.style.display = 'flex';
-                
-                // 启用所有编辑项目的选择功能
                 const editItems = leftPanel.querySelectorAll('.edit-item');
                 editItems.forEach(item => {
                     item.style.pointerEvents = 'auto';
                     item.style.opacity = '1';
-                });
-                
-                // 移除禁用状态的样式
-                editItems.forEach(item => {
                     item.classList.remove('disabled');
                 });
             }
             
-            showToast('进入编辑模式，请选择新的模板、背景图或价格标');
+            showToast('请选择编辑模式');
         }
 
         // 重新生成功能
@@ -5106,6 +5606,18 @@
 
         // 取消编辑
         function cancelEdit() {
+            // 隐藏编辑模式选择器
+            const editModeSelector = document.getElementById('editModeSelector');
+            if (editModeSelector) {
+                editModeSelector.style.display = 'none';
+            }
+            
+            // 隐藏图层编辑控制栏
+            const layerEditControls = document.getElementById('layerEditControls');
+            if (layerEditControls) {
+                layerEditControls.style.display = 'none';
+            }
+            
             // 恢复编辑按钮
             const resultControls = document.querySelector('.result-controls');
             if (resultControls) {
@@ -5129,6 +5641,22 @@
                 });
             }
             
+            // 恢复产品显示区域
+            const productDisplay = document.getElementById('productDisplay');
+            if (productDisplay) {
+                productDisplay.style.position = 'static';
+                productDisplay.style.height = 'auto';
+                productDisplay.style.overflow = 'visible';
+                
+                // 移除图层选择状态
+                const layers = productDisplay.querySelectorAll('.editable-layer');
+                layers.forEach(layer => {
+                    layer.classList.remove('selected');
+                    const controls = layer.querySelector('.layer-controls');
+                    if (controls) controls.style.display = 'none';
+                });
+            }
+            
             showToast('已取消编辑');
         }
 
@@ -5148,6 +5676,338 @@
             showToast('开始下载...');
         }
 
+        function switchEditMode(mode) {
+            const tabs = document.querySelectorAll('.edit-mode-tab');
+            const layerEditControls = document.getElementById('layerEditControls');
+            const productDisplay = document.getElementById('productDisplay');
+            const leftPanel = document.querySelector('.left-panel');
+            
+            // 更新标签状态
+            tabs.forEach(tab => tab.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            if (mode === 'template') {
+                // 模版编辑模式 - 恢复原来的左侧面板编辑功能
+                if (layerEditControls) layerEditControls.style.display = 'none';
+                if (productDisplay) {
+                    productDisplay.style.position = 'static';
+                    const layers = productDisplay.querySelectorAll('.editable-layer');
+                    layers.forEach(layer => {
+                        layer.classList.remove('selected');
+                        const controls = layer.querySelector('.layer-controls');
+                        if (controls) controls.style.display = 'none';
+                    });
+                }
+                
+                // 恢复左侧面板的模版编辑功能
+                if (leftPanel) {
+                    leftPanel.innerHTML = `
+                        <div class="panel">
+                            <div class="panel-header">
+                                <h3>模版编辑</h3>
+                            </div>
+                            <div class="panel-content">
+                                <div class="edit-tabs">
+                                    <div class="edit-tab active" onclick="switchEditTab(this, 'template')">模版</div>
+                                    <div class="edit-tab" onclick="switchEditTab(this, 'background')">背景图</div>
+                                    <div class="edit-tab" onclick="switchEditTab(this, 'price')">价格标</div>
+                                </div>
+                                
+                                <div class="edit-filters">
+                                    <div class="filter-group">
+                                        <select class="form-select" onchange="filterEditContent()">
+                                            <option>日常</option>
+                                            <option>节日</option>
+                                            <option>活动</option>
+                                        </select>
+                                        <select class="form-select" onchange="filterEditContent()">
+                                            <option>图框</option>
+                                            <option>无框</option>
+                                            <option>圆角</option>
+                                        </select>
+                                        <select class="form-select" onchange="filterEditContent()">
+                                            <option>图数</option>
+                                            <option>单图</option>
+                                            <option>多图</option>
+                                        </select>
+                                    </div>
+                                    <div class="search-group">
+                                        <input type="text" class="form-input" placeholder="关键字" onkeyup="searchEditContent(this.value)">
+                                        <button class="btn btn-primary" onclick="searchEditContent()">搜索</button>
+                                        <button class="btn btn-secondary" onclick="uploadEditContent()">上传</button>
+                                        <button class="btn btn-secondary" onclick="resetEditContent()">重置</button>
+                                    </div>
+                                </div>
+                                
+                                <div class="edit-grid" id="editGrid">
+                                    <!-- 编辑网格内容将根据选中的tab动态显示 -->
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                    
+                    // 初始化编辑内容并启用点击
+                    setTimeout(() => {
+                        switchEditTab(document.querySelector('.edit-tab.active'), 'template');
+                        updateEditGrid('template');
+                        
+                        // 确保编辑项目可点击
+                        const editItems = leftPanel.querySelectorAll('.edit-item');
+                        editItems.forEach(item => {
+                            item.style.pointerEvents = 'auto';
+                            item.style.opacity = '1';
+                            item.classList.remove('disabled');
+                        });
+                    }, 100);
+                }
+                
+                showToast('进入模版编辑模式');
+            } else if (mode === 'layer') {
+                // 图层编辑模式 - 保持左侧面板，只修改右侧区域
+                if (layerEditControls) layerEditControls.style.display = 'block';
+                if (productDisplay) {
+                    productDisplay.style.position = 'relative';
+                    productDisplay.style.height = '400px';
+                    productDisplay.style.overflow = 'hidden';
+                }
+                
+                // 保持左侧面板显示，不隐藏
+                if (leftPanel) {
+                    leftPanel.style.display = 'flex';
+                }
+                
+                showToast('进入图层编辑模式，点击图层进行编辑');
+                initLayerEditing();
+            }
+        }
+
+        function selectEditTool(tool) {
+            const buttons = document.querySelectorAll('.edit-control-btn');
+            buttons.forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            showToast(`选择了${tool}工具`);
+        }
+
+        // 图层编辑相关变量
+        let selectedLayer = null;
+        let isDragging = false;
+        let isResizing = false;
+        let isRotating = false;
+        let dragStartX = 0;
+        let dragStartY = 0;
+        let resizeHandle = null;
+        let originalTransform = '';
+
+        // 初始化图层编辑功能
+        function initLayerEditing() {
+            const layers = document.querySelectorAll('.editable-layer');
+            
+            layers.forEach(layer => {
+                // 点击选择图层
+                layer.addEventListener('click', function(e) {
+                    if (e.target.classList.contains('resize-handle') || 
+                        e.target.classList.contains('rotate-handle')) {
+                        return;
+                    }
+                    
+                    selectLayer(this);
+                });
+                
+                // 拖拽功能
+                layer.addEventListener('mousedown', startDrag);
+                
+                // 调整大小功能
+                const resizeHandles = layer.querySelectorAll('.resize-handle');
+                resizeHandles.forEach(handle => {
+                    handle.addEventListener('mousedown', startResize);
+                });
+                
+                // 旋转功能
+                const rotateHandle = layer.querySelector('.rotate-handle');
+                if (rotateHandle) {
+                    rotateHandle.addEventListener('mousedown', startRotate);
+                }
+            });
+            
+            // 全局鼠标事件
+            document.addEventListener('mousemove', onMouseMove);
+            document.addEventListener('mouseup', onMouseUp);
+        }
+
+        function selectLayer(layer) {
+            // 清除之前的选择
+            const allLayers = document.querySelectorAll('.editable-layer');
+            allLayers.forEach(l => {
+                l.classList.remove('selected');
+                const controls = l.querySelector('.layer-controls');
+                if (controls) controls.style.display = 'none';
+            });
+            
+            // 选择当前图层
+            layer.classList.add('selected');
+            const controls = layer.querySelector('.layer-controls');
+            if (controls) controls.style.display = 'block';
+            
+            selectedLayer = layer;
+            
+            // 根据图层类型显示不同的提示
+            const layerType = layer.dataset.type;
+            let message = '';
+            switch(layerType) {
+                case 'product':
+                    message = '商品图层';
+                    break;
+                case 'template':
+                    message = '模版图层';
+                    break;
+                case 'price':
+                    message = '价格标签图层';
+                    break;
+                default:
+                    message = '图层';
+            }
+            showToast(`选择了${message}`);
+        }
+
+        function startDrag(e) {
+            if (e.target.classList.contains('resize-handle') || 
+                e.target.classList.contains('rotate-handle')) {
+                return;
+            }
+            
+            isDragging = true;
+            selectedLayer = this;
+            dragStartX = e.clientX - this.offsetLeft;
+            dragStartY = e.clientY - this.offsetTop;
+            originalTransform = this.style.transform;
+            
+            e.preventDefault();
+        }
+
+        function startResize(e) {
+            isResizing = true;
+            resizeHandle = e.target;
+            selectedLayer = e.target.closest('.editable-layer');
+            dragStartX = e.clientX;
+            dragStartY = e.clientY;
+            
+            e.stopPropagation();
+        }
+
+        function startRotate(e) {
+            isRotating = true;
+            selectedLayer = e.target.closest('.editable-layer');
+            dragStartX = e.clientX;
+            dragStartY = e.clientY;
+            originalTransform = selectedLayer.style.transform;
+            
+            e.stopPropagation();
+        }
+
+        function onMouseMove(e) {
+            if (!isDragging && !isResizing && !isRotating) return;
+            
+            if (isDragging && selectedLayer) {
+                const newX = e.clientX - dragStartX;
+                const newY = e.clientY - dragStartY;
+                
+                selectedLayer.style.left = newX + 'px';
+                selectedLayer.style.top = newY + 'px';
+            } else if (isResizing && selectedLayer && resizeHandle) {
+                const deltaX = e.clientX - dragStartX;
+                const deltaY = e.clientY - dragStartY;
+                
+                const currentWidth = selectedLayer.offsetWidth;
+                const currentHeight = selectedLayer.offsetHeight;
+                
+                // 根据拖拽的handle调整大小
+                if (resizeHandle.classList.contains('se')) {
+                    selectedLayer.style.width = (currentWidth + deltaX) + 'px';
+                    selectedLayer.style.height = (currentHeight + deltaY) + 'px';
+                } else if (resizeHandle.classList.contains('sw')) {
+                    selectedLayer.style.width = (currentWidth - deltaX) + 'px';
+                    selectedLayer.style.height = (currentHeight + deltaY) + 'px';
+                    selectedLayer.style.left = (selectedLayer.offsetLeft + deltaX) + 'px';
+                } else if (resizeHandle.classList.contains('ne')) {
+                    selectedLayer.style.width = (currentWidth + deltaX) + 'px';
+                    selectedLayer.style.height = (currentHeight - deltaY) + 'px';
+                    selectedLayer.style.top = (selectedLayer.offsetTop + deltaY) + 'px';
+                } else if (resizeHandle.classList.contains('nw')) {
+                    selectedLayer.style.width = (currentWidth - deltaX) + 'px';
+                    selectedLayer.style.height = (currentHeight - deltaY) + 'px';
+                    selectedLayer.style.left = (selectedLayer.offsetLeft + deltaX) + 'px';
+                    selectedLayer.style.top = (selectedLayer.offsetTop + deltaY) + 'px';
+                }
+                
+                dragStartX = e.clientX;
+                dragStartY = e.clientY;
+            } else if (isRotating && selectedLayer) {
+                const rect = selectedLayer.getBoundingClientRect();
+                const centerX = rect.left + rect.width / 2;
+                const centerY = rect.top + rect.height / 2;
+                
+                const angle = Math.atan2(e.clientY - centerY, e.clientX - centerX) * 180 / Math.PI;
+                selectedLayer.style.transform = `rotate(${angle}deg)`;
+            }
+        }
+
+        function onMouseUp() {
+            isDragging = false;
+            isResizing = false;
+            isRotating = false;
+            resizeHandle = null;
+        }
+
+        function confirmLayerEdit() {
+            showToast('图层编辑已确认，正在重新生产...');
+            setTimeout(() => {
+                showToast('重新生产完成！');
+            }, 2000);
+        }
+
+        // 模版编辑相关函数
+        function filterEditContent() {
+            showToast('筛选功能开发中...');
+        }
+
+        function searchEditContent(value) {
+            showToast(`搜索: ${value}`);
+        }
+
+        function uploadEditContent() {
+            showToast('上传功能开发中...');
+        }
+
+        function resetEditContent() {
+            showToast('重置完成');
+        }
+
+        function updateEditGrid(type) {
+            const editGrid = document.getElementById('editGrid');
+            if (!editGrid) return;
+            
+            // 使用与updateEditContent相同的逻辑
+            const contentMap = {
+                template: generateTemplateGrid(),
+                background: generateBackgroundGrid(),
+                price: generatePriceGrid()
+            };
+            
+            editGrid.innerHTML = contentMap[type] || '<p>选择编辑选项</p>';
+        }
+
+        function selectEditItem(element) {
+            // 移除其他选中状态
+            const allItems = document.querySelectorAll('.edit-item');
+            allItems.forEach(item => item.classList.remove('selected'));
+            
+            // 添加选中状态
+            element.classList.add('selected');
+            
+            showToast('已选择编辑项目');
+        }
+
         function switchEditTab(element, tabType) {
             // 移除所有active类
             const tabs = element.parentElement.querySelectorAll('.edit-tab');
@@ -5158,6 +6018,19 @@
             
             // 更新编辑内容
             updateEditContent(tabType);
+            
+            // 确保新生成的内容是可点击的
+            setTimeout(() => {
+                const editGrid = document.getElementById('editGrid');
+                if (editGrid) {
+                    const editItems = editGrid.querySelectorAll('.edit-item');
+                    editItems.forEach(item => {
+                        item.style.pointerEvents = 'auto';
+                        item.style.opacity = '1';
+                        item.classList.remove('disabled');
+                    });
+                }
+            }, 100);
         }
 
         function updateEditContent(tabType) {
@@ -5184,17 +6057,20 @@
                 { id: 6, title: '薯片包装模板6', price: '¥13.9', image: 'https://youke1.picui.cn/s1/2025/08/06/6892f66a1e370.png', type: 'template' }
             ];
             
+            // 默认生成disabled状态，只有在明确进入编辑模式后才启用
+            const itemClass = 'edit-item disabled';
+            
             return `
                 <div class="edit-grid-content">
                     ${chipTemplates.map(template => `
-                                        <div class="edit-item disabled" onclick="selectEditItem(this)" data-id="${template.id}" data-type="${template.type}">
-                    <img src="${template.image}" alt="${template.title}">
-                    <div class="edit-item-info">
-                        <div class="edit-item-title">${template.title}</div>
-                        <div class="edit-item-price">${template.price}</div>
-                    </div>
-                    <div class="edit-checkbox"></div>
-                </div>
+                        <div class="${itemClass}" onclick="selectEditItem(this)" data-id="${template.id}" data-type="${template.type}">
+                            <img src="${template.image}" alt="${template.title}">
+                            <div class="edit-item-info">
+                                <div class="edit-item-title">${template.title}</div>
+                                <div class="edit-item-price">${template.price}</div>
+                            </div>
+                            <div class="edit-checkbox"></div>
+                        </div>
                     `).join('')}
                 </div>
             `;
@@ -5203,16 +6079,17 @@
                 // 生成背景图网格
         function generateBackgroundGrid() {
             const chipBackgrounds = [
-                { id: 1, title: '薯片背景1', image: 'https://youke1.picui.cn/s1/2025/08/04/68905926417c1.jpeg', type: 'background' },
+                { id: 1, title: '薯片背景1', image: 'https://youke1.picui.cn/s1/2025/08/04/689033dd3295b.jpeg', type: 'background' },
                 { id: 2, title: '薯片背景2', image: 'https://youke1.picui.cn/s1/2025/08/06/689307a474930.jpeg', type: 'background' },
                 { id: 3, title: '薯片背景3', image: 'https://youke1.picui.cn/s1/2025/08/04/68905925c8587.jpeg', type: 'background' },
                 { id: 4, title: '薯片背景4', image: 'https://youke1.picui.cn/s1/2025/08/04/68905926', type: 'background' },
-                { id: 5, title: '薯片背景5', image: 'https://youke1.picui.cn/s1/2025/08/04/68905926417c1.jpeg', type: 'background' },
+                { id: 5, title: '薯片背景5', image: 'https://youke1.picui.cn/s1/2025/08/04/689033dd3295b.jpeg', type: 'background' },
                 { id: 6, title: '薯片背景6', image: 'https://youke1.picui.cn/s1/2025/08/06/689307a474930.jpeg', type: 'background' }
             ];
             
             // 检查是否在配置弹窗中
             const isConfigModal = document.getElementById('configGrid');
+            // 默认生成disabled状态，只有在明确进入编辑模式后才启用
             const itemClass = isConfigModal ? 'config-item' : 'edit-item disabled';
             const onclickFunc = isConfigModal ? 'selectConfigItem(this)' : 'selectEditItem(this)';
             
@@ -5237,13 +6114,14 @@
                 { id: 1, title: '薯片价格标签1', image: 'https://youke1.picui.cn/s1/2025/08/06/689307a3f1487.png', type: 'price' },
                 { id: 2, title: '薯片价格标签2', image: 'https://youke1.picui.cn/s1/2025/08/06/689307a7be228.png', type: 'price' },
                 { id: 3, title: '薯片价格标签3', image: 'https://youke1.picui.cn/s1/2025/08/06/689307a7d8c56.png', type: 'price' },
-                { id: 4, title: '薯片价格标签4', image: 'https://youke1.picui.cn/s1/2025/08/06/689307a3f1487.png', type: 'price' },
+                { id: 4, title: '薯片价格标签4', image: 'https://youke1.picui.cn/s1/2025/08/06/689307a7be228.png', type: 'price' },
                 { id: 5, title: '薯片价格标签5', image: 'https://youke1.picui.cn/s1/2025/08/06/689307a7be228.png', type: 'price' },
                 { id: 6, title: '薯片价格标签6', image: 'https://youke1.picui.cn/s1/2025/08/06/689307a7d8c56.png', type: 'price' }
             ];
             
             // 检查是否在配置弹窗中
             const isConfigModal = document.getElementById('configGrid');
+            // 默认生成disabled状态，只有在明确进入编辑模式后才启用
             const itemClass = isConfigModal ? 'config-item' : 'edit-item disabled';
             const onclickFunc = isConfigModal ? 'selectConfigItem(this)' : 'selectEditItem(this)';
             
@@ -5859,8 +6737,16 @@
                                 <div style="position: absolute; top: 5px; left: 5px; background: #1890ff; color: white; padding: 2px 6px; border-radius: 3px; font-size: 12px;">5978</div>
                                 <img src="https://youke1.picui.cn/s1/2025/08/01/688cb7e3003d7.jpg" alt="扩图结果1" style="width: 100%; height: 120px; object-fit: cover;">
                                 <div class="image-hover-icons">
-                                    <div class="hover-icon" onclick="copyImage('5978')" title="复制">📋</div>
-                                    <div class="hover-icon" onclick="openImageModal('5978', 0)" title="查看">👁</div>
+                                    <div class="hover-icon" onclick="copyImage('5978')" title="复制链接">
+                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                                            <path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/>
+                                        </svg>
+                                    </div>
+                                    <div class="hover-icon" onclick="openImageModal('5978', 0)" title="预览图片">
+                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                                            <path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/>
+                                        </svg>
+                                    </div>
                                 </div>
                                 <div style="display: flex; gap: 5px; margin-top: 8px; align-items: center;">
                                     <button class="btn btn-secondary" style="font-size: 12px; padding: 4px 8px;" onclick="approveImage('5978')">通过</button>
@@ -5874,8 +6760,16 @@
                                 <div style="position: absolute; top: 5px; left: 5px; background: #1890ff; color: white; padding: 2px 6px; border-radius: 3px; font-size: 12px;">5977</div>
                                 <img src="https://youke1.picui.cn/s1/2025/08/01/688cb7e3003d7.jpg" alt="扩图结果2" style="width: 100%; height: 120px; object-fit: cover;">
                                 <div class="image-hover-icons">
-                                    <div class="hover-icon" onclick="copyImage('5977')" title="复制">📋</div>
-                                    <div class="hover-icon" onclick="openImageModal('5977', 1)" title="查看">👁</div>
+                                    <div class="hover-icon" onclick="copyImage('5977')" title="复制链接">
+                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                                            <path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/>
+                                        </svg>
+                                    </div>
+                                    <div class="hover-icon" onclick="openImageModal('5977', 1)" title="预览图片">
+                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                                            <path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/>
+                                        </svg>
+                                    </div>
                                 </div>
                                 <div style="display: flex; gap: 5px; margin-top: 8px; align-items: center;">
                                     <button class="btn btn-secondary" style="font-size: 12px; padding: 4px 8px;" onclick="approveImage('5977')">通过</button>
@@ -5889,8 +6783,16 @@
                                 <div style="position: absolute; top: 5px; left: 5px; background: #1890ff; color: white; padding: 2px 6px; border-radius: 3px; font-size: 12px;">5976</div>
                                 <img src="https://youke1.picui.cn/s1/2025/08/01/688cb7e3003d7.jpg" alt="扩图结果3" style="width: 100%; height: 120px; object-fit: cover;">
                                 <div class="image-hover-icons">
-                                    <div class="hover-icon" onclick="copyImage('5976')" title="复制">📋</div>
-                                    <div class="hover-icon" onclick="openImageModal('5976', 2)" title="查看">👁</div>
+                                    <div class="hover-icon" onclick="copyImage('5976')" title="复制链接">
+                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                                            <path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/>
+                                        </svg>
+                                    </div>
+                                    <div class="hover-icon" onclick="openImageModal('5976', 2)" title="预览图片">
+                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                                            <path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/>
+                                        </svg>
+                                    </div>
                                 </div>
                                 <div style="display: flex; gap: 5px; margin-top: 8px; align-items: center;">
                                     <button class="btn btn-secondary" style="font-size: 12px; padding: 4px 8px;" onclick="approveImage('5976')">通过</button>
@@ -5904,8 +6806,16 @@
                                 <div style="position: absolute; top: 5px; left: 5px; background: #1890ff; color: white; padding: 2px 6px; border-radius: 3px; font-size: 12px;">5975</div>
                                 <img src="https://youke1.picui.cn/s1/2025/08/01/688cb7e3003d7.jpg" alt="扩图结果4" style="width: 100%; height: 120px; object-fit: cover;">
                                 <div class="image-hover-icons">
-                                    <div class="hover-icon" onclick="copyImage('5975')" title="复制">📋</div>
-                                    <div class="hover-icon" onclick="openImageModal('5975', 3)" title="查看">👁</div>
+                                    <div class="hover-icon" onclick="copyImage('5975')" title="复制链接">
+                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                                            <path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/>
+                                        </svg>
+                                    </div>
+                                    <div class="hover-icon" onclick="openImageModal('5975', 3)" title="预览图片">
+                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                                            <path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/>
+                                        </svg>
+                                    </div>
                                 </div>
                                 <div style="display: flex; gap: 5px; margin-top: 8px; align-items: center;">
                                     <button class="btn btn-secondary" style="font-size: 12px; padding: 4px 8px;" onclick="approveImage('5975')">通过</button>
@@ -5932,8 +6842,16 @@
                                 <div style="position: absolute; top: 5px; left: 5px; background: #1890ff; color: white; padding: 2px 6px; border-radius: 3px; font-size: 12px;">5982</div>
                                 <img src="https://youke1.picui.cn/s1/2025/08/01/688cb7e3003d7.jpg" alt="扩图结果5" style="width: 100%; height: 120px; object-fit: cover;">
                                 <div class="image-hover-icons">
-                                    <div class="hover-icon" onclick="copyImage('5982')" title="复制">📋</div>
-                                    <div class="hover-icon" onclick="openImageModal('5982', 4)" title="查看">👁</div>
+                                    <div class="hover-icon" onclick="copyImage('5982')" title="复制链接">
+                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                                            <path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/>
+                                        </svg>
+                                    </div>
+                                    <div class="hover-icon" onclick="openImageModal('5982', 4)" title="预览图片">
+                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                                            <path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/>
+                                        </svg>
+                                    </div>
                                 </div>
                                 <div style="display: flex; gap: 5px; margin-top: 8px; align-items: center;">
                                     <button class="btn btn-secondary" style="font-size: 12px; padding: 4px 8px;" onclick="approveImage('5982')">通过</button>
@@ -5947,8 +6865,16 @@
                                 <div style="position: absolute; top: 5px; left: 5px; background: #1890ff; color: white; padding: 2px 6px; border-radius: 3px; font-size: 12px;">5981</div>
                                 <img src="https://youke1.picui.cn/s1/2025/08/01/688cb7e3003d7.jpg" alt="扩图结果6" style="width: 100%; height: 120px; object-fit: cover;">
                                 <div class="image-hover-icons">
-                                    <div class="hover-icon" onclick="copyImage('5981')" title="复制">📋</div>
-                                    <div class="hover-icon" onclick="openImageModal('5981', 5)" title="查看">👁</div>
+                                    <div class="hover-icon" onclick="copyImage('5981')" title="复制链接">
+                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                                            <path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/>
+                                        </svg>
+                                    </div>
+                                    <div class="hover-icon" onclick="openImageModal('5981', 5)" title="预览图片">
+                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                                            <path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/>
+                                        </svg>
+                                    </div>
                                 </div>
                                 <div style="display: flex; gap: 5px; margin-top: 8px; align-items: center;">
                                     <button class="btn btn-secondary" style="font-size: 12px; padding: 4px 8px;" onclick="approveImage('5981')">通过</button>
@@ -5962,8 +6888,16 @@
                                 <div style="position: absolute; top: 5px; left: 5px; background: #1890ff; color: white; padding: 2px 6px; border-radius: 3px; font-size: 12px;">5980</div>
                                 <img src="https://youke1.picui.cn/s1/2025/08/01/688cb7e3003d7.jpg" alt="扩图结果7" style="width: 100%; height: 120px; object-fit: cover;">
                                 <div class="image-hover-icons">
-                                    <div class="hover-icon" onclick="copyImage('5980')" title="复制">📋</div>
-                                    <div class="hover-icon" onclick="openImageModal('5980', 6)" title="查看">👁</div>
+                                    <div class="hover-icon" onclick="copyImage('5980')" title="复制链接">
+                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                                            <path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/>
+                                        </svg>
+                                    </div>
+                                    <div class="hover-icon" onclick="openImageModal('5980', 6)" title="预览图片">
+                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                                            <path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/>
+                                        </svg>
+                                    </div>
                                 </div>
                                 <div style="display: flex; gap: 5px; margin-top: 8px; align-items: center;">
                                     <button class="btn btn-secondary" style="font-size: 12px; padding: 4px 8px;" onclick="approveImage('5980')">通过</button>
@@ -5977,8 +6911,16 @@
                                 <div style="position: absolute; top: 5px; left: 5px; background: #1890ff; color: white; padding: 2px 6px; border-radius: 3px; font-size: 12px;">5979</div>
                                 <img src="https://youke1.picui.cn/s1/2025/08/01/688cb7e3003d7.jpg" alt="扩图结果8" style="width: 100%; height: 120px; object-fit: cover;">
                                 <div class="image-hover-icons">
-                                    <div class="hover-icon" onclick="copyImage('5979')" title="复制">📋</div>
-                                    <div class="hover-icon" onclick="openImageModal('5979', 7)" title="查看">👁</div>
+                                    <div class="hover-icon" onclick="copyImage('5979')" title="复制链接">
+                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                                            <path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/>
+                                        </svg>
+                                    </div>
+                                    <div class="hover-icon" onclick="openImageModal('5979', 7)" title="预览图片">
+                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                                            <path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/>
+                                        </svg>
+                                    </div>
                                 </div>
                                 <div style="display: flex; gap: 5px; margin-top: 8px; align-items: center;">
                                     <button class="btn btn-secondary" style="font-size: 12px; padding: 4px 8px;" onclick="approveImage('5979')">通过</button>
@@ -6077,8 +7019,11 @@
         }
 
         // 显示Toast提示
-        function showToast() {
+        function showToast(message) {
             const toast = document.getElementById('toast');
+            if (message) {
+                toast.innerHTML = `<span class="material-icons" style="margin-right: 8px;">info</span>${message}`;
+            }
             toast.classList.add('show');
             
             setTimeout(() => {
@@ -6122,19 +7067,76 @@
             closeFeedbackModal();
         }
 
-        // 图片数据
+        // 图片数据 - 包含所有生成结果的图片
         const imageData = [
-            { id: '5978', src: 'https://youke1.picui.cn/s1/2025/08/01/688cb7e3003d7.jpg', info: '蚕丝 夏凉' },
-            { id: '5977', src: 'https://youke1.picui.cn/s1/2025/08/01/688cb7e3003d7.jpg', info: '蚕丝 夏凉' },
-            { id: '5976', src: 'https://youke1.picui.cn/s1/2025/08/01/688cb7e3003d7.jpg', info: '蚕丝 夏凉' },
-            { id: '5975', src: 'https://youke1.picui.cn/s1/2025/08/01/688cb7e3003d7.jpg', info: '蚕丝 夏凉' },
-            { id: '5982', src: 'https://youke1.picui.cn/s1/2025/08/01/688cb7e3003d7.jpg', info: '蚕丝 夏凉' },
-            { id: '5981', src: 'https://youke1.picui.cn/s1/2025/08/01/688cb7e3003d7.jpg', info: '蚕丝 夏凉' },
-            { id: '5980', src: 'https://youke1.picui.cn/s1/2025/08/01/688cb7e3003d7.jpg', info: '蚕丝 夏凉' },
-            { id: '5979', src: 'https://youke1.picui.cn/s1/2025/08/01/688cb7e3003d7.jpg', info: '蚕丝 夏凉' }
+            { id: '5978', src: 'https://youke1.picui.cn/s1/2025/08/01/688cb7e3003d7.jpg', info: '扩图结果1' },
+            { id: '5977', src: 'https://youke1.picui.cn/s1/2025/08/01/688cb7e3003d7.jpg', info: '扩图结果2' },
+            { id: '5976', src: 'https://youke1.picui.cn/s1/2025/08/01/688cb7e3003d7.jpg', info: '扩图结果3' },
+            { id: '5975', src: 'https://youke1.picui.cn/s1/2025/08/01/688cb7e3003d7.jpg', info: '扩图结果4' },
+            { id: '5982', src: 'https://youke1.picui.cn/s1/2025/08/01/688cb7e3003d7.jpg', info: '扩图结果5' },
+            { id: '5981', src: 'https://youke1.picui.cn/s1/2025/08/01/688cb7e3003d7.jpg', info: '扩图结果6' },
+            { id: '5980', src: 'https://youke1.picui.cn/s1/2025/08/01/688cb7e3003d7.jpg', info: '扩图结果7' },
+            { id: '5979', src: 'https://youke1.picui.cn/s1/2025/08/01/688cb7e3003d7.jpg', info: '扩图结果8' },
+            { id: '6000', src: 'https://youke1.picui.cn/s1/2025/08/04/689037a51d9bb.png', info: '换背景结果1' },
+            { id: '6001', src: 'https://youke1.picui.cn/s1/2025/08/04/689037a51d9bb.png', info: '换背景结果2' },
+            { id: '6002', src: 'https://youke1.picui.cn/s1/2025/08/04/689037a51d9bb.png', info: '换背景结果3' },
+            { id: '6003', src: 'https://youke1.picui.cn/s1/2025/08/04/689037a51d9bb.png', info: '换背景结果4' },
+            { id: '7000', src: 'https://youke1.picui.cn/s1/2025/08/04/689033dd3295b.jpeg', info: '背景裂变结果1' },
+            { id: '7001', src: 'https://youke1.picui.cn/s1/2025/08/04/689033dd3295b.jpeg', info: '背景裂变结果2' },
+            { id: '7002', src: 'https://youke1.picui.cn/s1/2025/08/04/689033dd3295b.jpeg', info: '背景裂变结果3' },
+            { id: '8001', src: 'https://youke1.picui.cn/s1/2025/08/01/688cb7e3003d7.jpg', info: '虚拟试衣结果1' },
+            { id: '8002', src: 'https://youke1.picui.cn/s1/2025/08/01/688cb7e3003d7.jpg', info: '虚拟试衣结果2' },
+            { id: '8003', src: 'https://youke1.picui.cn/s1/2025/08/01/688cb7e3003d7.jpg', info: '虚拟试衣结果3' },
+            { id: '8004', src: 'https://youke1.picui.cn/s1/2025/08/01/688cb7e3003d7.jpg', info: '虚拟试衣结果4' }
         ];
 
         let currentImageIndex = 0;
+
+        // 复制图片链接
+        function copyLink(imageId) {
+            // 根据图片ID找到对应的图片数据
+            const imageItem = imageData.find(img => img.id === imageId);
+            if (!imageItem) {
+                showToast('未找到对应的图片');
+                return;
+            }
+            
+            // 复制图片链接到剪贴板
+            navigator.clipboard.writeText(imageItem.src).then(() => {
+                showToast('图片链接已复制到剪贴板');
+            }).catch(() => {
+                // 如果clipboard API不可用，使用传统方法
+                const textArea = document.createElement('textarea');
+                textArea.value = imageItem.src;
+                document.body.appendChild(textArea);
+                textArea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textArea);
+                showToast('图片链接已复制到剪贴板');
+            });
+        }
+
+        // 预览图片
+        function previewImage(imageId) {
+            // 根据图片ID找到对应的图片数据
+            const imageIndex = imageData.findIndex(img => img.id === imageId);
+            if (imageIndex === -1) {
+                showToast('未找到对应的图片');
+                return;
+            }
+            
+            // 设置当前图片索引（用于左右切换）
+            currentImageIndex = imageIndex;
+            
+            // 打开图片预览弹窗
+            const modal = document.getElementById('imageModal');
+            const modalImage = document.getElementById('modalImage');
+            const modalInfo = document.getElementById('modalInfo');
+            
+            modalImage.src = imageData[imageIndex].src;
+            modalInfo.textContent = `${imageIndex + 1}/${imageData.length} - ${imageData[imageIndex].info}`;
+            modal.style.display = 'flex';
+        }
 
         // 复制图片
         function copyImage(imageId) {
@@ -6177,7 +7179,7 @@
             const modalInfo = document.getElementById('modalInfo');
             
             modalImage.src = imageData[currentImageIndex].src;
-            modalInfo.textContent = `${currentImageIndex + 1}/${imageData.length}`;
+            modalInfo.textContent = `${currentImageIndex + 1}/${imageData.length} - ${imageData[currentImageIndex].info}`;
         }
 
         // 键盘事件监听
@@ -6316,6 +7318,18 @@
                             <div class="image-item" style="position: relative;">
                                 <div style="position: absolute; top: 5px; left: 5px; background: #1890ff; color: white; padding: 2px 6px; border-radius: 3px; font-size: 12px;">6000</div>
                                 <img src="https://youke1.picui.cn/s1/2025/08/04/689037a51d9bb.png" alt="换背景结果1" style="width: 100%; height: 120px; object-fit: cover;">
+                                                                 <div class="image-hover-icons">
+                                     <div class="hover-icon" onclick="copyLink('6000')" title="复制链接">
+                                         <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                                             <path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/>
+                                         </svg>
+                                     </div>
+                                     <div class="hover-icon" onclick="previewImage('6000')" title="预览图片">
+                                         <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                                             <path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/>
+                                         </svg>
+                                     </div>
+                                 </div>
                                 <div style="display: flex; gap: 5px; margin-top: 8px; align-items: center;">
                                     <button class="btn btn-secondary" style="font-size: 12px; padding: 4px 8px;" onclick="approveImage('6000')">通过</button>
                                     <button class="btn btn-primary" style="font-size: 12px; padding: 4px 8px;" onclick="downloadSingleImage('6000')">下载</button>
@@ -6327,6 +7341,10 @@
                             <div class="image-item" style="position: relative;">
                                 <div style="position: absolute; top: 5px; left: 5px; background: #1890ff; color: white; padding: 2px 6px; border-radius: 3px; font-size: 12px;">6001</div>
                                 <img src="https://youke1.picui.cn/s1/2025/08/04/689037a51d9bb.png" alt="换背景结果2" style="width: 100%; height: 120px; object-fit: cover;">
+                                <div class="image-hover-icons">
+                                    <div class="hover-icon" onclick="copyLink('6001')">🔗</div>
+                                    <div class="hover-icon" onclick="previewImage('6001')">🔎</div>
+                                </div>
                                 <div style="display: flex; gap: 5px; margin-top: 8px; align-items: center;">
                                     <button class="btn btn-secondary" style="font-size: 12px; padding: 4px 8px;" onclick="approveImage('6001')">通过</button>
                                     <button class="btn btn-primary" style="font-size: 12px; padding: 4px 8px;" onclick="downloadSingleImage('6001')">下载</button>
@@ -6338,6 +7356,10 @@
                             <div class="image-item" style="position: relative;">
                                 <div style="position: absolute; top: 5px; left: 5px; background: #1890ff; color: white; padding: 2px 6px; border-radius: 3px; font-size: 12px;">6002</div>
                                 <img src="https://youke1.picui.cn/s1/2025/08/04/689037a51d9bb.png" alt="换背景结果3" style="width: 100%; height: 120px; object-fit: cover;">
+                                <div class="image-hover-icons">
+                                    <div class="hover-icon" onclick="copyLink('6002')">🔗</div>
+                                    <div class="hover-icon" onclick="previewImage('6002')">🔎</div>
+                                </div>
                                 <div style="display: flex; gap: 5px; margin-top: 8px; align-items: center;">
                                     <button class="btn btn-secondary" style="font-size: 12px; padding: 4px 8px;" onclick="approveImage('6002')">通过</button>
                                     <button class="btn btn-primary" style="font-size: 12px; padding: 4px 8px;" onclick="downloadSingleImage('6002')">下载</button>
@@ -6349,6 +7371,10 @@
                             <div class="image-item" style="position: relative;">
                                 <div style="position: absolute; top: 5px; left: 5px; background: #1890ff; color: white; padding: 2px 6px; border-radius: 3px; font-size: 12px;">6003</div>
                                 <img src="https://youke1.picui.cn/s1/2025/08/04/689037a51d9bb.png" alt="换背景结果4" style="width: 100%; height: 120px; object-fit: cover;">
+                                <div class="image-hover-icons">
+                                    <div class="hover-icon" onclick="copyLink('6003')">🔗</div>
+                                    <div class="hover-icon" onclick="previewImage('6003')">🔎</div>
+                                </div>
                                 <div style="display: flex; gap: 5px; margin-top: 8px; align-items: center;">
                                     <button class="btn btn-secondary" style="font-size: 12px; padding: 4px 8px;" onclick="approveImage('6003')">通过</button>
                                     <button class="btn btn-primary" style="font-size: 12px; padding: 4px 8px;" onclick="downloadSingleImage('6003')">下载</button>
@@ -6511,9 +7537,9 @@
             setTimeout(() => {
                 // Mock生成结果
                 generatedImages = [
-                    'https://youke1.picui.cn/s1/2025/08/04/68905925d6370.jpeg',
-                    'https://youke1.picui.cn/s1/2025/08/04/689059264c66b.jpeg',
-                    'https://youke1.picui.cn/s1/2025/08/04/68905926417c1.jpeg'
+                    'https://youke1.picui.cn/s1/2025/08/04/689033dd3295b.jpeg',
+                    'https://youke1.picui.cn/s1/2025/08/04/689033dd3295b.jpeg',
+                    'https://youke1.picui.cn/s1/2025/08/04/689033dd3295b.jpeg'
                 ];
                 
                 // 更新生成结果图片
@@ -6641,7 +7667,11 @@
                         <div class="image-grid" style="grid-template-columns: repeat(3, 1fr); gap: 12px;">
                             <div class="image-item" style="position: relative;">
                                 <div style="position: absolute; top: 5px; left: 5px; background: #1890ff; color: white; padding: 2px 6px; border-radius: 3px; font-size: 12px;">7000</div>
-                                <img src="https://youke1.picui.cn/s1/2025/08/04/68905925d6370.jpeg" alt="背景裂变结果1" style="width: 100%; height: 120px; object-fit: cover;">
+                                <img src="https://youke1.picui.cn/s1/2025/08/04/689033dd3295b.jpeg" alt="背景裂变结果1" style="width: 100%; height: 120px; object-fit: cover;">
+                                <div class="image-hover-icons">
+                                    <div class="hover-icon" onclick="copyLink('7000')">🔗</div>
+                                    <div class="hover-icon" onclick="previewImage('7000')">🔎</div>
+                                </div>
                                 <div style="display: flex; gap: 5px; margin-top: 8px; align-items: center;">
                                     <button class="btn btn-secondary" style="font-size: 12px; padding: 4px 8px;" onclick="approveImage('7000')">通过</button>
                                     <button class="btn btn-primary" style="font-size: 12px; padding: 4px 8px;" onclick="downloadSingleImage('7000')">下载</button>
@@ -6652,7 +7682,11 @@
                             </div>
                             <div class="image-item" style="position: relative;">
                                 <div style="position: absolute; top: 5px; left: 5px; background: #1890ff; color: white; padding: 2px 6px; border-radius: 3px; font-size: 12px;">7001</div>
-                                <img src="https://youke1.picui.cn/s1/2025/08/04/689059264c66b.jpeg" alt="背景裂变结果2" style="width: 100%; height: 120px; object-fit: cover;">
+                                <img src="https://youke1.picui.cn/s1/2025/08/04/689033dd3295b.jpeg" alt="背景裂变结果2" style="width: 100%; height: 120px; object-fit: cover;">
+                                <div class="image-hover-icons">
+                                    <div class="hover-icon" onclick="copyLink('7001')">🔗</div>
+                                    <div class="hover-icon" onclick="previewImage('7001')">🔎</div>
+                                </div>
                                 <div style="display: flex; gap: 5px; margin-top: 8px; align-items: center;">
                                     <button class="btn btn-secondary" style="font-size: 12px; padding: 4px 8px;" onclick="approveImage('7001')">通过</button>
                                     <button class="btn btn-primary" style="font-size: 12px; padding: 4px 8px;" onclick="downloadSingleImage('7001')">下载</button>
@@ -6663,7 +7697,11 @@
                             </div>
                             <div class="image-item" style="position: relative;">
                                 <div style="position: absolute; top: 5px; left: 5px; background: #1890ff; color: white; padding: 2px 6px; border-radius: 3px; font-size: 12px;">7002</div>
-                                <img src="https://youke1.picui.cn/s1/2025/08/04/68905926417c1.jpeg" alt="背景裂变结果3" style="width: 100%; height: 120px; object-fit: cover;">
+                                <img src="https://youke1.picui.cn/s1/2025/08/04/689033dd3295b.jpeg" alt="背景裂变结果3" style="width: 100%; height: 120px; object-fit: cover;">
+                                <div class="image-hover-icons">
+                                    <div class="hover-icon" onclick="copyLink('7002')">🔗</div>
+                                    <div class="hover-icon" onclick="previewImage('7002')">🔎</div>
+                                </div>
                                 <div style="display: flex; gap: 5px; margin-top: 8px; align-items: center;">
                                     <button class="btn btn-secondary" style="font-size: 12px; padding: 4px 8px;" onclick="approveImage('7002')">通过</button>
                                     <button class="btn btn-primary" style="font-size: 12px; padding: 4px 8px;" onclick="downloadSingleImage('7002')">下载</button>
@@ -6839,6 +7877,74 @@
             alert('导出成功！文件已下载到您的下载文件夹。');
         }
 
+        // 编辑反馈内容
+        function editFeedbackResponse(button) {
+            const responseDiv = button.closest('.feedback-response');
+            const feedbackText = responseDiv.querySelector('.feedback-text');
+            const currentText = feedbackText.textContent;
+            const isEdited = responseDiv.dataset.edited === 'true';
+            
+            // 如果从未编辑过，显示"无"
+            const displayText = isEdited ? currentText : '';
+            
+            // 创建编辑界面
+            const editHtml = `
+                <div class="feedback-edit-container">
+                    <textarea class="feedback-edit-textarea" rows="3" placeholder="请输入反馈内容">${displayText}</textarea>
+                    <div class="feedback-edit-buttons">
+                        <button class="btn btn-primary" onclick="saveFeedbackResponse(this)">保存</button>
+                        <button class="btn btn-secondary" onclick="cancelFeedbackResponse(this)">取消</button>
+                    </div>
+                </div>
+            `;
+            
+            responseDiv.innerHTML = editHtml;
+        }
+
+        // 保存反馈内容
+        function saveFeedbackResponse(button) {
+            const responseDiv = button.closest('.feedback-response');
+            const textarea = responseDiv.querySelector('.feedback-edit-textarea');
+            const newText = textarea.value.trim();
+            
+            if (!newText) {
+                alert('请输入反馈内容');
+                return;
+            }
+            
+            // 更新显示内容
+            responseDiv.innerHTML = `
+                <span class="feedback-text" style="color: #333;">${newText}</span>
+                <button class="btn btn-primary" style="padding: 4px 8px; font-size: 12px; margin-left: 8px;" onclick="editFeedbackResponse(this)">编辑反馈</button>
+            `;
+            
+            // 标记为已编辑
+            responseDiv.dataset.edited = 'true';
+            
+            showToast('反馈内容已保存');
+        }
+
+        // 取消编辑反馈内容
+        function cancelFeedbackResponse(button) {
+            const responseDiv = button.closest('.feedback-response');
+            const isEdited = responseDiv.dataset.edited === 'true';
+            
+            if (isEdited) {
+                // 如果之前编辑过，恢复原内容
+                const originalText = responseDiv.querySelector('.feedback-edit-textarea').value.trim();
+                responseDiv.innerHTML = `
+                    <span class="feedback-text" style="color: #333;">${originalText}</span>
+                    <button class="btn btn-primary" style="padding: 4px 8px; font-size: 12px; margin-left: 8px;" onclick="editFeedbackResponse(this)">编辑反馈</button>
+                `;
+            } else {
+                // 如果从未编辑过，显示"无"
+                responseDiv.innerHTML = `
+                    <span class="feedback-text" style="color: #999;">无</span>
+                    <button class="btn btn-primary" style="padding: 4px 8px; font-size: 12px; margin-left: 8px;" onclick="editFeedbackResponse(this)">编辑反馈</button>
+                `;
+            }
+        }
+
         // 虚拟换衣相关函数
         function searchVirtualFittingGoods() {
             const goodsId = document.getElementById('virtualFittingGoodsId').value;
@@ -7012,6 +8118,10 @@
                                     <div class="image-item" style="position: relative;">
                                         <div style="position: absolute; top: 5px; left: 5px; background: #1890ff; color: white; padding: 2px 6px; border-radius: 3px; font-size: 12px;">8001</div>
                                         <img src="https://youke1.picui.cn/s1/2025/08/01/688cb7e3003d7.jpg" alt="虚拟试衣结果1" style="width: 100%; height: 120px; object-fit: cover;">
+                                        <div class="image-hover-icons">
+                                            <div class="hover-icon" onclick="copyLink('8001')">🔗</div>
+                                            <div class="hover-icon" onclick="previewImage('8001')">🔎</div>
+                                        </div>
                                         <div style="display: flex; gap: 5px; margin-top: 8px; align-items: center;">
                                             <button class="btn btn-secondary" style="font-size: 12px; padding: 4px 8px;" onclick="approveImage('8001')">通过</button>
                                             <button class="btn btn-primary" style="font-size: 12px; padding: 4px 8px;" onclick="downloadSingleImage('8001')">下载</button>
@@ -7020,6 +8130,10 @@
                                     <div class="image-item" style="position: relative;">
                                         <div style="position: absolute; top: 5px; left: 5px; background: #1890ff; color: white; padding: 2px 6px; border-radius: 3px; font-size: 12px;">8002</div>
                                         <img src="https://youke1.picui.cn/s1/2025/08/01/688cb7e3003d7.jpg" alt="虚拟试衣结果2" style="width: 100%; height: 120px; object-fit: cover;">
+                                        <div class="image-hover-icons">
+                                            <div class="hover-icon" onclick="copyLink('8002')">🔗</div>
+                                            <div class="hover-icon" onclick="previewImage('8002')">🔎</div>
+                                        </div>
                                         <div style="display: flex; gap: 5px; margin-top: 8px; align-items: center;">
                                             <button class="btn btn-secondary" style="font-size: 12px; padding: 4px 8px;" onclick="approveImage('8002')">通过</button>
                                             <button class="btn btn-primary" style="font-size: 12px; padding: 4px 8px;" onclick="downloadSingleImage('8002')">下载</button>
@@ -7028,6 +8142,10 @@
                                     <div class="image-item" style="position: relative;">
                                         <div style="position: absolute; top: 5px; left: 5px; background: #1890ff; color: white; padding: 2px 6px; border-radius: 3px; font-size: 12px;">8003</div>
                                         <img src="https://youke1.picui.cn/s1/2025/08/01/688cb7e3003d7.jpg" alt="虚拟试衣结果3" style="width: 100%; height: 120px; object-fit: cover;">
+                                        <div class="image-hover-icons">
+                                            <div class="hover-icon" onclick="copyLink('8003')">🔗</div>
+                                            <div class="hover-icon" onclick="previewImage('8003')">🔎</div>
+                                        </div>
                                         <div style="display: flex; gap: 5px; margin-top: 8px; align-items: center;">
                                             <button class="btn btn-secondary" style="font-size: 12px; padding: 4px 8px;" onclick="approveImage('8003')">通过</button>
                                             <button class="btn btn-primary" style="font-size: 12px; padding: 4px 8px;" onclick="downloadSingleImage('8003')">下载</button>
@@ -7036,6 +8154,10 @@
                                     <div class="image-item" style="position: relative;">
                                         <div style="position: absolute; top: 5px; left: 5px; background: #1890ff; color: white; padding: 2px 6px; border-radius: 3px; font-size: 12px;">8004</div>
                                         <img src="https://youke1.picui.cn/s1/2025/08/01/688cb7e3003d7.jpg" alt="虚拟试衣结果4" style="width: 100%; height: 120px; object-fit: cover;">
+                                        <div class="image-hover-icons">
+                                            <div class="hover-icon" onclick="copyLink('8004')">🔗</div>
+                                            <div class="hover-icon" onclick="previewImage('8004')">🔎</div>
+                                        </div>
                                         <div style="display: flex; gap: 5px; margin-top: 8px; align-items: center;">
                                             <button class="btn btn-secondary" style="font-size: 12px; padding: 4px 8px;" onclick="approveImage('8004')">通过</button>
                                             <button class="btn btn-primary" style="font-size: 12px; padding: 4px 8px;" onclick="downloadSingleImage('8004')">下载</button>
@@ -7162,6 +8284,32 @@
                 modal.style.display = 'flex';
                 // 初始化配置内容
                 switchConfigTab(document.querySelector('.config-tab.active'), 'background');
+                
+                // 延迟执行默认选择，确保DOM已渲染
+                setTimeout(() => {
+                    // 默认选择第一个背景
+                    const firstBackground = document.querySelector('.config-grid .config-item[data-type="background"]');
+                    if (firstBackground) {
+                        firstBackground.classList.add('selected');
+                    }
+                    
+                    // 切换到价格签标签页并默认选择第一个价格签
+                    const priceTab = document.querySelector('.config-tab[onclick*="price"]');
+                    if (priceTab) {
+                        switchConfigTab(priceTab, 'price');
+                        setTimeout(() => {
+                            const firstPrice = document.querySelector('.config-grid .config-item[data-type="price"]');
+                            if (firstPrice) {
+                                firstPrice.classList.add('selected');
+                            }
+                            // 切换回背景标签页
+                            const backgroundTab = document.querySelector('.config-tab[onclick*="background"]');
+                            if (backgroundTab) {
+                                switchConfigTab(backgroundTab, 'background');
+                            }
+                        }, 50);
+                    }
+                }, 100);
             }
         }
 
@@ -7199,27 +8347,36 @@
             }
         }
 
-        // 选择配置项目
+        // 选择配置项目（支持多选）
         function selectConfigItem(element) {
-            // 移除其他选中状态
-            const configGrid = element.closest('.config-grid');
-            if (configGrid) {
-                configGrid.querySelectorAll('.config-item').forEach(item => {
-                    item.classList.remove('selected');
-                });
+            // 切换选中状态（支持多选）
+            if (element.classList.contains('selected')) {
+                element.classList.remove('selected');
+            } else {
+                element.classList.add('selected');
             }
-            
-            // 为当前项目添加选中状态
-            element.classList.add('selected');
         }
 
         // 确认配置
         function confirmConfig() {
-            const selectedBackground = document.querySelector('.config-grid .config-item.selected[data-type="background"]');
-            const selectedPrice = document.querySelector('.config-grid .config-item.selected[data-type="price"]');
+            const selectedBackgrounds = document.querySelectorAll('.config-grid .config-item.selected[data-type="background"]');
+            const selectedPrices = document.querySelectorAll('.config-grid .config-item.selected[data-type="price"]');
             
-            if (selectedBackground || selectedPrice) {
-                showToast('配置已保存');
+            if (selectedBackgrounds.length > 0 || selectedPrices.length > 0) {
+                // 收集选中的配置
+                const selectedConfig = {
+                    backgrounds: Array.from(selectedBackgrounds).map(item => ({
+                        value: item.dataset.value,
+                        name: item.querySelector('.config-item-name')?.textContent
+                    })),
+                    prices: Array.from(selectedPrices).map(item => ({
+                        value: item.dataset.value,
+                        name: item.querySelector('.config-item-name')?.textContent
+                    }))
+                };
+                
+                console.log('配置已保存', selectedConfig);
+                showToast(`配置成功！选择了${selectedConfig.backgrounds.length}个背景和${selectedConfig.prices.length}个价格签`);
                 closeConfigModal();
             } else {
                 showToast('请至少选择一个配置项');
