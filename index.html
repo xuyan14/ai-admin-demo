@@ -2457,6 +2457,27 @@
             font-size: 12px;
         }
 
+        /* 编辑图标样式 */
+        .edit-icon {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .edit-icon:hover {
+            transform: scale(1.1);
+            opacity: 0.8;
+        }
+
+        .edit-icon svg {
+            transition: all 0.3s ease;
+        }
+
+        .edit-icon:hover svg {
+            color: #40a9ff !important;
+        }
+
         /* 图片放大相关样式 */
         .image-item {
             position: relative;
@@ -3490,7 +3511,11 @@
                                     <td style="padding: 12px;">
                                         <div class="feedback-response" data-edited="false">
                                             <span class="feedback-text" style="color: #999;">无</span>
-                                            <button class="btn btn-primary" style="padding: 4px 8px; font-size: 12px; margin-left: 8px;" onclick="editFeedbackResponse(this)">编辑反馈</button>
+                                            <span class="edit-icon" onclick="editFeedbackResponse(this)" title="编辑反馈" style="cursor: pointer; margin-left: 8px;">
+                                                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="color: #1890ff;">
+                                                    <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/>
+                                                </svg>
+                                            </span>
                                         </div>
                                     </td>
                                 </tr>
@@ -3511,7 +3536,11 @@
                                     <td style="padding: 12px;">
                                         <div class="feedback-response" data-edited="true">
                                             <span class="feedback-text" style="color: #333;">已优化背景替换算法，减少商品主体遮挡问题</span>
-                                            <button class="btn btn-primary" style="padding: 4px 8px; font-size: 12px; margin-left: 8px;" onclick="editFeedbackResponse(this)">编辑反馈</button>
+                                            <span class="edit-icon" onclick="editFeedbackResponse(this)" title="编辑反馈" style="cursor: pointer; margin-left: 8px;">
+                                                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="color: #1890ff;">
+                                                    <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/>
+                                                </svg>
+                                            </span>
                                         </div>
                                     </td>
                                 </tr>
@@ -3532,7 +3561,11 @@
                                     <td style="padding: 12px;">
                                         <div class="feedback-response" data-edited="true">
                                             <span class="feedback-text" style="color: #333;">正在调整相似度算法，预计本周完成优化</span>
-                                            <button class="btn btn-primary" style="padding: 4px 8px; font-size: 12px; margin-left: 8px;" onclick="editFeedbackResponse(this)">编辑反馈</button>
+                                            <span class="edit-icon" onclick="editFeedbackResponse(this)" title="编辑反馈" style="cursor: pointer; margin-left: 8px;">
+                                                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="color: #1890ff;">
+                                                    <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/>
+                                                </svg>
+                                            </span>
                                         </div>
                                     </td>
                                 </tr>
@@ -3553,7 +3586,11 @@
                                     <td style="padding: 12px;">
                                         <div class="feedback-response" data-edited="false">
                                             <span class="feedback-text" style="color: #999;">无</span>
-                                            <button class="btn btn-primary" style="padding: 4px 8px; font-size: 12px; margin-left: 8px;" onclick="editFeedbackResponse(this)">编辑反馈</button>
+                                            <span class="edit-icon" onclick="editFeedbackResponse(this)" title="编辑反馈" style="cursor: pointer; margin-left: 8px;">
+                                                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="color: #1890ff;">
+                                                    <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/>
+                                                </svg>
+                                            </span>
                                         </div>
                                     </td>
                                 </tr>
@@ -3574,7 +3611,11 @@
                                     <td style="padding: 12px;">
                                         <div style="display: flex; align-items: center; gap: 8px;">
                                             <span class="feedback-status" style="color: #52c41a; font-weight: 500;">已处理</span>
-                                            <button class="btn btn-primary" style="padding: 4px 8px; font-size: 12px;" onclick="editFeedback(this)">编辑反馈</button>
+                                            <span class="edit-icon" onclick="editFeedback(this)" title="编辑反馈" style="cursor: pointer;">
+                                                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="color: #1890ff;">
+                                                    <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/>
+                                                </svg>
+                                            </span>
                                         </div>
                                     </td>
                                 </tr>
@@ -5488,11 +5529,11 @@
 
         // 反馈结果
         function feedbackResult(resultId) {
-            showToast(`已提交结果 ${resultId} 的反馈`);
-            // 这里可以打开反馈弹窗
-            setTimeout(() => {
-                showFeedbackModal();
-            }, 500);
+            // 打开反馈弹窗，不直接显示toast
+            const modal = document.getElementById('feedbackModal');
+            modal.style.display = 'flex';
+            document.getElementById('feedbackText').value = '';
+            modal.dataset.resultId = resultId;
         }
 
         // 查看操作快照
@@ -7055,7 +7096,7 @@
         // 提交反馈
         function submitFeedback() {
             const modal = document.getElementById('feedbackModal');
-            const imageId = modal.dataset.imageId;
+            const resultId = modal.dataset.resultId || modal.dataset.imageId;
             const feedbackText = document.getElementById('feedbackText').value;
             
             if (!feedbackText.trim()) {
@@ -7063,7 +7104,8 @@
                 return;
             }
             
-            alert(`图片 ${imageId} 的反馈已提交：${feedbackText}`);
+            // 显示提交成功的toast
+            showToast(`已提交结果 ${resultId} 的反馈`);
             closeFeedbackModal();
         }
 
@@ -7915,7 +7957,11 @@
             // 更新显示内容
             responseDiv.innerHTML = `
                 <span class="feedback-text" style="color: #333;">${newText}</span>
-                <button class="btn btn-primary" style="padding: 4px 8px; font-size: 12px; margin-left: 8px;" onclick="editFeedbackResponse(this)">编辑反馈</button>
+                <span class="edit-icon" onclick="editFeedbackResponse(this)" title="编辑反馈" style="cursor: pointer; margin-left: 8px;">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="color: #1890ff;">
+                        <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/>
+                    </svg>
+                </span>
             `;
             
             // 标记为已编辑
@@ -7934,13 +7980,21 @@
                 const originalText = responseDiv.querySelector('.feedback-edit-textarea').value.trim();
                 responseDiv.innerHTML = `
                     <span class="feedback-text" style="color: #333;">${originalText}</span>
-                    <button class="btn btn-primary" style="padding: 4px 8px; font-size: 12px; margin-left: 8px;" onclick="editFeedbackResponse(this)">编辑反馈</button>
+                    <span class="edit-icon" onclick="editFeedbackResponse(this)" title="编辑反馈" style="cursor: pointer; margin-left: 8px;">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="color: #1890ff;">
+                            <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/>
+                        </svg>
+                    </span>
                 `;
             } else {
                 // 如果从未编辑过，显示"无"
                 responseDiv.innerHTML = `
                     <span class="feedback-text" style="color: #999;">无</span>
-                    <button class="btn btn-primary" style="padding: 4px 8px; font-size: 12px; margin-left: 8px;" onclick="editFeedbackResponse(this)">编辑反馈</button>
+                    <span class="edit-icon" onclick="editFeedbackResponse(this)" title="编辑反馈" style="cursor: pointer; margin-left: 8px;">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="color: #1890ff;">
+                            <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/>
+                        </svg>
+                    </span>
                 `;
             }
         }
