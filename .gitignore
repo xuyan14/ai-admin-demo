@@ -52,3 +52,15 @@ atlassian-ide-plugin.xml
 
 /lib
 #.mvn
+
+# 用户上传文件（仅本地服务器使用，不应提交）
+uploads/
+
+# Python 缓存
+__pycache__/
+*.pyc
+*.pyo
+
+# 终端日志/临时文件
+terminals/
+*.tmp

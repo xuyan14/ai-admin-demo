@@ -5,7 +5,7 @@
 提供图片处理接口，调用NanoBanana API
 """
 
-from flask import Flask, request, jsonify, send_from_directory
+from flask import Flask, request, jsonify, send_from_directory, make_response
 from flask_cors import CORS
 import requests
 import json
@@ -31,7 +31,34 @@ except ImportError as e:
     print("   将使用本地文件存储")
 
 app = Flask(__name__)
-CORS(app)  # 允许跨域请求
+CORS(app, resources={
+    r"/api/*": {
+        "origins": "*",
+        "allow_headers": ["Content-Type"],
+        "methods": ["GET", "POST", "OPTIONS"]
+    }
+})
+
+# 当页面通过 file:// 协议打开时，浏览器 Origin 为 'null'，
+# flask-cors 的 "*" 无法匹配 null，需要手动补充 CORS 头
+@app.after_request
+def add_cors_headers(response):
+    origin = request.headers.get('Origin', '')
+    if not response.headers.get('Access-Control-Allow-Origin'):
+        response.headers['Access-Control-Allow-Origin'] = '*'
+    response.headers['Access-Control-Allow-Methods'] = 'GET, POST, OPTIONS'
+    response.headers['Access-Control-Allow-Headers'] = 'Content-Type, Authorization'
+    return response
+
+@app.before_request
+def handle_options_preflight():
+    if request.method == 'OPTIONS':
+        resp = make_response()
+        resp.headers['Access-Control-Allow-Origin'] = '*'
+        resp.headers['Access-Control-Allow-Methods'] = 'GET, POST, OPTIONS'
+        resp.headers['Access-Control-Allow-Headers'] = 'Content-Type, Authorization'
+        resp.status_code = 204
+        return resp
 
 # 创建uploads目录
 UPLOAD_FOLDER = os.path.join(os.path.dirname(__file__), 'uploads')
@@ -397,7 +424,7 @@ def upload_image():
                     # 降级使用本地URL
             
             # 降级：使用本地URL（如果COS上传失败）
-            local_url = f"http://localhost:5000/uploads/{filename}"
+            local_url = f"http://localhost:5001/uploads/{filename}"
             print(f"⚠️  使用本地URL: {local_url}")
             print(f"   注意：本地URL可能无法被NanoBanana API访问")
             
@@ -733,7 +760,7 @@ if __name__ == '__main__':
     print("=" * 50)
     print("🚀 Jarvis Admin API Server")
     print("=" * 50)
-    print(f"📡 API服务地址: http://localhost:5000")
+    print(f"📡 API服务地址: http://localhost:5001")
     print(f"🔑 NanoBanana API配置: {'✅ 已配置' if nanobanana_client else '❌ 未配置'}")
     print("=" * 50)
     print("\n可用接口:")
@@ -747,4 +774,4 @@ if __name__ == '__main__':
     print("⚠️  注意: 请设置环境变量 NANOBANANA_API_KEY 或修改代码中的API密钥")
     print("=" * 50 + "\n")
     
-    app.run(host='0.0.0.0', port=5000, debug=True)
+    app.run(host='0.0.0.0', port=5001, debug=True)

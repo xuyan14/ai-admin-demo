@@ -155,6 +155,7 @@
             padding: 24px;
             gap: 24px;
             overflow-y: auto;
+            min-height: 0;
         }
 
         .panel {
@@ -180,10 +181,46 @@
             font-size: 16px;
             font-weight: 500;
         }
+        
+        /* 任务列表搜索区域 */
+        .task-list-search {
+            padding: 12px 16px;
+            border-bottom: 1px solid #f0f0f0;
+            background: #fafafa;
+        }
+        
+        .task-search-row {
+            display: flex;
+            gap: 12px;
+        }
+        
+        .task-search-item {
+            flex: 1;
+        }
+        
+        .task-search-item label {
+            display: block;
+            font-size: 12px;
+            color: #666;
+            margin-bottom: 4px;
+        }
+        
+        .task-search-item input {
+            padding: 6px 10px;
+            border: 1px solid #d9d9d9;
+            border-radius: 4px;
+            font-size: 13px;
+        }
+        
+        .task-search-item input:focus {
+            border-color: #1890ff;
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(24, 144, 255, 0.2);
+        }
 
         .panel-content {
-            padding: 20px;
-            height: calc(100% - 60px);
+            flex: 1;
+            min-height: 0;
             overflow-y: auto;
         }
 
@@ -192,6 +229,7 @@
             min-width: 350px;
             display: flex;
             flex-direction: column;
+            min-height: 0;
         }
 
         .middle-panel {
@@ -199,13 +237,121 @@
             min-width: 300px;
             display: flex;
             flex-direction: column;
+            min-height: 0;
         }
 
         .right-panel {
-            width: 350px;
-            min-width: 300px;
+            width: 380px;
+            min-width: 320px;
             display: flex;
             flex-direction: column;
+        }
+        
+        .right-panel .panel {
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .left-panel .panel,
+        .middle-panel .panel {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            min-height: 0;
+        }
+        
+        .right-panel .panel-content {
+            flex: 1;
+            overflow-y: auto;
+            padding: 16px;
+        }
+        
+        .right-panel .task-card-result {
+            aspect-ratio: 1;
+        }
+        
+        /* 任务列表悬浮球样式 */
+        .task-list-toggle {
+            position: fixed;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 1001;
+            background: #1890ff;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 48px;
+            height: 48px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+            transition: all 0.3s ease;
+        }
+        
+        .task-list-toggle:hover {
+            background: #40a9ff;
+            transform: translateY(-50%) scale(1.1);
+        }
+        
+        /* 任务列表遮罩层 */
+        .task-list-overlay {
+            position: fixed;
+            top: 0;
+            right: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(0,0,0,0.5);
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+        
+        .task-list-overlay.show {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        /* 任务列表面板 - 可收起 */
+        .right-panel {
+            position: fixed;
+            right: 0;
+            top: 0;
+            width: 50vw;
+            height: 100vh;
+            z-index: 1002;
+            transform: translateX(100%);
+            transition: transform 0.3s ease;
+            background: white;
+            box-shadow: -2px 0 8px rgba(0,0,0,0.15);
+        }
+        
+        .right-panel.open {
+            transform: translateX(0);
+        }
+        
+        /* 关闭按钮 */
+        .task-list-close {
+            background: none;
+            border: none;
+            font-size: 20px;
+            cursor: pointer;
+            color: #666;
+            padding: 4px;
+            border-radius: 4px;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .task-list-close:hover {
+            background: #f5f5f5;
+            color: #333;
         }
 
         /* 确保右侧面板显示 */
@@ -234,7 +380,7 @@
 
         .drawer-toggle {
             position: fixed;
-            right: 20px;
+            left: 20px;
             top: 50%;
             transform: translateY(-50%);
             z-index: 1001;
@@ -259,15 +405,15 @@
 
         .drawer-panel {
             position: fixed;
-            right: 0;
+            left: 0;
             top: 0;
-            width: 320px;
+            width: 400px;
             height: 100vh;
             background: white;
             z-index: 1000;
-            transform: translateX(100%);
+            transform: translateX(-100%);
             transition: transform 0.3s ease;
-            box-shadow: -2px 0 8px rgba(0,0,0,0.15);
+            box-shadow: 2px 0 8px rgba(0,0,0,0.15);
             display: flex;
             flex-direction: column;
         }
@@ -331,15 +477,115 @@
             overflow-y: auto;
         }
 
+        /* 新版任务列表样式 */
+        .task-date-group {
+            margin-bottom: 24px;
+        }
+
+        .task-date-header {
+            font-size: 14px;
+            font-weight: 600;
+            color: #333;
+            padding: 8px 0;
+            border-bottom: 2px solid #1890ff;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .task-date-header .material-icons {
+            font-size: 18px;
+            color: #1890ff;
+        }
+
+        .task-card {
+            position: relative;
+            background: white;
+            border: 1px solid #e8e8e8;
+            border-radius: 8px;
+            overflow: visible;
+            padding-top: 35px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .task-card:hover {
+            border-color: #1890ff;
+            box-shadow: 0 2px 8px rgba(24, 144, 255, 0.2);
+        }
+
+        .task-card-main {
+            position: relative;
+            overflow: visible;
+        }
+
+        .task-card-result {
+            width: 100%;
+            aspect-ratio: 1;
+            object-fit: cover;
+            display: block;
+            border-radius: 6px;
+        }
+
+        .task-card-original {
+            position: absolute;
+            top: -20px;
+            left: -20px;
+            width: 40px;
+            height: 40px;
+            border-radius: 6px;
+            border: 2px solid white;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+            object-fit: cover;
+            transform: rotate(-15deg);
+            z-index: 10;
+        }
+
+        .task-card-info {
+            padding: 8px 10px;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            background: #fafafa;
+            border-top: 1px solid #f0f0f0;
+        }
+
+        .task-card-name {
+            font-size: 12px;
+            font-weight: 500;
+            color: #333;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .task-card-time {
+            font-size: 11px;
+            color: #999;
+        }
+
+        .task-empty-state {
+            text-align: center;
+            padding: 40px 20px;
+            color: #999;
+        }
+
+        .task-empty-state .material-icons {
+            font-size: 48px;
+            color: #d9d9d9;
+            margin-bottom: 12px;
+        }
+
         /* 响应式设计 */
-        @media (max-width: 1200px) {
+        @media (max-width: 1400px) {
             .content-area {
                 gap: 16px;
             }
             
             .left-panel {
-                width: 450px;
-                min-width: 350px;
+                width: 400px;
+                min-width: 320px;
             }
             
             .middle-panel {
@@ -347,12 +593,12 @@
                 min-width: auto;
             }
             
-            .drawer-panel {
-                width: 300px;
+            .right-panel {
+                width: 45vw;
             }
         }
 
-        @media (max-width: 768px) {
+        @media (max-width: 1024px) {
             .app-container {
                 flex-direction: column;
             }
@@ -370,6 +616,7 @@
             .content-area {
                 padding: 16px;
                 gap: 12px;
+                flex-wrap: wrap;
             }
             
             .left-panel {
@@ -380,6 +627,16 @@
             .middle-panel {
                 width: 100%;
                 min-width: auto;
+            }
+            
+            .right-panel {
+                width: 100%;
+                min-width: auto;
+            }
+            
+            /* 任务列表在小屏幕上减少列数 */
+            .right-panel .task-date-group > div {
+                grid-template-columns: repeat(2, 1fr) !important;
             }
             
             .panel-header {
@@ -416,7 +673,7 @@
             }
             
             .drawer-toggle {
-                right: 16px;
+                left: 16px;
                 width: 44px;
                 height: 44px;
             }
@@ -506,6 +763,21 @@
             width: 16px;
             height: 16px;
             accent-color: #1890ff;
+        }
+
+        /* 紧凑版radio-group */
+        .radio-group-compact {
+            gap: 8px;
+        }
+
+        .radio-group-compact label {
+            padding: 4px 8px;
+            font-size: 13px;
+        }
+
+        .radio-group-compact input[type="radio"] {
+            width: 14px;
+            height: 14px;
         }
 
         .radio-group input[type="radio"]:checked + span,
@@ -2603,6 +2875,69 @@
             color: white;
             font-size: 14px;
         }
+
+        /* Prompt管理器样式 */
+        .prompt-item:hover {
+            background-color: #f5f5f5 !important;
+        }
+
+        .prompt-item.active:hover {
+            background-color: #e6f7ff !important;
+        }
+
+        #promptList::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        #promptList::-webkit-scrollbar-track {
+            background: #f0f0f0;
+            border-radius: 3px;
+        }
+
+        #promptList::-webkit-scrollbar-thumb {
+            background: #d9d9d9;
+            border-radius: 3px;
+        }
+
+        #promptList::-webkit-scrollbar-thumb:hover {
+            background: #bfbfbf;
+        }
+
+        #promptQuickList::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        #promptQuickList::-webkit-scrollbar-track {
+            background: #f0f0f0;
+            border-radius: 3px;
+        }
+
+        #promptQuickList::-webkit-scrollbar-thumb {
+            background: #d9d9d9;
+            border-radius: 3px;
+        }
+
+        #promptQuickList::-webkit-scrollbar-thumb:hover {
+            background: #bfbfbf;
+        }
+
+        #promptContentInput::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        #promptContentInput::-webkit-scrollbar-track {
+            background: #f0f0f0;
+            border-radius: 4px;
+        }
+
+        #promptContentInput::-webkit-scrollbar-thumb {
+            background: #d9d9d9;
+            border-radius: 4px;
+        }
+
+        #promptContentInput::-webkit-scrollbar-thumb:hover {
+            background: #bfbfbf;
+        }
     </style>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 </head>
@@ -2702,26 +3037,42 @@
                     </div>
                 </div>
 
-                <!-- 抽屉触发按钮 -->
-                <button class="drawer-toggle" onclick="toggleDrawer()" title="任务列表">
+                <!-- 任务列表悬浮球 -->
+                <button class="task-list-toggle" onclick="toggleTaskList()" title="任务列表">
                     <span class="material-icons">assignment</span>
                 </button>
 
-                <!-- 抽屉遮罩层 -->
-                <div class="drawer-overlay" id="drawerOverlay" onclick="closeDrawer()"></div>
+                <!-- 任务列表遮罩层 -->
+                <div class="task-list-overlay" id="taskListOverlay" onclick="closeTaskList()"></div>
 
-                <!-- 抽屉面板 -->
-                <div class="drawer-panel" id="drawerPanel">
-                    <div class="drawer-header">
-                        <div class="drawer-title">任务列表</div>
-                        <button class="drawer-close" onclick="closeDrawer()">
-                            <span class="material-icons">close</span>
-                        </button>
-                    </div>
-                    <div class="drawer-content">
-                        <ul class="task-list" id="taskList">
-                            <!-- 动态任务列表 -->
-                        </ul>
+                <!-- 右侧面板 - 任务列表 -->
+                <div class="right-panel" id="taskListPanel">
+                    <div class="panel">
+                        <div class="panel-header">
+                            <div class="panel-title">任务列表</div>
+                            <button class="task-list-close" onclick="closeTaskList()">
+                                <span class="material-icons">close</span>
+                            </button>
+                        </div>
+                        <!-- 任务列表搜索区域 -->
+                        <div class="task-list-search">
+                            <div class="task-search-row">
+                                <div class="task-search-item">
+                                    <label>时间</label>
+                                    <input type="date" id="taskSearchDate" onchange="filterTaskList()" style="width: 100%;">
+                                </div>
+                                <div class="task-search-item">
+                                    <label>任务ID</label>
+                                    <input type="text" id="taskSearchId" placeholder="输入任务ID" oninput="filterTaskList()" style="width: 100%;">
+                                </div>
+                            </div>
+                            <button class="btn btn-secondary" onclick="clearTaskSearch()" style="width: 100%; margin-top: 8px;">清除筛选</button>
+                        </div>
+                        <div class="panel-content" id="rightPanelContent" style="padding: 16px;">
+                            <div id="taskList">
+                                <!-- 动态任务列表 -->
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -3690,6 +4041,19 @@
                 breadcrumb: '创意工具 / 万能指令',
                 middlePanelTitle: '生成记录',
                 uploadInfo: `
+                    <!-- 功能切换 Tab -->
+                    <div style="margin-bottom: 20px;">
+                        <div class="module-tabs" style="display: flex; gap: 0; border-bottom: 2px solid #e8e8e8;">
+                            <button id="tabGenerate" onclick="switchUniversalTab('generate')" class="module-tab active" style="padding: 10px 24px; border: none; background: none; cursor: pointer; font-size: 14px; font-weight: 500; color: #1890ff; border-bottom: 2px solid #1890ff; margin-bottom: -2px;">
+                                指令生成
+                            </button>
+                            <button id="tabFission" onclick="switchUniversalTab('fission')" class="module-tab" style="padding: 10px 24px; border: none; background: none; cursor: pointer; font-size: 14px; font-weight: 500; color: #999; border-bottom: 2px solid transparent; margin-bottom: -2px;">
+                                仿写裂变
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- 上传图片（通用） -->
                     <div style="margin-bottom: 20px;">
                         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
                             <h4 style="margin: 0; color: #333;">上传图片</h4>
@@ -3705,68 +4069,159 @@
                         </div>
                         <input type="file" id="universalFileUpload" accept="image/jpeg,image/jpg,image/png,image/webp" multiple style="display: none;" onchange="handleUniversalFileUpload(event)">
                         
-                        <!-- 已上传图片预览 -->
-                        <div id="universalUploadedImages" style="display: none;">
-                            <div id="universalImagesGrid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 10px;">
-                                <!-- 图片会动态添加到这里 -->
-                            </div>
-                        </div>
-                        
-                        <!-- 空状态提示 -->
-                        <div id="universalEmptyHint" style="border: 2px dashed #d9d9d9; border-radius: 8px; padding: 30px; text-align: center; background: #fafafa;">
-                            <div style="margin-bottom: 10px;">
-                                <span class="material-icons" style="font-size: 48px; color: #d9d9d9;">cloud_upload</span>
-                            </div>
-                            <div style="color: #999; font-size: 13px;">
-                                点击右上角"添加图片"按钮上传
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div style="margin-bottom: 20px;">
-                        <h4 style="margin-bottom: 15px; color: #333;">指令Prompt <span style="color: #ff4d4f;">*</span></h4>
-                        <textarea id="universalPrompt" class="form-input" placeholder="请输入指令prompt或从下方场景中选择" rows="4" style="width: 100%; resize: vertical; font-size: 14px;"></textarea>
-                        <div style="margin-top: 5px; font-size: 12px; color: #999; text-align: right;">
-                            <span id="universalPromptCharCount">0</span>/2000
-                        </div>
-                        
-                        <!-- 场景模板（移到这里） -->
-                        <div style="margin-top: 12px; padding: 12px; background: #fafafa; border-radius: 6px;">
-                            <div style="font-size: 12px; color: #999; margin-bottom: 10px;">💡 快速场景：</div>
-                            <div style="display: flex; gap: 8px; flex-wrap: wrap;">
-                                <button class="scene-template-btn active" onclick="selectSceneTemplate('productModel')" data-scene="productModel" style="padding: 6px 12px; border: 1px solid #1890ff; background: #e6f7ff; border-radius: 4px; cursor: pointer; font-size: 12px; color: #1890ff; transition: all 0.2s;">
-                                    商品X模特融合
-                                </button>
-                                <button class="scene-template-btn" onclick="selectSceneTemplate('ootd')" data-scene="ootd" style="padding: 6px 12px; border: 1px solid #d9d9d9; background: white; border-radius: 4px; cursor: pointer; font-size: 12px; color: #666; transition: all 0.2s;">
-                                    OOTD套图生成
-                                </button>
-                                <button class="scene-template-btn" onclick="selectSceneTemplate('virtualTry')" data-scene="virtualTry" style="padding: 6px 12px; border: 1px solid #d9d9d9; background: white; border-radius: 4px; cursor: pointer; font-size: 12px; color: #666; transition: all 0.2s;">
-                                    虚拟试衣/试鞋
-                                </button>
+                        <!-- 上传区域（支持拖拽） -->
+                        <div id="universalUploadArea" 
+                             style="position: relative;"
+                             ondragover="handleUniversalDragOver(event)"
+                             ondragleave="handleUniversalDragLeave(event)"
+                             ondrop="handleUniversalDrop(event)">
+                            
+                            <!-- 已上传图片预览 -->
+                            <div id="universalUploadedImages" style="display: none;">
+                                <div style="font-size: 11px; color: #999; margin-bottom: 6px; display: flex; align-items: center; gap: 4px;">
+                                    <span class="material-icons" style="font-size: 14px;">drag_indicator</span>
+                                    拖拽图片或使用箭头按钮调整顺序
+                                </div>
+                                <div id="universalImagesGrid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(96px, 1fr)); gap: 8px;">
+                                    <!-- 图片会动态添加到这里 -->
+                                </div>
                             </div>
                             
-                            <!-- 场景提示 -->
-                            <div id="sceneHint" style="margin-top: 10px; padding: 8px 10px; background: white; border: 1px solid #e8e8e8; border-radius: 4px; font-size: 11px; color: #666; line-height: 1.5;">
-                                <span style="color: #1890ff;">ⓘ</span> 上传两张图片，第一张为商品图、第二张为人物
+                            <!-- 空状态提示 -->
+                            <div id="universalEmptyHint" style="border: 2px dashed #d9d9d9; border-radius: 8px; padding: 30px; text-align: center; background: #fafafa;">
+                                <div style="margin-bottom: 10px;">
+                                    <span class="material-icons" style="font-size: 48px; color: #d9d9d9;">cloud_upload</span>
+                                </div>
+                                <div style="color: #999; font-size: 13px;">
+                                    <span style="color: #1890ff; font-weight: 500;">Ctrl+V 粘贴</span> / 点击按钮 / <span style="color: #1890ff; font-weight: 500;">拖拽图片</span>到此处上传
+                                </div>
                             </div>
                         </div>
                     </div>
                     
-                    <div class="form-section">
-                        <h4>背景图比例 <span style="color: #ff4d4f;">*</span></h4>
-                        <div class="radio-group">
-                            <label>
-                                <input type="radio" name="universalBgRatio" value="1:1" checked> 1:1
-                            </label>
-                            <label>
-                                <input type="radio" name="universalBgRatio" value="3:4"> 3:4
-                            </label>
-                            <label>
-                                <input type="radio" name="universalBgRatio" value="9:16"> 9:16
-                            </label>
-                            <label>
-                                <input type="radio" name="universalBgRatio" value="16:9"> 16:9
-                            </label>
+                    <!-- 指令生成内容 -->
+                    <div id="generatePanel" style="display: block;">
+                        <!-- 模型选择 -->
+                        <div class="form-section" style="margin-bottom: 20px;">
+                            <h4>选择模型</h4>
+                            <div class="radio-group">
+                                <label>
+                                    <input type="radio" name="universalModel" value="nano-banana-fast" checked> nano-banana-fast
+                                </label>
+                                <label>
+                                    <input type="radio" name="universalModel" value="nano-banana-pro"> nano-banana-pro
+                                </label>
+                                <label>
+                                    <input type="radio" name="universalModel" value="image-2"> image-2
+                                </label>
+                            </div>
+                        </div>
+                        
+                        <div style="margin-bottom: 20px;">
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                                <h4 style="margin: 0; color: #333;">指令Prompt <span style="color: #ff4d4f;">*</span></h4>
+                                <button onclick="openPromptManager()" style="padding: 6px 12px; border: 1px solid #d9d9d9; background: white; border-radius: 4px; cursor: pointer; font-size: 13px; display: flex; align-items: center; gap: 5px;">
+                                    <span class="material-icons" style="font-size: 16px;">settings</span>
+                                    管理Prompt
+                                </button>
+                            </div>
+                            <textarea id="universalPrompt" class="form-input" placeholder="请输入指令prompt，或点击右上角"管理Prompt"选择应用" rows="4" style="width: 100%; resize: vertical; font-size: 14px;"></textarea>
+                            <div style="margin-top: 5px; font-size: 12px; color: #999; text-align: right;">
+                                <span id="universalPromptCharCount">0</span>/2000
+                            </div>
+                        </div>
+                        
+                        <div class="form-section">
+                            <h4>背景图比例 <span style="color: #ff4d4f;">*</span></h4>
+                            <div class="radio-group radio-group-compact">
+                                <label>
+                                    <input type="radio" name="universalBgRatio" value="auto" checked> Auto
+                                </label>
+                                <label>
+                                    <input type="radio" name="universalBgRatio" value="1:1"> 1:1
+                                </label>
+                                <label>
+                                    <input type="radio" name="universalBgRatio" value="3:4"> 3:4
+                                </label>
+                                <label>
+                                    <input type="radio" name="universalBgRatio" value="9:16"> 9:16
+                                </label>
+                                <label>
+                                    <input type="radio" name="universalBgRatio" value="16:9"> 16:9
+                                </label>
+                            </div>
+                        </div>
+                        
+                        <div class="form-section">
+                            <h4>生成数量 <span style="color: #ff4d4f;">*</span></h4>
+                            <div class="radio-group radio-group-compact">
+                                <label>
+                                    <input type="radio" name="universalGenerateCount" value="1" checked> 1张
+                                </label>
+                                <label>
+                                    <input type="radio" name="universalGenerateCount" value="2"> 2张
+                                </label>
+                                <label>
+                                    <input type="radio" name="universalGenerateCount" value="3"> 3张
+                                </label>
+                                <label>
+                                    <input type="radio" name="universalGenerateCount" value="4"> 4张
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- 仿写裂变内容 -->
+                    <div id="fissionPanel" style="display: none;">
+                        <!-- 图片上传提示 -->
+                        <div style="margin-bottom: 20px; padding: 12px 16px; background: #f0f5ff; border: 1px solid #adc6ff; border-radius: 6px;">
+                            <p style="font-size: 13px; color: #1890ff; margin: 0;">
+                                <span class="material-icons" style="font-size: 16px; vertical-align: middle;">info</span>
+                                请上传包含唯品会营销元素的完整图片素材
+                            </p>
+                        </div>
+                        
+                        <!-- 商品ID输入（仿写和仿写&裂变模式显示） -->
+                        <div id="fissionGoodsIdSection" style="margin-bottom: 20px;">
+                            <div style="display: flex; align-items: center; gap: 12px;">
+                                <h4 style="margin: 0; color: #333;">商品ID</h4>
+                            </div>
+                            <input type="text" id="fissionGoodsId" class="form-input" placeholder="请输入商品ID" style="margin-top: 8px; width: 100%;">
+                        </div>
+                        
+                        <!-- 模式选择 -->
+                        <div class="form-section" style="margin-bottom: 20px;">
+                            <h4>选择模式</h4>
+                            <div class="radio-group">
+                                <label>
+                                    <input type="radio" name="fissionMode" value="both" checked onclick="toggleFissionGoodsId()"> 仿写&裂变
+                                </label>
+                                <label>
+                                    <input type="radio" name="fissionMode" value="copy" onclick="toggleFissionGoodsId()"> 仿写
+                                </label>
+                                <label>
+                                    <input type="radio" name="fissionMode" value="fission" onclick="toggleFissionGoodsId()"> 裂变
+                                </label>
+                            </div>
+                        </div>
+                        
+                        <!-- 生成数量 -->
+                        <div class="form-section">
+                            <h4>生成数量 <span style="color: #ff4d4f;">*</span></h4>
+                            <div class="radio-group radio-group-compact">
+                                <label>
+                                    <input type="radio" name="fissionGenerateCount" value="1" checked> 1张
+                                </label>
+                                <label>
+                                    <input type="radio" name="fissionGenerateCount" value="2"> 2张
+                                </label>
+                                <label>
+                                    <input type="radio" name="fissionGenerateCount" value="3"> 3张
+                                </label>
+                                <label>
+                                    <input type="radio" name="fissionGenerateCount" value="4"> 4张
+                                </label>
+                            </div>
                         </div>
                     </div>
                 `,
@@ -4371,15 +4826,19 @@
                 // 恢复正常布局
                 document.querySelector('.left-panel').style.display = 'flex';
                 document.querySelector('.middle-panel').style.flex = '';
-                // 初始化默认场景模板
+                document.querySelector('.right-panel').style.display = 'flex';
+                // 初始化默认prompts
                 setTimeout(() => {
-                    selectSceneTemplate('productModel');
+                    initializeDefaultPrompts();
+                    loadPrompts();
                     // 绑定Prompt输入框事件
                     const promptTextarea = document.getElementById('universalPrompt');
                     if (promptTextarea) {
                         promptTextarea.addEventListener('input', updateUniversalPromptCount);
                         updateUniversalPromptCount();
                     }
+                    // 初始化任务列表mock数据
+                    initializeMockTaskList();
                 }, 100);
                 // 恢复中间面板的"全部下载"按钮显示
                 const middlePanelHeader = document.querySelector('.middle-panel .panel-header');
@@ -4483,64 +4942,340 @@
             }
         }
 
-        // 更新任务列表
+        // 更新任务列表（新格式：按日期分组，大图卡片展示）
         function updateTaskList(tasks) {
             const taskList = document.getElementById('taskList');
-            if (currentModule === 'changeBg') {
-                // 换背景任务列表
-                taskList.innerHTML = tasks.map(task => `
-                    <li class="task-item" onclick="selectTask(this)">
-                        <div style="display: flex; align-items: center; gap: 10px;">
-                            <img src="https://12131231-1302391623.cos.ap-beijing.myqcloud.com/nanobanana/web/20250925_004600_5e18efef.jpg" alt="换背景预览" style="width: 40px; height: 40px; object-fit: cover; border-radius: 4px; flex-shrink: 0;">
-                            <div style="flex: 1;">
-                                <div style="font-weight: 500;">${task.title}</div>
-                                <div style="font-size: 12px; color: #999;">${task.status}</div>
-                            </div>
-                        </div>
-                    </li>
-                `).join('');
-            } else if (currentModule === 'bgFission') {
-                // 背景裂变任务列表
-                taskList.innerHTML = tasks.map(task => `
-                    <li class="task-item" onclick="selectTask(this)">
-                        <div style="display: flex; align-items: center; gap: 10px;">
-                            <img src="https://12131231-1302391623.cos.ap-beijing.myqcloud.com/nanobanana/web/20250925_004600_5e18efef.jpg" alt="背景裂变预览" style="width: 40px; height: 40px; object-fit: cover; border-radius: 4px; flex-shrink: 0;">
-                            <div style="flex: 1;">
-                                <div style="font-weight: 500;">${task.title}</div>
-                                <div style="font-size: 12px; color: #999;">${task.status}</div>
-                            </div>
-                        </div>
-                    </li>
-                `).join('');
-            } else if (currentModule === 'feedbackManagement') {
-                // 意见管理任务列表
-                taskList.innerHTML = tasks.map(task => `
-                    <li class="task-item" onclick="selectTask(this)">
-                        <div style="display: flex; align-items: center; gap: 10px;">
-                            <div style="width: 40px; height: 40px; background: #f0f0f0; border-radius: 4px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
-                                <span class="material-icons" style="color: #666;">feedback</span>
-                            </div>
-                            <div style="flex: 1;">
-                                <div style="font-weight: 500;">${task.title}</div>
-                                <div style="font-size: 12px; color: #999;">${task.status}</div>
-                            </div>
-                        </div>
-                    </li>
-                `).join('');
-            } else {
-                // 扩图任务列表
-                taskList.innerHTML = tasks.map(task => `
-                    <li class="task-item" onclick="selectTask(this)">
-                        <div style="display: flex; align-items: center; gap: 10px;">
-                            <img src="https://12131231-1302391623.cos.ap-beijing.myqcloud.com/nanobanana/web/20250925_004600_5e18efef.jpg" alt="商品预览" style="width: 40px; height: 40px; object-fit: cover; border-radius: 4px; flex-shrink: 0;">
-                            <div style="flex: 1;">
-                                <div style="font-weight: 500;">${task.title}</div>
-                                <div style="font-size: 12px; color: #999;">${task.status}</div>
-                            </div>
-                        </div>
-                    </li>
-                `).join('');
+            
+            if (!tasks || tasks.length === 0) {
+                taskList.innerHTML = `
+                    <div class="task-empty-state">
+                        <span class="material-icons">image</span>
+                        <p>暂无生成记录</p>
+                    </div>
+                `;
+                return;
             }
+            
+            // 按日期分组
+            const groupedByDate = {};
+            tasks.forEach(task => {
+                const date = task.date || task.createdAt || new Date().toISOString().split('T')[0];
+                if (!groupedByDate[date]) {
+                    groupedByDate[date] = [];
+                }
+                groupedByDate[date].push(task);
+            });
+            
+            // 生成HTML
+            let html = '';
+            const sortedDates = Object.keys(groupedByDate).sort((a, b) => new Date(b) - new Date(a));
+            
+            sortedDates.forEach(date => {
+                const dateTasks = groupedByDate[date];
+                const formattedDate = formatDateHeader(date);
+                
+                html += `
+                    <div class="task-date-group">
+                        <div class="task-date-header">
+                            <span class="material-icons">calendar_today</span>
+                            ${formattedDate}
+                        </div>
+                        <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px;">
+                            ${dateTasks.map(task => generateTaskCard(task)).join('')}
+                        </div>
+                    </div>
+                `;
+            });
+            
+            taskList.innerHTML = html;
+        }
+        
+        // 生成单个任务卡片
+        function generateTaskCard(task) {
+            const resultImage = task.resultImage || task.imageUrl || task.outputUrl || '';
+            const originalImage = task.originalImage || task.sourceImage || '';
+            const taskName = task.title || task.name || `任务${task.id || Date.now()}`;
+            const taskTime = task.time || task.createdAt || '';
+            const taskOperator = task.operator || '';
+            
+            const tabLabel = task.tab === 'fission' ? '仿写裂变' : '指令生成';
+            return `
+                <div class="task-card" data-task-id="${task.id || ''}" onclick="selectTaskCard('${task.id || ''}')" title="点击回溯此任务配置">
+                    <div class="task-card-main">
+                        <img src="${resultImage}" alt="${taskName}" class="task-card-result" 
+                             onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect fill=%22%23f5f5f5%22 width=%22100%22 height=%22100%22/><text x=%2250%22 y=%2255%22 text-anchor=%22middle%22 fill=%22%23999%22 font-size=%2212%22>图片加载失败</text></svg>'">
+                        ${originalImage ? `<img src="${originalImage}" alt="原图" class="task-card-original">` : ''}
+                        <span style="position: absolute; top: 6px; right: 6px; background: rgba(24,144,255,0.85); color: white; font-size: 10px; padding: 1px 5px; border-radius: 3px; pointer-events: none;">${tabLabel}</span>
+                    </div>
+                    <div class="task-card-info">
+                        <span class="task-card-name">${taskName}</span>
+                        <div style="display: flex; align-items: center; justify-content: space-between; margin-top: 2px;">
+                            ${taskTime ? `<span class="task-card-time">${taskTime}</span>` : '<span></span>'}
+                            ${taskOperator ? `<span style="font-size: 10px; color: #bbb; max-width: 60px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="${taskOperator}">@${taskOperator}</span>` : ''}
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+        
+        // 格式化日期头部
+        function formatDateHeader(dateStr) {
+            const date = new Date(dateStr);
+            const today = new Date();
+            const yesterday = new Date(today);
+            yesterday.setDate(yesterday.getDate() - 1);
+            
+            if (dateStr === today.toISOString().split('T')[0]) {
+                return '今天';
+            } else if (dateStr === yesterday.toISOString().split('T')[0]) {
+                return '昨天';
+            } else {
+                return `${date.getMonth() + 1}月${date.getDate()}日 ${['周日', '周一', '周二', '周三', '周四', '周五', '周六'][date.getDay()]}`;
+            }
+        }
+        
+        // 选择任务卡片 — 回溯历史配置
+        function selectTaskCard(taskId) {
+            const task = allTaskData.find(t => t.id === taskId);
+            if (!task) { closeTaskList(); return; }
+
+            // 高亮选中卡片
+            document.querySelectorAll('.task-card').forEach(el => {
+                el.style.borderColor = '';
+                el.style.boxShadow = '';
+            });
+            const activeCard = document.querySelector(`.task-card[data-task-id="${taskId}"]`);
+            if (activeCard) {
+                activeCard.style.borderColor = '#1890ff';
+                activeCard.style.boxShadow = '0 0 0 2px rgba(24,144,255,0.3)';
+            }
+
+            closeTaskList();
+
+            // 确保当前在万能指令模块
+            if (currentModule !== 'universalCommand') return;
+
+            // 1. 切换到对应 Tab
+            const tab = task.tab || 'generate';
+            switchUniversalTab(tab);
+
+            if (tab === 'generate') {
+                // 2a. 回填模型
+                if (task.model) {
+                    const modelRadio = document.querySelector(`input[name="universalModel"][value="${task.model}"]`);
+                    if (modelRadio) modelRadio.checked = true;
+                }
+
+                // 2b. 回填 Prompt
+                const promptTA = document.getElementById('universalPrompt');
+                if (promptTA && task.prompt) {
+                    promptTA.value = task.prompt;
+                    updateUniversalPromptCount();
+                }
+
+                // 2c. 回填背景比例
+                if (task.bgRatio) {
+                    const ratioRadio = document.querySelector(`input[name="universalBgRatio"][value="${task.bgRatio}"]`);
+                    if (ratioRadio) ratioRadio.checked = true;
+                }
+
+            } else if (tab === 'fission') {
+                // 2d. 回填商品ID
+                const goodsIdInput = document.getElementById('fissionGoodsId');
+                if (goodsIdInput && task.fissionGoodsId !== undefined) {
+                    goodsIdInput.value = task.fissionGoodsId;
+                }
+
+                // 2e. 回填模式
+                if (task.fissionMode) {
+                    const modeRadio = document.querySelector(`input[name="fissionMode"][value="${task.fissionMode}"]`);
+                    if (modeRadio) {
+                        modeRadio.checked = true;
+                        toggleFissionGoodsId();
+                    }
+                }
+
+                // 2f. 回填生成数量
+                if (task.fissionCount) {
+                    const countRadio = document.querySelector(`input[name="fissionGenerateCount"][value="${task.fissionCount}"]`);
+                    if (countRadio) countRadio.checked = true;
+                }
+            }
+
+            // 3. 回填已上传图片（展示历史图片）
+            if (task.uploadedImages && task.uploadedImages.length > 0) {
+                universalUploadedImages = [...task.uploadedImages];
+                renderUniversalImages();
+            }
+
+            // 4. 顶部提示
+            showToast(`📋 已回溯任务：${task.title}`);
+        }
+        
+        // 全局变量存储所有任务数据
+        let allTaskData = [];
+        
+        // 过滤任务列表
+        function filterTaskList() {
+            const searchDate = document.getElementById('taskSearchDate')?.value || '';
+            const searchId = document.getElementById('taskSearchId')?.value?.toLowerCase() || '';
+            
+            // 如果两个筛选条件都为空，显示所有任务
+            if (!searchDate && !searchId) {
+                updateTaskList(allTaskData);
+                return;
+            }
+            
+            // 过滤任务
+            const filteredTasks = allTaskData.filter(task => {
+                let matchDate = true;
+                let matchId = true;
+                
+                // 匹配日期
+                if (searchDate) {
+                    const taskDate = task.date || task.createdAt || '';
+                    matchDate = taskDate.includes(searchDate);
+                }
+                
+                // 匹配任务ID（支持模糊匹配）
+                if (searchId) {
+                    const taskId = (task.id || '').toLowerCase();
+                    const taskTitle = (task.title || task.name || '').toLowerCase();
+                    matchId = taskId.includes(searchId) || taskTitle.includes(searchId);
+                }
+                
+                return matchDate && matchId;
+            });
+            
+            updateTaskList(filteredTasks);
+        }
+        
+        // 清除任务列表筛选
+        function clearTaskSearch() {
+            const dateInput = document.getElementById('taskSearchDate');
+            const idInput = document.getElementById('taskSearchId');
+            
+            if (dateInput) dateInput.value = '';
+            if (idInput) idInput.value = '';
+            
+            // 恢复显示所有任务
+            updateTaskList(allTaskData);
+        }
+        
+        // 初始化任务列表mock数据
+        function initializeMockTaskList() {
+            const mockImage = 'https://a.vpimg3.com/upload/otd2/creatives/20260415/1776257768399542_7532.jpg';
+            const today = new Date();
+            const yesterday = new Date(today);
+            yesterday.setDate(yesterday.getDate() - 1);
+            
+            const mockTasks = [
+                // 今天的数据
+                {
+                    id: 'task_1',
+                    title: '万能指令0415-001',
+                    resultImage: mockImage,
+                    originalImage: mockImage,
+                    date: today.toISOString().split('T')[0],
+                    time: '16:30',
+                    operator: 'lucien.xu',
+                    tab: 'generate',
+                    model: 'nano-banana-fast',
+                    prompt: '保持任务和场景不变，第二张图的人物展示使用第一张图的商品，背景使用白色简约风格',
+                    bgRatio: '3:4',
+                    uploadedImages: [mockImage]
+                },
+                {
+                    id: 'task_2',
+                    title: '万能指令0415-002',
+                    resultImage: mockImage,
+                    originalImage: mockImage,
+                    date: today.toISOString().split('T')[0],
+                    time: '15:20',
+                    operator: 'lucien.xu',
+                    tab: 'generate',
+                    model: 'nano-banana-pro',
+                    prompt: '将图片中人物的穿搭风格作为参考，生成同风格的多张场景图，保持人物姿态和服装颜色不变',
+                    bgRatio: '1:1',
+                    uploadedImages: [mockImage]
+                },
+                {
+                    id: 'task_3',
+                    title: '万能指令0415-003',
+                    resultImage: mockImage,
+                    originalImage: mockImage,
+                    date: today.toISOString().split('T')[0],
+                    time: '14:10',
+                    operator: 'yang.liu',
+                    tab: 'generate',
+                    model: 'image-2',
+                    prompt: '将图片中的服装商品与指定模特融合，生成自然的穿搭图，保持服装细节完整',
+                    bgRatio: '9:16',
+                    uploadedImages: [mockImage]
+                },
+                {
+                    id: 'task_4',
+                    title: '万能指令0415-004',
+                    resultImage: mockImage,
+                    originalImage: mockImage,
+                    date: today.toISOString().split('T')[0],
+                    time: '11:45',
+                    operator: 'yang.liu',
+                    tab: 'fission',
+                    fissionGoodsId: '6920234553221107522',
+                    fissionMode: 'both',
+                    fissionCount: '2',
+                    uploadedImages: [mockImage]
+                },
+                // 昨天的数据
+                {
+                    id: 'task_5',
+                    title: '万能指令0414-001',
+                    resultImage: mockImage,
+                    originalImage: mockImage,
+                    date: yesterday.toISOString().split('T')[0],
+                    time: '18:30',
+                    operator: 'mei.wang',
+                    tab: 'generate',
+                    model: 'nano-banana-fast',
+                    prompt: '将图片中的鞋靴商品放置在时尚生活场景中，背景为木质地板，光线自然柔和',
+                    bgRatio: 'auto',
+                    uploadedImages: [mockImage]
+                },
+                {
+                    id: 'task_6',
+                    title: '万能指令0414-002',
+                    resultImage: mockImage,
+                    originalImage: mockImage,
+                    date: yesterday.toISOString().split('T')[0],
+                    time: '16:20',
+                    operator: 'lucien.xu',
+                    tab: 'fission',
+                    fissionGoodsId: '',
+                    fissionMode: 'fission',
+                    fissionCount: '3',
+                    uploadedImages: [mockImage]
+                },
+                {
+                    id: 'task_7',
+                    title: '万能指令0414-003',
+                    resultImage: mockImage,
+                    originalImage: mockImage,
+                    date: yesterday.toISOString().split('T')[0],
+                    time: '10:30',
+                    operator: 'mei.wang',
+                    tab: 'generate',
+                    model: 'nano-banana-pro',
+                    prompt: '生成一张产品的唯品会促销海报，背景为渐变蓝色，突出折扣信息和产品特写',
+                    bgRatio: '3:4',
+                    uploadedImages: [mockImage]
+                }
+            ];
+            
+            // 存储所有任务数据
+            allTaskData = mockTasks;
+            
+            updateTaskList(mockTasks);
         }
 
         // 更新导航状态
@@ -4727,46 +5462,46 @@
             updateDirectionOptions(customRadio);
         }
 
-        // 抽屉控制函数
-        function toggleDrawer() {
-            const drawerPanel = document.getElementById('drawerPanel');
-            const drawerOverlay = document.getElementById('drawerOverlay');
+        // 任务列表控制函数
+        function toggleTaskList() {
+            const taskListPanel = document.getElementById('taskListPanel');
+            const taskListOverlay = document.getElementById('taskListOverlay');
             
-            if (drawerPanel.classList.contains('open')) {
-                closeDrawer();
+            if (taskListPanel.classList.contains('open')) {
+                closeTaskList();
             } else {
-                openDrawer();
+                openTaskList();
             }
         }
 
-        function openDrawer() {
-            const drawerPanel = document.getElementById('drawerPanel');
-            const drawerOverlay = document.getElementById('drawerOverlay');
+        function openTaskList() {
+            const taskListPanel = document.getElementById('taskListPanel');
+            const taskListOverlay = document.getElementById('taskListOverlay');
             
-            drawerPanel.classList.add('open');
-            drawerOverlay.classList.add('show');
+            if (taskListPanel) taskListPanel.classList.add('open');
+            if (taskListOverlay) taskListOverlay.classList.add('show');
             
             // 防止背景滚动
             document.body.style.overflow = 'hidden';
         }
 
-        function closeDrawer() {
-            const drawerPanel = document.getElementById('drawerPanel');
-            const drawerOverlay = document.getElementById('drawerOverlay');
+        function closeTaskList() {
+            const taskListPanel = document.getElementById('taskListPanel');
+            const taskListOverlay = document.getElementById('taskListOverlay');
             
-            drawerPanel.classList.remove('open');
-            drawerOverlay.classList.remove('show');
+            if (taskListPanel) taskListPanel.classList.remove('open');
+            if (taskListOverlay) taskListOverlay.classList.remove('show');
             
             // 恢复背景滚动
             document.body.style.overflow = '';
         }
 
-        // ESC键关闭抽屉
+        // ESC键关闭任务列表
         document.addEventListener('keydown', function(event) {
             if (event.key === 'Escape') {
-                const drawerPanel = document.getElementById('drawerPanel');
-                if (drawerPanel && drawerPanel.classList.contains('open')) {
-                    closeDrawer();
+                const taskListPanel = document.getElementById('taskListPanel');
+                if (taskListPanel && taskListPanel.classList.contains('open')) {
+                    closeTaskList();
                 }
             }
         });
@@ -5121,7 +5856,7 @@
                 console.log('📐 aspectRatio参数:', expandRatio);
                 
                 // 调用后端API
-                const response = await fetch('http://localhost:5000/api/expand-image', {
+                const response = await fetch('http://localhost:5001/api/expand-image', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
@@ -5241,7 +5976,7 @@
                 attempts++;
                 
                 try {
-                    const response = await fetch(`http://localhost:5000/api/check-task/${taskId}`);
+                    const response = await fetch(`http://localhost:5001/api/check-task/${taskId}`);
                     const result = await response.json();
                     
                     if (result.status === 'succeeded') {
@@ -7244,13 +7979,24 @@
         }
         
         // 上传图片到服务器获取URL
+        // 本地预览图片（使用 FileReader，无需服务器）
+        function readImageLocally(file) {
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.onload = (e) => resolve(e.target.result);
+                reader.onerror = reject;
+                reader.readAsDataURL(file);
+            });
+        }
+
+        // 上传图片到服务器（失败时自动降级为本地预览）
         async function uploadImageToServer(file) {
             try {
-                console.log('📤 开始上传图片到服务器:', file.name);
+                console.log('📤 尝试上传图片到服务器:', file.name);
                 const formData = new FormData();
                 formData.append('image', file);
                 
-                const response = await fetch('http://localhost:5000/api/upload-image', {
+                const response = await fetch('http://localhost:5001/api/upload-image', {
                     method: 'POST',
                     body: formData
                 });
@@ -7260,14 +8006,15 @@
                 if (result.success) {
                     const serverUrl = result.data.url;
                     console.log('📥 图片上传成功，服务器URL:', serverUrl);
-                    return serverUrl;  // 返回URL
+                    return serverUrl;
                 } else {
-                    console.error('❌ 图片上传失败:', result.error);
-                    return null;
+                    throw new Error(result.error);
                 }
             } catch (error) {
-                console.error('❌ 上传图片到服务器失败:', error);
-                return null;
+                console.log('⚠️ 服务器不可用，使用本地预览');
+                const localUrl = await readImageLocally(file);
+                console.log('📥 本地预览已生成');
+                return localUrl;
             }
         }
 
@@ -8066,7 +8813,7 @@
                 
                 showToast('📤 正在上传背景图...');
                 
-                const response = await fetch('http://localhost:5000/api/upload-image', {
+                const response = await fetch('http://localhost:5001/api/upload-image', {
                     method: 'POST',
                     body: formData
                 });
@@ -8174,7 +8921,7 @@
                 
                 showToast('📤 正在上传参考图...');
                 
-                const response = await fetch('http://localhost:5000/api/upload-image', {
+                const response = await fetch('http://localhost:5001/api/upload-image', {
                     method: 'POST',
                     body: formData
                 });
@@ -8488,7 +9235,7 @@
                 console.log('📤 JSON字符串:', JSON.stringify(apiPayload, null, 2));
                 
                 // 调用后端API
-                const response = await fetch('http://localhost:5000/api/repair-image', {
+                const response = await fetch('http://localhost:5001/api/repair-image', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
@@ -8571,7 +9318,7 @@
                 attempts++;
                 
                 try {
-                    const response = await fetch(`http://localhost:5000/api/check-task/${taskId}`);
+                    const response = await fetch(`http://localhost:5001/api/check-task/${taskId}`);
                     const result = await response.json();
                     
                     if (result.status === 'succeeded') {
@@ -8877,7 +9624,7 @@
                 
                 console.log('📤 发送背景图库换背景请求:', apiPayload);
                 
-                const response = await fetch('http://localhost:5000/api/change-background', {
+                const response = await fetch('http://localhost:5001/api/change-background', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
@@ -9011,7 +9758,7 @@
                 console.log('📤 发送换背景请求:', apiPayload);
                 
                 // 调用后端API
-                const response = await fetch('http://localhost:5000/api/change-background', {
+                const response = await fetch('http://localhost:5001/api/change-background', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
@@ -9144,7 +9891,7 @@
                 console.log('📤 发送背景裂变请求:', apiPayload);
                 
                 // 调用后端API（使用换背景接口）
-                const response = await fetch('http://localhost:5000/api/change-background', {
+                const response = await fetch('http://localhost:5001/api/change-background', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
@@ -9261,7 +10008,7 @@
                 attempts++;
                 
                 try {
-                    const response = await fetch(`http://localhost:5000/api/task-status/${taskId}`);
+                    const response = await fetch(`http://localhost:5001/api/task-status/${taskId}`);
                     const result = await response.json();
                     
                     console.log(`📊 轮询第${attempts}次 - 任务状态:`, result);
@@ -9334,7 +10081,7 @@
                 attempts++;
                 
                 try {
-                    const response = await fetch(`http://localhost:5000/api/check-task/${taskId}`);
+                    const response = await fetch(`http://localhost:5001/api/check-task/${taskId}`);
                     const result = await response.json();
                     
                     if (result.status === 'succeeded') {
@@ -9509,7 +10256,7 @@
                 showToast('📤 正在上传参考图...');
                 
                 // 调用上传API
-                const response = await fetch('http://localhost:5000/api/upload-image', {
+                const response = await fetch('http://localhost:5001/api/upload-image', {
                     method: 'POST',
                     body: formData
                 });
@@ -9710,7 +10457,7 @@
                 console.log('📤 发送背景裂变请求:', apiPayload);
                 
                 // 调用后端API
-                const response = await fetch('http://localhost:5000/api/change-background', {
+                const response = await fetch('http://localhost:5001/api/change-background', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
@@ -10227,59 +10974,196 @@
         
         // ==================== 万能指令功能 ====================
         
+        // 当前万能指令的 Tab
+        let currentUniversalTab = 'generate';
+        
+        // 切换仿写裂变模式，控制商品ID显示
+        function toggleFissionGoodsId() {
+            const mode = document.querySelector('input[name="fissionMode"]:checked')?.value;
+            const goodsIdSection = document.getElementById('fissionGoodsIdSection');
+            if (goodsIdSection) {
+                if (mode === 'both' || mode === 'copy') {
+                    goodsIdSection.style.display = 'block';
+                } else {
+                    goodsIdSection.style.display = 'none';
+                }
+            }
+        }
+        
+        // 切换万能指令 Tab
+        function switchUniversalTab(tab) {
+            currentUniversalTab = tab;
+            
+            const tabGenerate = document.getElementById('tabGenerate');
+            const tabFission = document.getElementById('tabFission');
+            const generatePanel = document.getElementById('generatePanel');
+            const fissionPanel = document.getElementById('fissionPanel');
+            
+            if (tab === 'generate') {
+                tabGenerate.classList.add('active');
+                tabGenerate.style.color = '#1890ff';
+                tabGenerate.style.borderBottomColor = '#1890ff';
+                tabFission.classList.remove('active');
+                tabFission.style.color = '#999';
+                tabFission.style.borderBottomColor = 'transparent';
+                generatePanel.style.display = 'block';
+                fissionPanel.style.display = 'none';
+            } else {
+                tabFission.classList.add('active');
+                tabFission.style.color = '#1890ff';
+                tabFission.style.borderBottomColor = '#1890ff';
+                tabGenerate.classList.remove('active');
+                tabGenerate.style.color = '#999';
+                tabGenerate.style.borderBottomColor = 'transparent';
+                generatePanel.style.display = 'none';
+                fissionPanel.style.display = 'block';
+            }
+        }
+        
         // 存储上传的图片URLs
         let universalUploadedImages = [];
         
-        // 场景模板配置
-        const sceneTemplates = {
-            productModel: {
-                hint: '上传两张图片，第一张为商品图、第二张为人物',
-                prompt: '保持任务和场景不变，第二张图的人物展示使用第一张图的商品'
-            },
-            ootd: {
-                hint: '上传一张人物穿搭图',
-                prompt: '将图片中人物的（T恤）、（短裤）、（鞋子）变成ootd的形式平铺在（浅绿色）背景上'
-            },
-            virtualTry: {
-                hint: '上传一张服装/鞋靴商品图',
-                prompt: '将图片中的（服装/鞋靴），增加合适的模特，生成自然的穿搭图，注意保持（服装/鞋靴）不变，细节完整'
-            }
-        };
         
-        // 选择场景模板
-        function selectSceneTemplate(sceneName) {
-            const template = sceneTemplates[sceneName];
-            if (!template) return;
-            
-            // 更新按钮状态
-            const buttons = document.querySelectorAll('.scene-template-btn');
-            buttons.forEach(btn => {
-                if (btn.getAttribute('data-scene') === sceneName) {
-                    btn.classList.add('active');
-                    btn.style.borderColor = '#1890ff';
-                    btn.style.background = '#e6f7ff';
-                    btn.style.color = '#1890ff';
-                } else {
-                    btn.classList.remove('active');
-                    btn.style.borderColor = '#d9d9d9';
-                    btn.style.background = 'white';
-                    btn.style.color = '#666';
-                }
-            });
-            
-            // 更新提示信息
-            const hintDiv = document.getElementById('sceneHint');
-            if (hintDiv) {
-                hintDiv.innerHTML = `<span style="color: #1890ff;">ⓘ</span> ${template.hint}`;
-            }
-            
-            // 更新Prompt输入框
-            const promptTextarea = document.getElementById('universalPrompt');
-            if (promptTextarea) {
-                promptTextarea.value = template.prompt;
-                updateUniversalPromptCount();
+        // 初始化默认prompts（仅在第一次加载时）
+        function initializeDefaultPrompts() {
+            const saved = localStorage.getItem('universalPrompts');
+            if (!saved) {
+                // 将默认模板转换为prompt格式并保存
+                const defaultPrompts = defaultSceneTemplates.map(template => ({
+                    id: template.id,
+                    name: template.name,
+                    content: template.content
+                }));
+                localStorage.setItem('universalPrompts', JSON.stringify(defaultPrompts));
             }
         }
+        
+        // 粘贴上传功能
+        function initPasteUpload() {
+            document.addEventListener('paste', async function(e) {
+                // 检查是否在万能指令模块
+                if (currentModule !== 'universalCommand') return;
+                
+                // 检查剪贴板内容
+                const items = e.clipboardData.items;
+                if (!items) return;
+                
+                const imageFiles = [];
+                
+                // 遍历剪贴板项目，查找图片
+                for (let i = 0; i < items.length; i++) {
+                    if (items[i].type.startsWith('image/')) {
+                        const file = items[i].getAsFile();
+                        if (file) {
+                            imageFiles.push(file);
+                        }
+                    }
+                }
+                
+                // 如果找到图片，上传它们
+                if (imageFiles.length > 0) {
+                    e.preventDefault(); // 阻止默认粘贴行为
+                    
+                    console.log('📋 检测到粘贴图片，共', imageFiles.length, '张');
+                    
+                    // 显示粘贴上传提示
+                    showToast(`📋 检测到粘贴图片，正在上传...`);
+                    
+                    // 创建一个模拟的file input事件来调用现有上传函数
+                    const fileInput = document.getElementById('universalFileUpload');
+                    const dataTransfer = new DataTransfer();
+                    
+                    imageFiles.forEach(file => {
+                        dataTransfer.items.add(file);
+                    });
+                    
+                    fileInput.files = dataTransfer.files;
+                    
+                    // 模拟触发change事件
+                    const event = new Event('change', { bubbles: true });
+                    fileInput.dispatchEvent(event);
+                }
+            });
+        }
+        
+        // 初始化粘贴上传功能
+        initPasteUpload();
+        
+        // 拖拽上传功能
+        function handleUniversalDragOver(e) {
+            if (currentModule !== 'universalCommand') return;
+            e.preventDefault();
+            e.stopPropagation();
+            
+            const uploadArea = document.getElementById('universalUploadArea');
+            const emptyHint = document.getElementById('universalEmptyHint');
+            
+            if (emptyHint) {
+                emptyHint.style.borderColor = '#1890ff';
+                emptyHint.style.background = '#e6f7ff';
+                emptyHint.style.transform = 'scale(1.02)';
+                emptyHint.style.transition = 'all 0.3s ease';
+            }
+        }
+        
+        function handleUniversalDragLeave(e) {
+            if (currentModule !== 'universalCommand') return;
+            e.preventDefault();
+            e.stopPropagation();
+            
+            const emptyHint = document.getElementById('universalEmptyHint');
+            
+            if (emptyHint) {
+                emptyHint.style.borderColor = '#d9d9d9';
+                emptyHint.style.background = '#fafafa';
+                emptyHint.style.transform = 'scale(1)';
+            }
+        }
+        
+        function handleUniversalDrop(e) {
+            if (currentModule !== 'universalCommand') return;
+            e.preventDefault();
+            e.stopPropagation();
+            
+            const emptyHint = document.getElementById('universalEmptyHint');
+            if (emptyHint) {
+                emptyHint.style.borderColor = '#d9d9d9';
+                emptyHint.style.background = '#fafafa';
+                emptyHint.style.transform = 'scale(1)';
+            }
+            
+            const files = Array.from(e.dataTransfer.files);
+            if (files.length === 0) return;
+            
+            // 过滤出图片文件
+            const imageFiles = files.filter(file => {
+                const validTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp'];
+                return validTypes.includes(file.type);
+            });
+            
+            if (imageFiles.length === 0) {
+                showToast('❌ 拖拽的文件中没有图片');
+                return;
+            }
+            
+            console.log('📂 拖拽上传图片，共', imageFiles.length, '张');
+            
+            // 模拟file input上传
+            const fileInput = document.getElementById('universalFileUpload');
+            const dataTransfer = new DataTransfer();
+            
+            imageFiles.forEach(file => {
+                dataTransfer.items.add(file);
+            });
+            
+            fileInput.files = dataTransfer.files;
+            
+            // 触发change事件
+            const event = new Event('change', { bubbles: true });
+            fileInput.dispatchEvent(event);
+        }
+        
+        // 渲染场景模板按钮
         
         // 触发文件上传
         function triggerUniversalFileUpload() {
@@ -10293,18 +11177,12 @@
             
             console.log('📤 开始上传万能指令图片，共', files.length, '张');
             
-            const emptyHint = document.getElementById('universalEmptyHint');
-            const uploadedImagesDiv = document.getElementById('universalUploadedImages');
-            const imagesGrid = document.getElementById('universalImagesGrid');
-            const clearBtn = document.getElementById('clearUniversalUploadBtn');
-            
             try {
                 let uploadCount = 0;
                 
                 for (let i = 0; i < files.length; i++) {
                     const file = files[i];
                     
-                    // 验证文件类型和大小
                     const validTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp'];
                     if (!validTypes.includes(file.type)) {
                         showToast(`❌ 文件 ${file.name} 格式不支持`);
@@ -10316,11 +11194,10 @@
                         continue;
                     }
                     
-                    // 上传到服务器
                     const formData = new FormData();
                     formData.append('image', file);
                     
-                    const response = await fetch('http://localhost:5000/api/upload-image', {
+                    const response = await fetch('http://localhost:5001/api/upload-image', {
                         method: 'POST',
                         body: formData
                     });
@@ -10328,38 +11205,18 @@
                     const result = await response.json();
                     
                     if (result.success && result.data && result.data.url) {
-                        const imageUrl = result.data.url;
-                        const imageIndex = universalUploadedImages.length + 1;
-                        universalUploadedImages.push(imageUrl);
+                        universalUploadedImages.push(result.data.url);
                         uploadCount++;
-                        
-                        // 添加预览（包含删除按钮）
-                        const previewDiv = document.createElement('div');
-                        previewDiv.style.cssText = 'position: relative; border-radius: 6px; overflow: hidden; border: 2px solid #e8e8e8;';
-                        previewDiv.setAttribute('data-image-url', imageUrl);
-                        previewDiv.innerHTML = `
-                            <img src="${imageUrl}" style="width: 100%; height: 150px; object-fit: cover;" alt="预览图${imageIndex}">
-                            <div style="position: absolute; top: 5px; left: 5px; background: rgba(0,0,0,0.7); color: white; padding: 3px 10px; border-radius: 3px; font-size: 12px; font-weight: 500;">图${imageIndex}</div>
-                            <button onclick="removeUniversalImage('${imageUrl}')" style="position: absolute; top: 5px; right: 5px; padding: 4px 8px; border: none; background: rgba(255,77,79,0.9); color: white; border-radius: 3px; cursor: pointer; font-size: 11px; font-weight: 500;">删除</button>
-                        `;
-                        imagesGrid.appendChild(previewDiv);
-                        
-                        console.log(`✅ 图片${imageIndex}上传成功:`, imageUrl);
+                        console.log(`✅ 图片上传成功:`, result.data.url);
                     } else {
                         showToast(`❌ 图片上传失败：${file.name}`);
                     }
                 }
                 
-                // 更新界面显示
-                if (universalUploadedImages.length > 0) {
-                    emptyHint.style.display = 'none';
-                    uploadedImagesDiv.style.display = 'block';
-                    clearBtn.style.display = 'block';
+                renderUniversalImages();
+                
+                if (uploadCount > 0) {
                     showToast(`✅ 成功上传${uploadCount}张图片，当前共${universalUploadedImages.length}张`);
-                } else {
-                    emptyHint.style.display = 'block';
-                    uploadedImagesDiv.style.display = 'none';
-                    clearBtn.style.display = 'none';
                 }
                 
             } catch (error) {
@@ -10367,8 +11224,117 @@
                 showToast('❌ 图片上传失败，请重试');
             }
             
-            // 重置file input
             event.target.value = '';
+        }
+
+        // 渲染万能指令上传图片预览（统一渲染入口）
+        function renderUniversalImages() {
+            const imagesGrid = document.getElementById('universalImagesGrid');
+            const emptyHint = document.getElementById('universalEmptyHint');
+            const uploadedImagesDiv = document.getElementById('universalUploadedImages');
+            const clearBtn = document.getElementById('clearUniversalUploadBtn');
+            
+            if (!imagesGrid) return;
+            imagesGrid.innerHTML = '';
+            
+            universalUploadedImages.forEach((imageUrl, idx) => {
+                const isFirst = idx === 0;
+                const isLast  = idx === universalUploadedImages.length - 1;
+
+                const tile = document.createElement('div');
+                tile.className = 'universal-image-tile';
+                tile.setAttribute('draggable', 'true');
+                tile.setAttribute('data-image-url', imageUrl);
+                tile.setAttribute('data-index', idx);
+                tile.style.cssText = 'position: relative; border-radius: 6px; overflow: hidden; border: 2px solid #e8e8e8; cursor: grab; transition: transform 0.15s, border-color 0.15s, opacity 0.15s; background: #fafafa;';
+                
+                tile.innerHTML = `
+                    <img src="${imageUrl}" style="width: 100%; height: 90px; object-fit: cover; pointer-events: none; display: block;" alt="预览图${idx + 1}">
+                    <div style="position: absolute; top: 3px; left: 3px; background: rgba(0,0,0,0.65); color: white; padding: 1px 6px; border-radius: 3px; font-size: 10px; font-weight: 500; pointer-events: none;">${idx + 1}</div>
+                    <button class="tile-btn-delete" onclick="event.stopPropagation(); removeUniversalImage('${imageUrl}')" title="删除" style="position: absolute; top: 3px; right: 3px; width: 18px; height: 18px; padding: 0; border: none; background: rgba(255,77,79,0.92); color: white; border-radius: 50%; cursor: pointer; font-size: 12px; line-height: 1; display: flex; align-items: center; justify-content: center;">×</button>
+                    <div class="tile-toolbar" style="position: absolute; left: 0; right: 0; bottom: 0; display: flex; justify-content: space-between; padding: 3px 4px; background: linear-gradient(to top, rgba(0,0,0,0.55), transparent); opacity: 0; transition: opacity 0.15s;">
+                        <button onclick="event.stopPropagation(); moveUniversalImage(${idx}, -1)" ${isFirst ? 'disabled' : ''} title="向前移动" style="width: 20px; height: 20px; padding: 0; border: none; background: rgba(255,255,255,0.92); border-radius: 3px; cursor: ${isFirst ? 'not-allowed' : 'pointer'}; font-size: 13px; line-height: 1; opacity: ${isFirst ? '0.4' : '1'};">‹</button>
+                        <button onclick="event.stopPropagation(); moveUniversalImage(${idx}, 1)" ${isLast ? 'disabled' : ''} title="向后移动" style="width: 20px; height: 20px; padding: 0; border: none; background: rgba(255,255,255,0.92); border-radius: 3px; cursor: ${isLast ? 'not-allowed' : 'pointer'}; font-size: 13px; line-height: 1; opacity: ${isLast ? '0.4' : '1'};">›</button>
+                    </div>
+                `;
+                
+                tile.addEventListener('dragstart', handleTileDragStart);
+                tile.addEventListener('dragover',  handleTileDragOver);
+                tile.addEventListener('dragleave', handleTileDragLeave);
+                tile.addEventListener('drop',      handleTileDrop);
+                tile.addEventListener('dragend',   handleTileDragEnd);
+                
+                tile.addEventListener('mouseenter', () => {
+                    const tb = tile.querySelector('.tile-toolbar');
+                    if (tb) tb.style.opacity = '1';
+                });
+                tile.addEventListener('mouseleave', () => {
+                    const tb = tile.querySelector('.tile-toolbar');
+                    if (tb) tb.style.opacity = '0';
+                });
+                
+                imagesGrid.appendChild(tile);
+            });
+            
+            if (universalUploadedImages.length > 0) {
+                if (emptyHint) emptyHint.style.display = 'none';
+                if (uploadedImagesDiv) uploadedImagesDiv.style.display = 'block';
+                if (clearBtn) clearBtn.style.display = 'block';
+            } else {
+                if (emptyHint) emptyHint.style.display = 'block';
+                if (uploadedImagesDiv) uploadedImagesDiv.style.display = 'none';
+                if (clearBtn) clearBtn.style.display = 'none';
+            }
+        }
+
+        // 拖拽排序
+        let universalDragSourceIndex = null;
+        function handleTileDragStart(e) {
+            universalDragSourceIndex = parseInt(this.dataset.index);
+            this.style.opacity = '0.4';
+            e.dataTransfer.effectAllowed = 'move';
+            try { e.dataTransfer.setData('text/plain', String(universalDragSourceIndex)); } catch (_) {}
+        }
+        function handleTileDragOver(e) {
+            if (e.preventDefault) e.preventDefault();
+            e.dataTransfer.dropEffect = 'move';
+            this.style.borderColor = '#1890ff';
+            this.style.transform = 'scale(1.04)';
+            return false;
+        }
+        function handleTileDragLeave(e) {
+            this.style.borderColor = '#e8e8e8';
+            this.style.transform = '';
+        }
+        function handleTileDrop(e) {
+            if (e.stopPropagation) e.stopPropagation();
+            e.preventDefault();
+            const targetIndex = parseInt(this.dataset.index);
+            if (universalDragSourceIndex !== null && !isNaN(targetIndex) && universalDragSourceIndex !== targetIndex) {
+                const moved = universalUploadedImages.splice(universalDragSourceIndex, 1)[0];
+                universalUploadedImages.splice(targetIndex, 0, moved);
+                renderUniversalImages();
+                showToast('📐 已调整图片顺序');
+            }
+            return false;
+        }
+        function handleTileDragEnd(e) {
+            this.style.opacity = '';
+            document.querySelectorAll('.universal-image-tile').forEach(t => {
+                t.style.borderColor = '#e8e8e8';
+                t.style.transform = '';
+            });
+            universalDragSourceIndex = null;
+        }
+
+        // 通过左右按钮移动图片位置
+        function moveUniversalImage(index, delta) {
+            const newIndex = index + delta;
+            if (newIndex < 0 || newIndex >= universalUploadedImages.length) return;
+            const tmp = universalUploadedImages[index];
+            universalUploadedImages[index] = universalUploadedImages[newIndex];
+            universalUploadedImages[newIndex] = tmp;
+            renderUniversalImages();
         }
         
         // 删除单张图片
@@ -10377,34 +11343,7 @@
             if (index > -1) {
                 universalUploadedImages.splice(index, 1);
             }
-            
-            // 移除DOM元素
-            const previewDiv = document.querySelector(`[data-image-url="${imageUrl}"]`);
-            if (previewDiv) {
-                previewDiv.remove();
-            }
-            
-            // 重新编号
-            const imagesGrid = document.getElementById('universalImagesGrid');
-            const imageDivs = imagesGrid.querySelectorAll('[data-image-url]');
-            imageDivs.forEach((div, idx) => {
-                const label = div.querySelector('div[style*="background: rgba(0,0,0,0.7)"]');
-                if (label) {
-                    label.textContent = `图${idx + 1}`;
-                }
-            });
-            
-            // 更新界面显示
-            const emptyHint = document.getElementById('universalEmptyHint');
-            const uploadedImagesDiv = document.getElementById('universalUploadedImages');
-            const clearBtn = document.getElementById('clearUniversalUploadBtn');
-            
-            if (universalUploadedImages.length === 0) {
-                emptyHint.style.display = 'block';
-                uploadedImagesDiv.style.display = 'none';
-                clearBtn.style.display = 'none';
-            }
-            
+            renderUniversalImages();
             showToast(`已删除图片，当前剩余${universalUploadedImages.length}张`);
             console.log('🗑️ 图片已删除，当前图片列表:', universalUploadedImages);
         }
@@ -10461,28 +11400,44 @@
                 return;
             }
             
-            // 验证Prompt
-            const promptTextarea = document.getElementById('universalPrompt');
-            const prompt = promptTextarea ? promptTextarea.value.trim() : '';
-            if (!prompt) {
-                alert('请输入指令Prompt');
-                return;
+            let prompt = '';
+            let bgRatio = 'auto';
+            let model = 'nano-banana-fast';
+            
+            // 指令生成模式需要验证 Prompt
+            if (currentUniversalTab === 'generate') {
+                const promptTextarea = document.getElementById('universalPrompt');
+                prompt = promptTextarea ? promptTextarea.value.trim() : '';
+                if (!prompt) {
+                    alert('请输入指令Prompt');
+                    return;
+                }
+                
+                if (prompt.length > 2000) {
+                    alert('Prompt长度不能超过2000字符');
+                    return;
+                }
+                
+                // 获取背景比例
+                bgRatio = document.querySelector('input[name="universalBgRatio"]:checked')?.value || 'auto';
+                
+                // 获取模型
+                model = document.querySelector('input[name="universalModel"]:checked')?.value || 'nano-banana-fast';
+                
+                console.log('📋 万能指令参数:', {
+                    imageCount: universalUploadedImages.length,
+                    imageUrls: universalUploadedImages,
+                    prompt: prompt,
+                    bgRatio: bgRatio,
+                    model: model
+                });
+            } else {
+                // 仿写裂变模式
+                console.log('📋 仿写裂变参数:', {
+                    imageCount: universalUploadedImages.length,
+                    imageUrls: universalUploadedImages
+                });
             }
-            
-            if (prompt.length > 2000) {
-                alert('Prompt长度不能超过2000字符');
-                return;
-            }
-            
-            // 获取背景比例
-            const bgRatio = document.querySelector('input[name="universalBgRatio"]:checked')?.value || '1:1';
-            
-            console.log('📋 万能指令参数:', {
-                imageCount: universalUploadedImages.length,
-                imageUrls: universalUploadedImages,
-                prompt: prompt,
-                bgRatio: bgRatio
-            });
             
             // 显示加载状态
             const middlePanelContent = document.getElementById('middlePanelContent');
@@ -10507,14 +11462,14 @@
                     image_url: universalUploadedImages[0],
                     image_urls: universalUploadedImages,
                     prompt: prompt,
-                    model: 'nb',
+                    model: model,
                     bg_ratio: bgRatio,
                     bg_method: 'universal'
                 };
                 
                 console.log('📤 发送API请求:', apiPayload);
                 
-                const response = await fetch('http://localhost:5000/api/change-background', {
+                const response = await fetch('http://localhost:5001/api/change-background', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
@@ -10601,7 +11556,7 @@
             
             const checkStatus = async () => {
                 try {
-                    const response = await fetch(`http://localhost:5000/api/check-task/${taskId}`);
+                    const response = await fetch(`http://localhost:5001/api/check-task/${taskId}`);
                     const result = await response.json();
                     
                     console.log(`⏳ 轮询任务状态 (${attempts + 1}/${maxAttempts}):`, result);
@@ -10641,6 +11596,9 @@
         
         // 添加Prompt输入框的实时字符计数
         document.addEventListener('DOMContentLoaded', function() {
+            // 初始化默认prompts
+            initializeDefaultPrompts();
+            
             const promptTextarea = document.getElementById('universalPrompt');
             if (promptTextarea) {
                 promptTextarea.addEventListener('input', updateUniversalPromptCount);
@@ -10670,7 +11628,611 @@
     </div>
     
     <script>
-    // 版本号交互
+        // Prompt管理器相关函数
+        let currentEditingPrompt = null;
+        let prompts = [];
+        let filteredPrompts = [];
+        let currentPromptPreviewImage = '';
+
+        // 触发预览图选择
+        function triggerPromptPreviewUpload() {
+            const input = document.getElementById('promptPreviewFileInput');
+            if (input) input.click();
+        }
+
+        // 处理预览图上传
+        async function handlePromptPreviewUpload(event) {
+            const file = event.target.files && event.target.files[0];
+            if (!file) return;
+
+            const validTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp'];
+            if (!validTypes.includes(file.type)) {
+                showToast('❌ 文件格式不支持，仅支持 JPG/PNG/WebP');
+                event.target.value = '';
+                return;
+            }
+            if (file.size > 10 * 1024 * 1024) {
+                showToast('❌ 文件大小超过10M');
+                event.target.value = '';
+                return;
+            }
+
+            const formData = new FormData();
+            formData.append('image', file);
+
+            const box = document.getElementById('promptPreviewImageBox');
+            if (box) {
+                box.innerHTML = `<span class="material-icons" style="font-size: 28px; color: #1890ff; animation: spin 1s linear infinite;">autorenew</span><span style="color:#1890ff;">上传中...</span>`;
+            }
+
+            try {
+                const res = await fetch('http://localhost:5001/api/upload-image', {
+                    method: 'POST',
+                    body: formData
+                });
+                const result = await res.json();
+                if (result.success && result.data && result.data.url) {
+                    currentPromptPreviewImage = result.data.url;
+                    renderPromptPreviewBox();
+                    showToast('✅ 预览图已上传');
+                } else {
+                    renderPromptPreviewBox();
+                    showToast('❌ 预览图上传失败');
+                }
+            } catch (e) {
+                console.error('预览图上传失败:', e);
+                renderPromptPreviewBox();
+                showToast('❌ 预览图上传失败');
+            }
+            event.target.value = '';
+        }
+
+        // 渲染编辑器中的预览图区
+        function renderPromptPreviewBox() {
+            const box = document.getElementById('promptPreviewImageBox');
+            if (!box) return;
+            if (currentPromptPreviewImage) {
+                box.innerHTML = `
+                    <img src="${currentPromptPreviewImage}" alt="预览图" style="width: 100%; height: 100%; object-fit: cover;">
+                    <button onclick="event.stopPropagation(); removePromptPreviewImage()" title="移除预览图" style="position: absolute; top: 4px; right: 4px; width: 22px; height: 22px; padding: 0; border: none; background: rgba(0,0,0,0.6); color: white; border-radius: 50%; cursor: pointer; font-size: 14px; line-height: 1; display: flex; align-items: center; justify-content: center;">×</button>
+                    <div style="position: absolute; bottom: 0; left: 0; right: 0; padding: 4px 6px; background: linear-gradient(to top, rgba(0,0,0,0.6), transparent); color: white; font-size: 11px; text-align: center;">点击替换</div>
+                `;
+                box.style.border = '2px solid #e8e8e8';
+            } else {
+                box.innerHTML = `
+                    <span class="material-icons" style="font-size: 32px; color: #d9d9d9;">add_photo_alternate</span>
+                    <span>点击上传</span>
+                `;
+                box.style.border = '2px dashed #d9d9d9';
+            }
+        }
+
+        // 移除预览图
+        function removePromptPreviewImage() {
+            currentPromptPreviewImage = '';
+            renderPromptPreviewBox();
+        }
+
+        // 从localStorage加载prompts
+        function loadPrompts() {
+            try {
+                const saved = localStorage.getItem('universalPrompts');
+                prompts = saved ? JSON.parse(saved) : [];
+                // 初始化默认prompts
+                if (prompts.length === 0) {
+                    initializeDefaultPrompts();
+                } else {
+                    migrateLegacyPromptValues();
+                }
+            } catch (e) {
+                console.error('加载Prompt失败:', e);
+                prompts = [];
+            }
+        }
+
+        // 老枚举值 → 新枚举值（用于历史数据兼容）
+        const PROMPT_STYLE_MIGRATION = {
+            '简约':   '质感简约风',
+            '高级感': '质感简约风',
+            '活泼':   '原生实拍风',
+            '节日':   '促销利益风',
+            '明星同款': '商品海报风',
+            'INS风':  '原生实拍风'
+        };
+        const PROMPT_STRATEGY_MIGRATION = {
+            '促销': '新客利益类',
+            '种草': '场景穿搭类',
+            '测评': '细节质感类',
+            '教程': '上身版型类',
+            '对比': '对比差异类'
+        };
+        function migrateLegacyPromptValues() {
+            let changed = false;
+            prompts.forEach(p => {
+                if (p.style && PROMPT_STYLE_MIGRATION[p.style]) {
+                    p.style = PROMPT_STYLE_MIGRATION[p.style];
+                    changed = true;
+                }
+                if (p.strategy && PROMPT_STRATEGY_MIGRATION[p.strategy]) {
+                    p.strategy = PROMPT_STRATEGY_MIGRATION[p.strategy];
+                    changed = true;
+                }
+            });
+            if (changed) {
+                savePrompts();
+                console.log('🔄 已将旧的素材风格/内容策略枚举值迁移到新枚举');
+            }
+        }
+
+        // 初始化默认prompts
+        function initializeDefaultPrompts() {
+            const sampleImg = 'https://a.vpimg3.com/upload/otd2/creatives/20260415/1776257768399542_7532.jpg';
+            const defaultPrompts = [
+                {
+                    id: 'productModel',
+                    name: '商品X模特融合',
+                    content: '保持任务和场景不变，将商品与模特完美融合...',
+                    category: '服饰',
+                    style: '质感简约风',
+                    strategy: '上身版型类',
+                    status: '启用',
+                    previewImage: sampleImg
+                },
+                {
+                    id: 'ootd',
+                    name: 'OOTD套图生成',
+                    content: '将图片中人物的穿搭风格作为参考，生成同风格的多张场景图...',
+                    category: '服饰',
+                    style: '原生实拍风',
+                    strategy: '场景穿搭类',
+                    status: '启用',
+                    previewImage: sampleImg
+                },
+                {
+                    id: 'virtualTry',
+                    name: '虚拟试衣/试鞋',
+                    content: '将图片中的服装/鞋靴商品与指定模特融合...',
+                    category: '鞋包',
+                    style: '商品海报风',
+                    strategy: '单品展示类',
+                    status: '启用',
+                    previewImage: sampleImg
+                }
+            ];
+            prompts = defaultPrompts;
+            savePrompts();
+        }
+
+        // 保存prompts到localStorage
+        function savePrompts() {
+            try {
+                localStorage.setItem('universalPrompts', JSON.stringify(prompts));
+            } catch (e) {
+                console.error('保存Prompt失败:', e);
+                alert('保存失败，请检查浏览器存储空间');
+            }
+        }
+
+        // 打开Prompt管理器
+        function openPromptManager() {
+            loadPrompts();
+            document.getElementById('promptManagerModal').style.display = 'block';
+            // 重置下拉筛选
+            const cs = document.getElementById('filterCategorySelect');
+            const ss = document.getElementById('filterStyleSelect');
+            const ts = document.getElementById('filterStrategySelect');
+            if (cs) cs.value = '';
+            if (ss) ss.value = '';
+            if (ts) ts.value = '';
+            const si = document.getElementById('promptSearchInput');
+            if (si) si.value = '';
+            cancelEdit();
+            filterPrompts();
+            closePromptSelector();
+        }
+
+        // 关闭Prompt管理器
+        function closePromptManager() {
+            document.getElementById('promptManagerModal').style.display = 'none';
+            currentEditingPrompt = null;
+            document.getElementById('promptEditor').style.display = 'none';
+            document.getElementById('addPromptBtnContainer').style.display = 'block';
+        }
+
+        // 读取当前下拉筛选值
+        function getFilterValues() {
+            return {
+                category: document.getElementById('filterCategorySelect')?.value || '',
+                style:    document.getElementById('filterStyleSelect')?.value    || '',
+                strategy: document.getElementById('filterStrategySelect')?.value || ''
+            };
+        }
+
+        // 下拉变化时触发筛选
+        function onFilterSelectChange() {
+            filterPrompts();
+        }
+
+        // 筛选Prompts
+        function filterPrompts() {
+            const searchText = document.getElementById('promptSearchInput')?.value?.toLowerCase() || '';
+            const { category, style, strategy } = getFilterValues();
+
+            filteredPrompts = prompts.filter(prompt => {
+                const matchSearch   = !searchText || 
+                    prompt.name.toLowerCase().includes(searchText) || 
+                    prompt.content.toLowerCase().includes(searchText);
+                const matchCategory = !category || prompt.category === category;
+                const matchStyle    = !style    || prompt.style    === style;
+                const matchStrategy = !strategy || prompt.strategy === strategy;
+                return matchSearch && matchCategory && matchStyle && matchStrategy;
+            });
+
+            renderPromptList();
+            updatePromptCount();
+        }
+
+        // 清除筛选
+        function clearPromptFilters() {
+            const si = document.getElementById('promptSearchInput');
+            if (si) si.value = '';
+            const cs = document.getElementById('filterCategorySelect');
+            if (cs) cs.value = '';
+            const ss = document.getElementById('filterStyleSelect');
+            if (ss) ss.value = '';
+            const ts = document.getElementById('filterStrategySelect');
+            if (ts) ts.value = '';
+            filterPrompts();
+        }
+
+        // 渲染筛选标签（下拉模式下仅更新计数，保留函数供外部调用）
+        function renderFilterTags() {
+            updatePromptCount();
+        }
+
+        // 活跃的筛选标签（保留兼容性，已由 select 值代替实际筛选逻辑）
+        let activeFilterTags = { category: '', style: '', strategy: '' };
+
+        // 切换筛选标签（兼容旧调用，不再使用）
+        function toggleFilterTag(type, value) {
+            filterPrompts();
+        }
+        
+        // 更新Prompt数量统计
+        function updatePromptCount() {
+            const countText = document.getElementById('promptCountText');
+            if (countText) {
+                countText.textContent = `共 ${filteredPrompts.length} 条`;
+            }
+        }
+
+        // 渲染Prompt列表（卡片形式）
+        function renderPromptList() {
+            const listContainer = document.getElementById('promptList');
+            
+            if (filteredPrompts.length === 0) {
+                listContainer.style.display = 'block';
+                listContainer.innerHTML = `
+                    <div style="padding: 60px 20px; text-align: center; color: #999; font-size: 13px;">
+                        <span class="material-icons" style="font-size: 40px; opacity: 0.3; display: block; margin-bottom: 12px;">search_off</span>
+                        <p style="margin: 0 0 8px 0;">未找到匹配的Prompt</p>
+                        <p style="margin: 0; font-size: 12px;">尝试调整筛选条件或新建一个 Prompt</p>
+                    </div>
+                `;
+                return;
+            }
+
+            // 卡片网格布局
+            listContainer.style.display = 'grid';
+            listContainer.style.gridTemplateColumns = 'repeat(auto-fill, minmax(180px, 1fr))';
+            listContainer.style.gap = '14px';
+            listContainer.style.padding = '14px 0';
+
+            const chip = (text, color) => text ? `<span style="font-size: 10px; color: ${color || '#1890ff'}; padding: 1px 6px; background: ${color === '#722ed1' ? '#f9f0ff' : color === '#13c2c2' ? '#e6fffb' : '#e6f7ff'}; border-radius: 3px; line-height: 1.5;">${text}</span>` : '';
+
+            listContainer.innerHTML = filteredPrompts.map(prompt => {
+                const actualIndex = prompts.findIndex(p => p.id === prompt.id);
+                const isActive = currentEditingPrompt === actualIndex;
+                const isEnabled = (prompt.status || '启用') === '启用';
+                const statusColor = isEnabled ? '#52c41a' : '#999';
+                const statusBg = isEnabled ? '#f6ffed' : '#f5f5f5';
+                const statusBorder = isEnabled ? '#b7eb8f' : '#d9d9d9';
+
+                const previewHtml = prompt.previewImage
+                    ? `<img src="${prompt.previewImage}" alt="${prompt.name}" style="width: 100%; height: 100%; object-fit: cover;" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                       <div style="display:none; width:100%; height:100%; align-items:center; justify-content:center; flex-direction:column; gap:4px; color:#bfbfbf; font-size:11px;"><span class='material-icons' style='font-size:32px;'>broken_image</span>预览图加载失败</div>`
+                    : `<div style="display:flex; width:100%; height:100%; align-items:center; justify-content:center; flex-direction:column; gap:4px; color:#d9d9d9;"><span class='material-icons' style='font-size:36px;'>image</span><span style="font-size:11px;">暂无预览图</span></div>`;
+
+                return `
+                    <div class="prompt-card" 
+                         onclick="selectPrompt(${actualIndex})"
+                         style="border: 1px solid ${isActive ? '#1890ff' : '#e8e8e8'}; border-radius: 8px; overflow: hidden; cursor: pointer; background: white; transition: all 0.2s; box-shadow: ${isActive ? '0 0 0 2px rgba(24,144,255,0.18)' : '0 1px 3px rgba(0,0,0,0.04)'}; display: flex; flex-direction: column;"
+                         onmouseover="this.style.boxShadow='0 6px 16px rgba(0,0,0,0.10)'; this.style.transform='translateY(-2px)';"
+                         onmouseout="this.style.boxShadow='${isActive ? '0 0 0 2px rgba(24,144,255,0.18)' : '0 1px 3px rgba(0,0,0,0.04)'}'; this.style.transform='translateY(0)';">
+                        <!-- 预览图 -->
+                        <div style="position: relative; width: 100%; aspect-ratio: 1; background: #fafafa; overflow: hidden;">
+                            ${previewHtml}
+                            <span style="position: absolute; top: 6px; right: 6px; font-size: 10px; padding: 1px 7px; border-radius: 10px; background: ${statusBg}; color: ${statusColor}; border: 1px solid ${statusBorder}; line-height: 1.5;">${prompt.status || '启用'}</span>
+                        </div>
+                        <!-- 内容 -->
+                        <div style="padding: 10px 10px 10px 10px; display: flex; flex-direction: column; gap: 6px; flex: 1;">
+                            <div style="font-weight: 500; color: #333; font-size: 13px; line-height: 1.35; overflow: hidden; text-overflow: ellipsis; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; min-height: 35px;" title="${prompt.name}">${prompt.name}</div>
+                            <div style="display: flex; flex-wrap: wrap; gap: 4px; min-height: 18px;">
+                                ${chip(prompt.category, '#1890ff')}${chip(prompt.style, '#722ed1')}${chip(prompt.strategy, '#13c2c2')}
+                            </div>
+                            <button onclick="event.stopPropagation(); applyPromptFromManager(${actualIndex})" 
+                                    title="将此Prompt应用到输入框"
+                                    style="margin-top: 4px; padding: 6px 8px; background: #1890ff; border: none; border-radius: 4px; cursor: pointer; font-size: 12px; color: white; font-weight: 500; transition: background 0.2s; display: flex; align-items: center; justify-content: center; gap: 4px;"
+                                    onmouseover="this.style.background='#40a9ff'" onmouseout="this.style.background='#1890ff'">
+                                <span class="material-icons" style="font-size: 14px;">play_arrow</span>应用
+                            </button>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // 检查是否有激活的筛选
+        function hasActiveFilters() {
+            const searchInput = document.getElementById('promptSearchInput');
+            return activeFilterTags.category || activeFilterTags.style || activeFilterTags.strategy ||
+                   (searchInput?.value && searchInput.value.trim() !== '');
+        }
+
+        // 选择Prompt
+        function selectPrompt(index) {
+            currentEditingPrompt = index;
+            const prompt = prompts[index];
+            
+            document.getElementById('promptEditorTitle').textContent = '编辑Prompt';
+            document.getElementById('promptNameInput').value = prompt.name || '';
+            document.getElementById('promptContentInput').value = prompt.content || '';
+            document.getElementById('promptStatusInput').value = prompt.status || '启用';
+            document.getElementById('promptCategoryInput').value = prompt.category || '';
+            document.getElementById('promptStyleInput').value = prompt.style || '';
+            document.getElementById('promptStrategyInput').value = prompt.strategy || '';
+            currentPromptPreviewImage = prompt.previewImage || '';
+            renderPromptPreviewBox();
+
+            document.getElementById('promptEditor').style.display = 'block';
+            document.getElementById('addPromptBtnContainer').style.display = 'none';
+            document.getElementById('deletePromptBtn').style.display = 'inline-block';
+            
+            // 编辑器滚动到可见区域
+            setTimeout(() => {
+                const editor = document.getElementById('promptEditor');
+                if (editor && editor.scrollIntoView) {
+                    editor.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                }
+            }, 80);
+
+            renderPromptList();
+        }
+
+        // 应用Prompt到输入框并关闭管理器
+        function applyPromptFromManager(index) {
+            const prompt = prompts[index];
+            if (!prompt) return;
+
+            const textarea = document.getElementById('universalPrompt');
+            if (textarea) {
+                textarea.value = prompt.content;
+                updateUniversalPromptCount();
+            }
+
+            closePromptManager();
+
+            // 短暂高亮输入框给用户反馈
+            if (textarea) {
+                textarea.style.borderColor = '#1890ff';
+                textarea.style.boxShadow = '0 0 0 2px rgba(24,144,255,0.3)';
+                setTimeout(() => {
+                    textarea.style.borderColor = '';
+                    textarea.style.boxShadow = '';
+                }, 1200);
+            }
+
+            showToast('✅ Prompt已应用：' + prompt.name);
+        }
+
+        // 新建Prompt
+        function addNewPrompt() {
+            currentEditingPrompt = null;
+            
+            document.getElementById('promptEditorTitle').textContent = '新增Prompt';
+            document.getElementById('promptNameInput').value = '';
+            document.getElementById('promptContentInput').value = '';
+            document.getElementById('promptStatusInput').value = '启用';
+            document.getElementById('promptCategoryInput').value = '';
+            document.getElementById('promptStyleInput').value = '';
+            document.getElementById('promptStrategyInput').value = '';
+            currentPromptPreviewImage = '';
+            renderPromptPreviewBox();
+
+            document.getElementById('promptEditor').style.display = 'block';
+            document.getElementById('addPromptBtnContainer').style.display = 'none';
+            document.getElementById('deletePromptBtn').style.display = 'none';
+
+            setTimeout(() => {
+                const editor = document.getElementById('promptEditor');
+                if (editor && editor.scrollIntoView) {
+                    editor.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                }
+            }, 80);
+
+            renderPromptList();
+            document.getElementById('promptNameInput').focus();
+        }
+
+        // 保存Prompt
+        function savePrompt() {
+            const name = document.getElementById('promptNameInput').value.trim();
+            const content = document.getElementById('promptContentInput').value.trim();
+            const status = document.getElementById('promptStatusInput').value;
+            const category = document.getElementById('promptCategoryInput').value;
+            const style = document.getElementById('promptStyleInput').value;
+            const strategy = document.getElementById('promptStrategyInput').value;
+            
+            if (!name) {
+                alert('请输入Prompt名称');
+                document.getElementById('promptNameInput').focus();
+                return;
+            }
+            
+            if (!content) {
+                alert('请输入Prompt内容');
+                document.getElementById('promptContentInput').focus();
+                return;
+            }
+            
+            if (currentEditingPrompt === null) {
+                // 新增模式
+                const newPrompt = {
+                    id: 'prompt_' + Date.now(),
+                    name,
+                    content,
+                    status,
+                    category,
+                    style,
+                    strategy,
+                    previewImage: currentPromptPreviewImage || ''
+                };
+                prompts.unshift(newPrompt);
+                currentEditingPrompt = 0;
+            } else {
+                // 编辑模式
+                prompts[currentEditingPrompt] = {
+                    ...prompts[currentEditingPrompt],
+                    name,
+                    content,
+                    status,
+                    category,
+                    style,
+                    strategy,
+                    previewImage: currentPromptPreviewImage || ''
+                };
+            }
+            
+            savePrompts();
+            renderFilterTags();
+            filterPrompts();
+            
+            // 隐藏编辑器，显示新建按钮
+            document.getElementById('promptEditor').style.display = 'none';
+            document.getElementById('addPromptBtnContainer').style.display = 'block';
+            
+            // 显示保存成功提示
+            const saveBtn = document.querySelector('#promptEditor button[onclick="savePrompt()"]');
+            if (saveBtn) {
+                const originalText = saveBtn.textContent;
+                saveBtn.textContent = '✓ 已保存';
+                saveBtn.style.background = '#52c41a';
+                setTimeout(() => {
+                    saveBtn.textContent = originalText;
+                    saveBtn.style.background = '#1890ff';
+                }, 1500);
+            }
+        }
+
+        // 删除Prompt
+        function deletePrompt() {
+            if (currentEditingPrompt === null) return;
+            
+            if (confirm('确定要删除这个Prompt吗？')) {
+                prompts.splice(currentEditingPrompt, 1);
+                savePrompts();
+                currentEditingPrompt = null;
+                document.getElementById('promptEditor').style.display = 'none';
+                document.getElementById('promptEmptyState').style.display = 'flex';
+                filterPrompts();
+                
+            }
+        }
+
+        // 取消编辑
+        function cancelEdit() {
+            currentEditingPrompt = null;
+            document.getElementById('promptEditor').style.display = 'none';
+            document.getElementById('addPromptBtnContainer').style.display = 'block';
+            renderPromptList();
+        }
+
+        // 打开Prompt选择器
+        function openPromptSelector(element) {
+            loadPrompts();
+            
+            const selector = document.getElementById('promptSelector');
+            const content = document.getElementById('promptSelectorContent');
+            
+            // 计算位置
+            const rect = element.getBoundingClientRect();
+            const top = rect.bottom + 8;
+            const left = rect.left;
+            
+            content.style.top = top + 'px';
+            content.style.left = left + 'px';
+            
+            renderQuickPromptList();
+            selector.style.display = 'block';
+        }
+
+        // 关闭Prompt选择器
+        function closePromptSelector() {
+            document.getElementById('promptSelector').style.display = 'none';
+        }
+
+        // 渲染快速选择列表
+        function renderQuickPromptList() {
+            const container = document.getElementById('promptQuickList');
+            
+            if (prompts.length === 0) {
+                container.innerHTML = `
+                    <div style="padding: 20px; text-align: center; color: #999; font-size: 13px;">
+                        暂无Prompt，请前往管理器创建
+                    </div>
+                `;
+                return;
+            }
+            
+            container.innerHTML = prompts.map((prompt, index) => `
+                <div onclick="applyPrompt(${index})" style="padding: 12px 16px; cursor: pointer; transition: all 0.2s; border-bottom: 1px solid #f0f0f0;">
+                    <div style="font-weight: 500; margin-bottom: 4px; color: #333; font-size: 14px;">${prompt.name}</div>
+                    <div style="font-size: 12px; color: #666; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">${prompt.content.substring(0, 50)}${prompt.content.length > 50 ? '...' : ''}</div>
+                </div>
+            `).join('');
+        }
+
+        // 应用Prompt到输入框
+        function applyPrompt(index) {
+            const prompt = prompts[index];
+            document.getElementById('universalPrompt').value = prompt.content;
+            updateCharCount();
+            closePromptSelector();
+        }
+
+        // 更新字符计数
+        function updateCharCount() {
+            const textarea = document.getElementById('universalPrompt');
+            const count = textarea.value.length;
+            document.getElementById('universalPromptCharCount').textContent = count;
+        }
+
+        // 监听Prompt输入框的变化
+        document.addEventListener('DOMContentLoaded', function() {
+            const promptTextarea = document.getElementById('universalPrompt');
+            if (promptTextarea) {
+                promptTextarea.addEventListener('input', updateCharCount);
+                
+                // 双击打开快速选择器
+                promptTextarea.addEventListener('dblclick', function(e) {
+                    if (this.value.trim() === '') {
+                        openPromptSelector(this);
+                    }
+                });
+            }
+        });
+
+        // 版本号交互
     (function() {
         const loadTime = new Date().toLocaleString('zh-CN');
         const cacheStatus = performance.navigation.type === 1 ? '刷新' : '首次加载';
@@ -10718,5 +12280,213 @@
         console.log('%c💡 提示: 如果看到旧版本，请按 Cmd+Shift+R 强制刷新', 'font-size: 11px; color: #666; font-style: italic;');
     })();
     </script>
+
+    <!-- Prompt管理器模态框 -->
+    <div id="promptManagerModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.5); z-index: 9999; backdrop-filter: blur(2px);">
+        <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 95%; max-width: 1100px; max-height: 85vh; background: white; border-radius: 12px; box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2); display: flex; flex-direction: column;">
+            <!-- 头部 -->
+            <div style="padding: 20px 24px; border-bottom: 1px solid #e8e8e8; display: flex; justify-content: space-between; align-items: center;">
+                <h3 style="margin: 0; font-size: 18px; color: #333;">Prompt管理器</h3>
+                <button onclick="closePromptManager()" style="background: none; border: none; cursor: pointer; padding: 4px;">
+                    <span class="material-icons" style="font-size: 24px; color: #999;">close</span>
+                </button>
+            </div>
+
+            <!-- 内容 -->
+            <div style="flex: 1; overflow: hidden; display: flex; flex-direction: column;">
+                <!-- 搜索和筛选区域 -->
+                <div style="padding: 16px 20px; border-bottom: 1px solid #e8e8e8;">
+                    <!-- 第一行：搜索框 + 数量 -->
+                    <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 12px;">
+                        <div style="position: relative; flex: 1;">
+                            <input type="text" id="promptSearchInput" placeholder="可以输入 Prompt 名称或内容" oninput="filterPrompts()" style="width: 100%; padding: 8px 12px 8px 36px; border: 1px solid #d9d9d9; border-radius: 6px; font-size: 13px; box-sizing: border-box;">
+                            <span class="material-icons" style="position: absolute; left: 10px; top: 50%; transform: translateY(-50%); font-size: 18px; color: #999;">search</span>
+                        </div>
+                        <span id="promptCountText" style="font-size: 12px; color: #999; white-space: nowrap;"></span>
+                    </div>
+                    
+                    <!-- 第二行：三个下拉筛选 + 清除按钮 -->
+                    <div style="display: flex; align-items: center; gap: 10px;">
+                        <select id="filterCategorySelect" onchange="onFilterSelectChange()" style="flex: 1; padding: 7px 10px; border: 1px solid #d9d9d9; border-radius: 6px; font-size: 13px; color: #555; background: white; cursor: pointer;">
+                            <option value="">全部品类</option>
+                            <option value="服饰">服饰</option>
+                            <option value="美妆">美妆</option>
+                            <option value="鞋包">鞋包</option>
+                            <option value="家居">家居</option>
+                            <option value="数码">数码</option>
+                            <option value="食品">食品</option>
+                        </select>
+                        <select id="filterStyleSelect" onchange="onFilterSelectChange()" style="flex: 1; padding: 7px 10px; border: 1px solid #d9d9d9; border-radius: 6px; font-size: 13px; color: #555; background: white; cursor: pointer;">
+                            <option value="">全部风格</option>
+                            <option value="质感简约风">质感简约风</option>
+                            <option value="原生实拍风">原生实拍风</option>
+                            <option value="促销利益风">促销利益风</option>
+                            <option value="商品海报风">商品海报风</option>
+                            <option value="功能场景型">功能场景型</option>
+                        </select>
+                        <select id="filterStrategySelect" onchange="onFilterSelectChange()" style="flex: 1; padding: 7px 10px; border: 1px solid #d9d9d9; border-radius: 6px; font-size: 13px; color: #555; background: white; cursor: pointer;">
+                            <option value="">全部策略</option>
+                            <option value="上身版型类">上身版型类</option>
+                            <option value="场景穿搭类">场景穿搭类</option>
+                            <option value="细节质感类">细节质感类</option>
+                            <option value="对比差异类">对比差异类</option>
+                            <option value="新客利益类">新客利益类</option>
+                            <option value="套装礼盒类">套装礼盒类</option>
+                            <option value="单品展示类">单品展示类</option>
+                            <option value="多品矩阵类">多品矩阵类</option>
+                            <option value="IP联名类">IP联名类</option>
+                            <option value="场景展示类">场景展示类</option>
+                            <option value="持妆功效类">持妆功效类</option>
+                            <option value="上脸/上手实拍类">上脸/上手实拍类</option>
+                        </select>
+                        <button onclick="clearPromptFilters()" title="清除所有筛选" style="padding: 7px 12px; background: none; border: 1px solid #d9d9d9; border-radius: 6px; cursor: pointer; font-size: 12px; color: #666; white-space: nowrap; display: flex; align-items: center; gap: 4px;">
+                            <span class="material-icons" style="font-size: 14px;">filter_alt_off</span>重置
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Prompt列表区域 -->
+                <div style="flex: 1; overflow-y: auto; padding: 4px 20px 16px 20px;">
+                    <!-- Prompt卡片网格 -->
+                    <div id="promptList" style="min-height: 200px;">
+                        <!-- Prompt卡片将在这里动态生成 -->
+                    </div>
+                </div>
+                
+                <!-- 新增/编辑展开区域 -->
+                <div id="promptEditor" style="display: none; border-top: 2px solid #1890ff; background: #fafafa; max-height: 55vh; overflow-y: auto; flex-shrink: 0;">
+                    <div style="padding: 20px;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+                            <h4 id="promptEditorTitle" style="margin: 0; font-size: 16px; color: #333;">新增Prompt</h4>
+                            <button onclick="cancelEdit()" style="background: none; border: none; cursor: pointer; padding: 4px;">
+                                <span class="material-icons" style="font-size: 20px; color: #999;">close</span>
+                            </button>
+                        </div>
+                        
+                        <!-- 预览图 -->
+                        <div style="margin-bottom: 16px;">
+                            <label style="display: block; margin-bottom: 8px; font-size: 14px; font-weight: 500; color: #333;">预览图</label>
+                            <div style="display: flex; align-items: flex-start; gap: 14px;">
+                                <div id="promptPreviewImageBox" onclick="triggerPromptPreviewUpload()" style="width: 120px; height: 120px; border: 2px dashed #d9d9d9; border-radius: 8px; cursor: pointer; display: flex; align-items: center; justify-content: center; flex-direction: column; gap: 4px; color: #999; font-size: 12px; background: #fafafa; overflow: hidden; position: relative; flex-shrink: 0; transition: border-color 0.2s;">
+                                    <span class="material-icons" style="font-size: 32px; color: #d9d9d9;">add_photo_alternate</span>
+                                    <span>点击上传</span>
+                                </div>
+                                <div style="font-size: 12px; color: #999; line-height: 1.7; padding-top: 4px;">
+                                    建议尺寸：正方形（1:1）<br>
+                                    支持 JPG / PNG / WebP，不超过 10MB<br>
+                                    上传后将作为 Prompt 卡片封面展示
+                                </div>
+                                <input type="file" id="promptPreviewFileInput" accept="image/jpeg,image/jpg,image/png,image/webp" style="display: none;" onchange="handlePromptPreviewUpload(event)">
+                            </div>
+                        </div>
+
+                        <!-- 基本信息 -->
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px;">
+                            <div>
+                                <label style="display: block; margin-bottom: 8px; font-size: 14px; font-weight: 500; color: #333;">Prompt名称</label>
+                                <input type="text" id="promptNameInput" placeholder="请输入prompt名称" style="width: 100%; padding: 10px 12px; border: 1px solid #d9d9d9; border-radius: 6px; font-size: 14px; box-sizing: border-box;">
+                            </div>
+                            <div>
+                                <label style="display: block; margin-bottom: 8px; font-size: 14px; font-weight: 500; color: #333;">状态</label>
+                                <select id="promptStatusInput" style="width: 100%; padding: 10px 12px; border: 1px solid #d9d9d9; border-radius: 6px; font-size: 14px; box-sizing: border-box;">
+                                    <option value="启用">启用</option>
+                                    <option value="停用">停用</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <!-- 分类信息 -->
+                        <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; margin-bottom: 16px;">
+                            <div>
+                                <label style="display: block; margin-bottom: 6px; font-size: 13px; font-weight: 500; color: #666;">品类</label>
+                                <select id="promptCategoryInput" style="width: 100%; padding: 8px 10px; border: 1px solid #d9d9d9; border-radius: 6px; font-size: 13px; box-sizing: border-box;">
+                                    <option value="">请选择</option>
+                                    <option value="服饰">服饰</option>
+                                    <option value="美妆">美妆</option>
+                                    <option value="鞋包">鞋包</option>
+                                    <option value="家居">家居</option>
+                                    <option value="数码">数码</option>
+                                    <option value="食品">食品</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label style="display: block; margin-bottom: 6px; font-size: 13px; font-weight: 500; color: #666;">素材风格</label>
+                                <select id="promptStyleInput" style="width: 100%; padding: 8px 10px; border: 1px solid #d9d9d9; border-radius: 6px; font-size: 13px; box-sizing: border-box;">
+                                    <option value="">请选择</option>
+                                    <option value="质感简约风">质感简约风</option>
+                                    <option value="原生实拍风">原生实拍风</option>
+                                    <option value="促销利益风">促销利益风</option>
+                                    <option value="商品海报风">商品海报风</option>
+                                    <option value="功能场景型">功能场景型</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label style="display: block; margin-bottom: 6px; font-size: 13px; font-weight: 500; color: #666;">内容策略</label>
+                                <select id="promptStrategyInput" style="width: 100%; padding: 8px 10px; border: 1px solid #d9d9d9; border-radius: 6px; font-size: 13px; box-sizing: border-box;">
+                                    <option value="">请选择</option>
+                                    <option value="上身版型类">上身版型类</option>
+                                    <option value="场景穿搭类">场景穿搭类</option>
+                                    <option value="细节质感类">细节质感类</option>
+                                    <option value="对比差异类">对比差异类</option>
+                                    <option value="新客利益类">新客利益类</option>
+                                    <option value="套装礼盒类">套装礼盒类</option>
+                                    <option value="单品展示类">单品展示类</option>
+                                    <option value="多品矩阵类">多品矩阵类</option>
+                                    <option value="IP联名类">IP联名类</option>
+                                    <option value="场景展示类">场景展示类</option>
+                                    <option value="持妆功效类">持妆功效类</option>
+                                    <option value="上脸/上手实拍类">上脸/上手实拍类</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <!-- Prompt内容 -->
+                        <div style="margin-bottom: 16px;">
+                            <label style="display: block; margin-bottom: 8px; font-size: 14px; font-weight: 500; color: #333;">Prompt内容</label>
+                            <textarea id="promptContentInput" placeholder="请输入prompt内容" style="width: 100%; height: 120px; padding: 10px 12px; border: 1px solid #d9d9d9; border-radius: 6px; font-size: 14px; resize: vertical; font-family: monospace; box-sizing: border-box;"></textarea>
+                        </div>
+                        
+                        <!-- 操作按钮 -->
+                        <div style="display: flex; gap: 12px; justify-content: flex-end;">
+                            <button onclick="deletePrompt()" id="deletePromptBtn" style="padding: 8px 16px; background: #ff4d4f; color: white; border: none; border-radius: 6px; cursor: pointer; font-size: 14px; display: none;">
+                                删除
+                            </button>
+                            <button onclick="cancelEdit()" style="padding: 8px 16px; background: #f0f0f0; color: #666; border: none; border-radius: 6px; cursor: pointer; font-size: 14px;">
+                                取消
+                            </button>
+                            <button onclick="savePrompt()" style="padding: 8px 24px; background: #1890ff; color: white; border: none; border-radius: 6px; cursor: pointer; font-size: 14px;">
+                                保存
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 新建按钮（列表为空或编辑器隐藏时显示） -->
+                <div id="addPromptBtnContainer" style="padding: 16px 20px; border-top: 1px solid #e8e8e8;">
+                    <button onclick="addNewPrompt()" style="width: 100%; padding: 10px 12px; background: #1890ff; color: white; border: none; border-radius: 6px; cursor: pointer; font-size: 14px; display: flex; align-items: center; justify-content: center; gap: 6px;">
+                        <span class="material-icons" style="font-size: 18px;">add</span>
+                        新建Prompt
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Prompt选择器浮层 -->
+    <div id="promptSelector" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 9998;">
+        <div onclick="closePromptSelector()" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.3);"></div>
+        <div id="promptSelectorContent" style="position: absolute; background: white; border-radius: 8px; box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15); max-height: 400px; width: 400px; overflow: hidden; display: flex; flex-direction: column;">
+            <div style="padding: 16px; border-bottom: 1px solid #e8e8e8; display: flex; justify-content: space-between; align-items: center;">
+                <h4 style="margin: 0; font-size: 16px;">选择Prompt</h4>
+                <button onclick="openPromptManager()" style="background: none; border: none; cursor: pointer; padding: 4px; color: #1890ff; font-size: 13px;">
+                    管理
+                </button>
+            </div>
+            <div id="promptQuickList" style="flex: 1; overflow-y: auto; padding: 8px 0;">
+                <!-- 快速选择列表 -->
+            </div>
+        </div>
+    </div>
+
 </body>
 </html> 
