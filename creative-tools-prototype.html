@@ -693,6 +693,211 @@
             margin-bottom: 12px;
         }
 
+        /* 生成记录：单图 / 九宫格组 */
+        .gen-record-panel {
+            padding: 4px 0 24px;
+        }
+
+        .gen-record-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 20px;
+            gap: 12px;
+        }
+
+        .gen-record-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #1d2129;
+        }
+
+        .gen-record-subtitle {
+            font-size: 12px;
+            color: #86909c;
+            margin-top: 4px;
+        }
+
+        .gen-record-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 16px;
+        }
+
+        .gen-record-chip {
+            font-size: 12px;
+            padding: 2px 10px;
+            border-radius: 12px;
+            background: #f2f3f5;
+            color: #4e5969;
+        }
+
+        .gen-record-chip.primary {
+            background: #e8f3ff;
+            color: #165dff;
+        }
+
+        .gen-record-groups {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .gen-record-group {
+            border: 1px solid #e5e6eb;
+            border-radius: 8px;
+            padding: 16px;
+            background: #fff;
+        }
+
+        .gen-record-group-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+
+        .gen-record-group-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: #1d2129;
+        }
+
+        .gen-record-group-badge {
+            font-size: 11px;
+            color: #86909c;
+            background: #f7f8fa;
+            padding: 2px 8px;
+            border-radius: 4px;
+        }
+
+        .gen-nine-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 4px;
+            width: 100%;
+            max-width: 420px;
+            aspect-ratio: 1;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+            background: #f2f3f5;
+        }
+
+        .gen-nine-grid-cell {
+            position: relative;
+            overflow: hidden;
+            background: #e5e6eb;
+            cursor: pointer;
+        }
+
+        .gen-nine-grid-cell img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            transition: transform 0.2s;
+        }
+
+        .gen-nine-grid-cell:hover img {
+            transform: scale(1.05);
+        }
+
+        .gen-nine-grid-cell .cell-index {
+            position: absolute;
+            top: 4px;
+            left: 4px;
+            font-size: 10px;
+            line-height: 1;
+            padding: 2px 5px;
+            border-radius: 3px;
+            background: rgba(0, 0, 0, 0.45);
+            color: #fff;
+            pointer-events: none;
+        }
+
+        .gen-nine-grid.compact {
+            max-width: 100%;
+            gap: 2px;
+            box-shadow: none;
+            border-radius: 6px;
+        }
+
+        .gen-single-result {
+            text-align: center;
+        }
+
+        .gen-single-result img {
+            max-width: 100%;
+            max-height: 480px;
+            border-radius: 8px;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+        }
+
+        .gen-single-gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+            gap: 12px;
+        }
+
+        .gen-single-gallery-item {
+            border-radius: 8px;
+            overflow: hidden;
+            border: 1px solid #e5e6eb;
+            cursor: pointer;
+        }
+
+        .gen-single-gallery-item img {
+            width: 100%;
+            aspect-ratio: 1;
+            object-fit: cover;
+            display: block;
+        }
+
+        .gen-record-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 12px;
+        }
+
+        .task-card-nine-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2px;
+            width: 100%;
+            aspect-ratio: 1;
+            border-radius: 6px;
+            overflow: hidden;
+            background: #f2f3f5;
+        }
+
+        .task-card-grid-cell {
+            overflow: hidden;
+            background: #e5e6eb;
+        }
+
+        .task-card-grid-cell img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .task-card-group-badge {
+            position: absolute;
+            bottom: 6px;
+            right: 6px;
+            background: rgba(0, 0, 0, 0.55);
+            color: #fff;
+            font-size: 10px;
+            padding: 2px 6px;
+            border-radius: 4px;
+            pointer-events: none;
+        }
+
         /* 响应式设计 */
         @media (max-width: 1400px) {
             .content-area {
@@ -1415,6 +1620,10 @@
             border-radius: 8px;
         }
 
+        .fission-ref-preview.is-multi-mode {
+            min-height: 318px;
+        }
+
         .fission-ref-preview-title {
             font-size: 12px;
             color: #666;
@@ -1424,36 +1633,81 @@
             gap: 4px;
         }
 
-        .fission-ref-preview-grid {
+        /* 多品多图：固定 3×3 预览区 */
+        .fission-ref-preview-grid.is-nine-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(72px, 1fr));
-            gap: 8px;
+            grid-template-columns: repeat(3, 1fr);
+            grid-template-rows: repeat(3, 1fr);
+            gap: 4px;
+            width: 280px;
+            height: 280px;
+            min-width: 280px;
+            min-height: 280px;
+            max-width: 280px;
+            max-height: 280px;
+            flex-shrink: 0;
+            border-radius: 8px;
+            overflow: hidden;
+            background: #f2f3f5;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+        }
+
+        /* 单品单图：单张缩略图 */
+        .fission-ref-preview-single {
+            width: 120px;
+            height: 120px;
+            min-width: 120px;
+            min-height: 120px;
+            border-radius: 8px;
+            overflow: hidden;
+            border: 1px solid #e8e8e8;
+            background: #f0f0f0;
+            cursor: pointer;
+        }
+
+        .fission-ref-preview-single img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
         }
 
         .fission-ref-preview-item {
             position: relative;
-            aspect-ratio: 1;
-            border-radius: 6px;
             overflow: hidden;
-            border: 1px solid #e8e8e8;
-            background: #f0f0f0;
+            background: #e5e6eb;
+            min-height: 0;
+            min-width: 0;
+        }
+
+        .fission-ref-preview-item.is-empty {
+            background: #f7f8fa;
+            border: 1px dashed #c9cdd4;
+            box-sizing: border-box;
+        }
+
+        .fission-ref-preview-item.is-empty .ref-index {
+            background: rgba(0, 0, 0, 0.25);
         }
 
         .fission-ref-preview-item img {
             width: 100%;
             height: 100%;
             object-fit: cover;
+            display: block;
         }
 
         .fission-ref-preview-item .ref-index {
             position: absolute;
+            top: 4px;
             left: 4px;
-            bottom: 4px;
-            background: rgba(0,0,0,0.55);
+            background: rgba(0, 0, 0, 0.45);
             color: #fff;
             font-size: 10px;
-            padding: 1px 5px;
+            line-height: 1;
+            padding: 2px 5px;
             border-radius: 3px;
+            pointer-events: none;
         }
 
         /* 万能指令 - Arco Design 参考风格 */
@@ -4950,10 +5204,14 @@
                                     <input type="text" id="fissionRefUrlSingle" class="arco-input" placeholder="请粘贴参考图的可访问 URL" oninput="updateFissionRefPreview()">
                                 </div>
                                 <div id="fissionRefUrlMultiWrap" style="display: none;">
-                                    <textarea id="fissionRefUrlMulti" class="arco-textarea" rows="4" placeholder="请粘贴多个参考图 URL，用分号（;）或换行分隔" oninput="updateFissionRefPreview()"></textarea>
+                                    <textarea id="fissionRefUrlMulti" class="arco-textarea" rows="4" placeholder="请粘贴 9 张参考图 URL（必填），用分号（;）或换行分隔" oninput="updateFissionRefPreview()"></textarea>
+                                    <div class="fission-field-hint">多品多图须恰好 9 张参考图，生成结果按组以九宫格展示</div>
                                 </div>
                                 <div id="fissionRefPreview" class="fission-ref-preview" style="display: none; margin-top: 8px;">
-                                    <div class="fission-ref-preview-title">参考图预览（<span id="fissionRefUrlCount">0</span> 张）</div>
+                                    <div class="fission-ref-preview-title">
+                                        <span id="fissionRefPreviewTitleText">参考图预览</span>
+                                        <span id="fissionRefPreviewCountWrap">（<span id="fissionRefUrlCount">0</span><span id="fissionRefUrlTotal">/1</span> 张）</span>
+                                    </div>
                                     <div id="fissionRefPreviewGrid" class="fission-ref-preview-grid"></div>
                                 </div>
                             </div>
@@ -5046,7 +5304,7 @@
                 middlePanelContent: `
                     <div class="empty-state">
                         <span class="material-icons">image</span>
-                        <p>上传图片并输入指令后，点击生产即可生成结果</p>
+                        <p>提交生成后，单图以大图展示，多品多图按组以九宫格展示</p>
                     </div>
                 `,
                 tasks: []
@@ -5824,26 +6082,25 @@
         
         // 生成单个任务卡片
         function generateTaskCard(task) {
-            const resultImage = task.resultImage || task.imageUrl || task.outputUrl || '';
-            const originalImage = task.originalImage || task.sourceImage || '';
+            const originalImage = task.originalImage || task.sourceImage || (task.fissionRefUrls && task.fissionRefUrls[0]) || '';
             const taskName = task.title || task.name || `任务${task.id || Date.now()}`;
             const taskTime = task.time || task.createdAt || '';
             const taskOperator = task.operator || '';
+            const previewHtml = getTaskCardPreviewHtml(task);
             
             const tabLabel = task.tab === 'fission' ? '仿写裂变' : '指令生成';
             return `
                 <div class="task-card" data-task-id="${task.id || ''}" onclick="selectTaskCard('${task.id || ''}')" title="点击回溯此任务配置">
                     <div class="task-card-main">
-                        <img src="${resultImage}" alt="${taskName}" class="task-card-result" 
-                             onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect fill=%22%23f5f5f5%22 width=%22100%22 height=%22100%22/><text x=%2250%22 y=%2255%22 text-anchor=%22middle%22 fill=%22%23999%22 font-size=%2212%22>图片加载失败</text></svg>'">
-                        ${originalImage ? `<img src="${originalImage}" alt="原图" class="task-card-original">` : ''}
+                        ${previewHtml}
+                        ${originalImage ? `<img src="${escapeGenHtml(originalImage)}" alt="原图" class="task-card-original">` : ''}
                         <span style="position: absolute; top: 6px; right: 6px; background: rgba(24,144,255,0.85); color: white; font-size: 10px; padding: 1px 5px; border-radius: 3px; pointer-events: none;">${tabLabel}</span>
                     </div>
                     <div class="task-card-info">
-                        <span class="task-card-name">${taskName}</span>
+                        <span class="task-card-name">${escapeGenHtml(taskName)}</span>
                         <div style="display: flex; align-items: center; justify-content: space-between; margin-top: 2px;">
-                            ${taskTime ? `<span class="task-card-time">${taskTime}</span>` : '<span></span>'}
-                            ${taskOperator ? `<span style="font-size: 10px; color: #bbb; max-width: 60px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="${taskOperator}">@${taskOperator}</span>` : ''}
+                            ${taskTime ? `<span class="task-card-time">${escapeGenHtml(taskTime)}</span>` : '<span></span>'}
+                            ${taskOperator ? `<span style="font-size: 10px; color: #bbb; max-width: 60px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="${escapeGenHtml(taskOperator)}">@${escapeGenHtml(taskOperator)}</span>` : ''}
                         </div>
                     </div>
                 </div>
@@ -5977,7 +6234,13 @@
                 renderUniversalImages();
             }
 
-            // 4. 顶部提示
+            // 4. 中间面板展示该任务生成记录
+            showGenerationRecord(task, {
+                title: task.title || '生成记录',
+                subtitle: `${task.date || ''} ${task.time || ''}`.trim()
+            });
+
+            // 5. 顶部提示
             showToast(`📋 已回溯任务：${task.title}`);
         }
         
@@ -6034,9 +6297,40 @@
         // 初始化任务列表mock数据
         function initializeMockTaskList() {
             const mockImage = 'https://a.vpimg3.com/upload/otd2/creatives/20260415/1776257768399542_7532.jpg';
+            const multiRefUrls = Array.from({ length: 9 }, (_, i) => buildDemoResultImageUrl(`mock-ref-${i}`));
             const today = new Date();
             const yesterday = new Date(today);
             yesterday.setDate(yesterday.getDate() - 1);
+
+            const multiGridGroup1 = {
+                type: 'grid',
+                groupIndex: 1,
+                label: 'Auto 裂变 1',
+                cells: padCellsToNine(multiRefUrls.map((_, i) => buildDemoResultImageUrl(`mock-g1-${i}`)), 'mock-g1')
+            };
+            const multiGridGroup2 = {
+                type: 'grid',
+                groupIndex: 2,
+                label: 'Auto 裂变 2',
+                cells: padCellsToNine(multiRefUrls.map((_, i) => buildDemoResultImageUrl(`mock-g2-${i}`)), 'mock-g2')
+            };
+            const multiGridGroup3 = {
+                type: 'grid',
+                groupIndex: 3,
+                label: '场景风',
+                cells: padCellsToNine(multiRefUrls.map((_, i) => buildDemoResultImageUrl(`mock-g3-${i}`)), 'mock-g3')
+            };
+            const multiGridGroup4 = {
+                type: 'grid',
+                groupIndex: 4,
+                label: '纯色风',
+                cells: padCellsToNine(multiRefUrls.map((_, i) => buildDemoResultImageUrl(`mock-g4-${i}`)), 'mock-g4')
+            };
+            const multiGenerationRecord = {
+                displayType: 'grouped',
+                groups: [multiGridGroup1, multiGridGroup2, multiGridGroup3, multiGridGroup4],
+                meta: { tab: 'fission', materialType: 104, mode: 'both', inputCount: 9, groupCount: 4, setCount: 4 }
+            };
             
             const mockTasks = [
                 // 今天的数据
@@ -6115,7 +6409,36 @@
                     fissionAutoNum: 2,
                     fissionSceneNum: 1,
                     fissionSolidNum: 1,
+                    generationRecord: {
+                        displayType: 'multi',
+                        groups: [
+                            { type: 'single', groupIndex: 1, label: 'Auto 裂变 1', cells: [{ index: 1, url: buildDemoResultImageUrl('mock-4b-1'), status: 10 }] },
+                            { type: 'single', groupIndex: 2, label: 'Auto 裂变 2', cells: [{ index: 1, url: buildDemoResultImageUrl('mock-4b-2'), status: 10 }] },
+                            { type: 'single', groupIndex: 3, label: '场景风 1', cells: [{ index: 1, url: buildDemoResultImageUrl('mock-4b-3'), status: 10 }] },
+                            { type: 'single', groupIndex: 4, label: '纯色风 1', cells: [{ index: 1, url: buildDemoResultImageUrl('mock-4b-4'), status: 10 }] }
+                        ],
+                        meta: { tab: 'fission', materialType: 101, mode: 'both', groupCount: 4 }
+                    },
                     uploadedImages: [mockImage]
+                },
+                {
+                    id: 'task_8',
+                    title: '多品九宫格-001',
+                    resultImage: multiRefUrls[0],
+                    originalImage: multiRefUrls[0],
+                    date: today.toISOString().split('T')[0],
+                    time: '09:15',
+                    operator: 'lucien.xu',
+                    tab: 'fission',
+                    fissionGoodsId: '6921884166766247117',
+                    fissionMode: 'both',
+                    fissionMaterialType: '104',
+                    fissionRefUrls: multiRefUrls,
+                    fissionAutoNum: 2,
+                    fissionSceneNum: 1,
+                    fissionSolidNum: 1,
+                    generationRecord: multiGenerationRecord,
+                    uploadedImages: multiRefUrls
                 },
                 // 昨天的数据
                 {
@@ -11909,26 +12232,60 @@
 
         function updateFissionRefPreview() {
             const urls = parseFissionReferenceUrls();
+            const materialType = document.querySelector('input[name="fissionMaterialType"]:checked')?.value || '101';
+            const isMulti = materialType === '104';
             const preview = document.getElementById('fissionRefPreview');
             const grid = document.getElementById('fissionRefPreviewGrid');
             const countEl = document.getElementById('fissionRefUrlCount');
+            const totalEl = document.getElementById('fissionRefUrlTotal');
+            const titleTextEl = document.getElementById('fissionRefPreviewTitleText');
+            const countWrap = document.getElementById('fissionRefPreviewCountWrap');
             if (!preview || !grid) return;
 
-            if (countEl) countEl.textContent = urls.length;
+            preview.classList.toggle('is-multi-mode', isMulti);
+
+            if (isMulti) {
+                preview.style.display = 'block';
+                if (countEl) countEl.textContent = urls.length;
+                if (totalEl) totalEl.textContent = '/9';
+                if (titleTextEl) titleTextEl.textContent = '参考图预览 · 3×3';
+                if (countWrap) countWrap.style.display = '';
+
+                grid.className = 'fission-ref-preview-grid is-nine-grid';
+                const cells = Array.from({ length: 9 }, (_, i) => urls[i] || null);
+                grid.innerHTML = cells.map((url, i) => {
+                    const safeUrl = url ? url.replace(/"/g, '&quot;').replace(/'/g, '&#39;') : '';
+                    const emptyClass = url ? '' : ' is-empty';
+                    return `
+                        <div class="fission-ref-preview-item${emptyClass}" ${url ? `onclick="previewGenerationImage('${safeUrl}')"` : ''} title="${url ? '参考图 ' + (i + 1) : '待填入第 ' + (i + 1) + ' 张'}">
+                            ${url
+                                ? `<img src="${safeUrl}" alt="参考图${i + 1}" loading="lazy" onerror="this.parentElement.classList.add('is-empty'); this.style.display='none';">`
+                                : ''}
+                            <span class="ref-index">${i + 1}</span>
+                        </div>
+                    `;
+                }).join('');
+                return;
+            }
+
+            if (countEl) countEl.textContent = urls.length ? '1' : '0';
+            if (totalEl) totalEl.textContent = '/1';
+            if (titleTextEl) titleTextEl.textContent = '参考图预览';
+            if (countWrap) countWrap.style.display = urls.length ? '' : 'none';
 
             if (urls.length === 0) {
                 preview.style.display = 'none';
                 grid.innerHTML = '';
+                grid.className = 'fission-ref-preview-grid';
                 return;
             }
 
             preview.style.display = 'block';
-            grid.innerHTML = urls.map((url, i) => `
-                <div class="fission-ref-preview-item">
-                    <img src="${url.replace(/"/g, '&quot;')}" alt="参考图${i + 1}" onerror="this.style.display='none'">
-                    <span class="ref-index">${i + 1}</span>
-                </div>
-            `).join('');
+            const safeUrl = urls[0].replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+            grid.className = 'fission-ref-preview-single';
+            grid.innerHTML = `
+                <img src="${safeUrl}" alt="参考图" loading="lazy" onclick="previewGenerationImage('${safeUrl}')" onerror="this.style.opacity='0.35'">
+            `;
         }
 
         function adjustFissionNum(type, delta) {
@@ -11963,7 +12320,70 @@
 
             const total = auto + scene + solid;
             if (totalEl) totalEl.textContent = total;
-            summaryBar.innerHTML = `预计产出约 <strong>${total}</strong> 张（Auto <strong>${auto}</strong> + 场景 <strong>${scene}</strong> + 纯色 <strong>${solid}</strong>）`;
+            const materialType = document.querySelector('input[name="fissionMaterialType"]:checked')?.value || '101';
+            if (materialType === '104') {
+                summaryBar.innerHTML = `预计产出 <strong>${total}</strong> 套九宫格（每套 9 张 · Auto <strong>${auto}</strong> + 场景 <strong>${scene}</strong> + 纯色 <strong>${solid}</strong>）`;
+            } else {
+                summaryBar.innerHTML = `预计产出约 <strong>${total}</strong> 张（Auto <strong>${auto}</strong> + 场景 <strong>${scene}</strong> + 纯色 <strong>${solid}</strong>）`;
+            }
+        }
+
+        /** 按复刻策略与方向数量，展开为 N 个结果组（多图时每组为九宫格） */
+        function collectFissionGroupSpecs(fissionData) {
+            const mode = fissionData._ui?.mode || 'copy';
+            const materialType = fissionData.logicGenerateType || 101;
+            const isGrid = materialType === 104;
+            const cellType = isGrid ? 'grid' : 'single';
+            const specs = [];
+
+            const pushDirectionSpecs = () => {
+                const auto = fissionData.autoFissionNum || 0;
+                const scene = fissionData.sceneFissionNum || 0;
+                const solid = fissionData.solidFissionNum || 0;
+                for (let i = 0; i < auto; i++) {
+                    specs.push({ label: auto > 1 ? `Auto 裂变 ${i + 1}` : 'Auto 裂变', seed: `auto-${i}`, type: cellType });
+                }
+                for (let i = 0; i < scene; i++) {
+                    specs.push({ label: scene > 1 ? `场景风 ${i + 1}` : '场景风', seed: `scene-${i}`, type: cellType });
+                }
+                for (let i = 0; i < solid; i++) {
+                    specs.push({ label: solid > 1 ? `纯色风 ${i + 1}` : '纯色风', seed: `solid-${i}`, type: cellType });
+                }
+            };
+
+            if (mode === 'copy') {
+                const count = fissionData.copyCount || 1;
+                for (let i = 0; i < count; i++) {
+                    specs.push({
+                        label: isGrid
+                            ? (count > 1 ? `仿写组 ${i + 1}` : '仿写组')
+                            : (count > 1 ? `仿写结果 ${i + 1}` : '仿写结果'),
+                        seed: `copy-${i}`,
+                        type: cellType
+                    });
+                }
+            } else {
+                pushDirectionSpecs();
+            }
+            return specs;
+        }
+
+        function buildGroupFromSpec(spec, refUrls, taskSeed, groupIndex) {
+            if (spec.type === 'grid') {
+                const outputUrls = refUrls.map((_, i) => buildDemoResultImageUrl(`${taskSeed}-${spec.seed}-c${i}`));
+                return {
+                    type: 'grid',
+                    groupIndex,
+                    label: spec.label,
+                    cells: padCellsToNine(outputUrls, `${taskSeed}-${spec.seed}`)
+                };
+            }
+            return {
+                type: 'single',
+                groupIndex,
+                label: spec.label,
+                cells: [{ index: 1, url: buildDemoResultImageUrl(`${taskSeed}-${spec.seed}`), status: 10 }]
+            };
         }
 
         function getFissionOutputSize() {
@@ -12067,6 +12487,10 @@
                 alert('单品单图模式仅支持 1 条参考图 URL');
                 return false;
             }
+            if (materialType === '104' && urls.length !== 9) {
+                alert('多品多图模式须输入恰好 9 张参考图 URL，当前为 ' + urls.length + ' 张');
+                return false;
+            }
             const invalidUrl = urls.find(u => !/^https?:\/\/.+/i.test(u));
             if (invalidUrl) {
                 alert('参考图 URL 格式不正确，请以 http:// 或 https:// 开头');
@@ -12094,6 +12518,326 @@
         // 兼容旧调用
         function toggleFissionGoodsId() {
             updateFissionPanelState();
+        }
+
+        // ==================== 生成记录展示（单图 / 九宫格组） ====================
+
+        const FISSION_GRID_CELL_COUNT = 9;
+
+        function escapeGenHtml(str) {
+            return String(str || '')
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;');
+        }
+
+        function buildDemoResultImageUrl(seed) {
+            return `https://picsum.photos/seed/${encodeURIComponent(seed)}/480/480`;
+        }
+
+        function padCellsToNine(urls, seedPrefix) {
+            const cells = [];
+            for (let i = 0; i < FISSION_GRID_CELL_COUNT; i++) {
+                cells.push({
+                    index: i + 1,
+                    url: urls[i] || buildDemoResultImageUrl(`${seedPrefix}-${i}`),
+                    status: 10
+                });
+            }
+            return cells;
+        }
+
+        function normalizeGenerationRecord(source) {
+            if (!source) {
+                return { displayType: 'single', groups: [], meta: {} };
+            }
+            if (source.generationRecord) {
+                return source.generationRecord;
+            }
+            if (source.resultGroups && source.resultGroups.length) {
+                const hasGrid = source.resultGroups.some(g => g.type === 'grid');
+                return {
+                    displayType: hasGrid ? 'grouped' : 'single',
+                    groups: source.resultGroups,
+                    meta: {
+                        tab: source.tab,
+                        title: source.title,
+                        materialType: source.fissionMaterialType,
+                        mode: source.fissionMode
+                    }
+                };
+            }
+            const fallbackUrl = source.resultImage || source.imageUrl || source.outputUrl || '';
+            if (!fallbackUrl) {
+                return { displayType: 'single', groups: [], meta: source };
+            }
+            return {
+                displayType: 'single',
+                groups: [{
+                    type: 'single',
+                    groupIndex: 1,
+                    label: '生成结果',
+                    cells: [{ index: 1, url: fallbackUrl, status: 10 }]
+                }],
+                meta: {
+                    tab: source.tab,
+                    title: source.title,
+                    materialType: source.fissionMaterialType,
+                    mode: source.fissionMode
+                }
+            };
+        }
+
+        function renderNineGridMarkup(cells, options = {}) {
+            const compact = options.compact === true;
+            const gridClass = compact ? 'gen-nine-grid compact' : 'gen-nine-grid';
+            const safeCells = (cells || []).slice(0, FISSION_GRID_CELL_COUNT);
+            while (safeCells.length < FISSION_GRID_CELL_COUNT) {
+                safeCells.push({ index: safeCells.length + 1, url: '', status: 0 });
+            }
+            return `
+                <div class="${gridClass}">
+                    ${safeCells.map((cell, idx) => `
+                        <div class="gen-nine-grid-cell" ${cell.url ? `onclick="previewGenerationImage('${escapeGenHtml(cell.url)}')"` : ''} title="第 ${idx + 1} 张">
+                            ${cell.url
+                                ? `<img src="${escapeGenHtml(cell.url)}" alt="结果${idx + 1}" loading="lazy" onerror="this.style.opacity='0.3'">`
+                                : `<div style="width:100%;height:100%;background:#f2f3f5;"></div>`}
+                            <span class="cell-index">${idx + 1}</span>
+                        </div>
+                    `).join('')}
+                </div>
+            `;
+        }
+
+        function renderGenerationGroupMarkup(group) {
+            if (!group) return '';
+            if (group.type === 'grid') {
+                return `
+                    <div class="gen-record-group" data-group-index="${group.groupIndex || 1}">
+                        <div class="gen-record-group-header">
+                            <span class="gen-record-group-title">${escapeGenHtml(group.label || `结果组 ${group.groupIndex || 1}`)}</span>
+                            <span class="gen-record-group-badge">九宫格 · 9 张 / 套</span>
+                        </div>
+                        ${renderNineGridMarkup(group.cells)}
+                    </div>
+                `;
+            }
+            const cells = group.cells || [];
+            if (cells.length === 1) {
+                const url = cells[0].url;
+                return `
+                    <div class="gen-record-group" data-group-index="${group.groupIndex || 1}">
+                        <div class="gen-record-group-header">
+                            <span class="gen-record-group-title">${escapeGenHtml(group.label || '生成结果')}</span>
+                            <span class="gen-record-group-badge">单图</span>
+                        </div>
+                        <div class="gen-single-result">
+                            <img src="${escapeGenHtml(url)}" alt="生成结果" onclick="previewGenerationImage('${escapeGenHtml(url)}')">
+                        </div>
+                    </div>
+                `;
+            }
+            return `
+                <div class="gen-record-group" data-group-index="${group.groupIndex || 1}">
+                    <div class="gen-record-group-header">
+                        <span class="gen-record-group-title">${escapeGenHtml(group.label || '生成结果')}</span>
+                        <span class="gen-record-group-badge">${cells.length} 张</span>
+                    </div>
+                    <div class="gen-single-gallery">
+                        ${cells.map((cell, idx) => `
+                            <div class="gen-single-gallery-item" onclick="previewGenerationImage('${escapeGenHtml(cell.url)}')">
+                                <img src="${escapeGenHtml(cell.url)}" alt="结果${idx + 1}" loading="lazy">
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderGenerationRecordHtml(record, options = {}) {
+            const normalized = normalizeGenerationRecord(record);
+            const groups = normalized.groups || [];
+            const meta = normalized.meta || {};
+            const title = options.title || meta.title || '生成记录';
+            const subtitle = options.subtitle || new Date().toLocaleString('zh-CN');
+            const showRegenerate = options.showRegenerate !== false;
+            const regenerateHandler = options.regenerateHandler || 'submitUniversalCommand()';
+
+            const chips = [];
+            if (meta.tab === 'fission' || meta.mode) {
+                chips.push(`<span class="gen-record-chip primary">仿写裂变</span>`);
+            } else if (meta.tab === 'generate') {
+                chips.push(`<span class="gen-record-chip primary">指令生成</span>`);
+            }
+            if (meta.materialType === '104' || meta.materialType === 104) {
+                chips.push(`<span class="gen-record-chip">多品多图 · 输入 9 张</span>`);
+                if (groups.length) {
+                    chips.push(`<span class="gen-record-chip">${groups.length} 套九宫格</span>`);
+                }
+            } else if (meta.materialType === '101' || meta.materialType === 101) {
+                chips.push(`<span class="gen-record-chip">单品单图</span>`);
+            }
+            if (groups.length > 1 && meta.materialType !== 104 && meta.materialType !== '104') {
+                chips.push(`<span class="gen-record-chip">${groups.length} 个结果组</span>`);
+            }
+
+            const groupsHtml = groups.length
+                ? groups.map(g => renderGenerationGroupMarkup(g)).join('')
+                : `<div class="empty-state"><span class="material-icons">image</span><p>暂无生成结果</p></div>`;
+
+            return `
+                <div class="gen-record-panel">
+                    <div class="gen-record-header">
+                        <div>
+                            <div class="gen-record-title">${escapeGenHtml(title)}</div>
+                            <div class="gen-record-subtitle">${escapeGenHtml(subtitle)}</div>
+                        </div>
+                        ${showRegenerate ? `<button class="btn btn-primary" onclick="${regenerateHandler}">重新生成</button>` : ''}
+                    </div>
+                    ${chips.length ? `<div class="gen-record-meta">${chips.join('')}</div>` : ''}
+                    <div class="gen-record-groups">${groupsHtml}</div>
+                </div>
+            `;
+        }
+
+        function showGenerationRecord(record, options = {}) {
+            const middlePanelContent = document.getElementById('middlePanelContent');
+            if (!middlePanelContent) return;
+            middlePanelContent.innerHTML = renderGenerationRecordHtml(record, options);
+        }
+
+        function previewGenerationImage(url) {
+            if (!url) return;
+            window.open(url, '_blank');
+        }
+
+        function buildFissionDemoGenerationRecord(fissionData) {
+            const mode = fissionData._ui?.mode || 'copy';
+            const materialType = fissionData.logicGenerateType || 101;
+            const refUrls = fissionData.referenceMaterialInfoList || [];
+            const taskSeed = Date.now();
+            const specs = collectFissionGroupSpecs(fissionData);
+            const groups = specs.map((spec, idx) => buildGroupFromSpec(spec, refUrls, taskSeed, idx + 1));
+
+            return {
+                displayType: groups.some(g => g.type === 'grid') ? 'grouped' : (groups.length > 1 ? 'multi' : 'single'),
+                groups,
+                meta: {
+                    tab: 'fission',
+                    materialType,
+                    mode,
+                    inputCount: refUrls.length,
+                    groupCount: groups.length,
+                    setCount: groups.length
+                }
+            };
+        }
+
+        function parseTaskDetailToGenerationRecord(taskDetail) {
+            const param = taskDetail?.taskParam?.imitateFissionTaskParam || {};
+            const materialType = param.logicGenerateType || 101;
+            const groups = [];
+            const groupList = taskDetail?.taskMaterialDetailGroupVOList || [];
+
+            groupList.forEach((groupVO, groupIdx) => {
+                const rows = groupVO.taskMaterialDetailRowVOList || [];
+                rows.forEach((row, rowIdx) => {
+                    const details = (row.taskMaterialDetailVOList || []).filter(d => d.status === 10);
+                    if (!details.length) return;
+
+                    const cells = details.map((d, i) => ({
+                        index: i + 1,
+                        url: d.showMaterialUrl || d.materialUrl || '',
+                        status: d.status
+                    }));
+
+                    let label = `结果组 ${rowIdx + 1}`;
+                    try {
+                        const extRaw = details[0]?.ext;
+                        const ext = extRaw ? JSON.parse(extRaw) : {};
+                        if (ext.materialLabels?.length) {
+                            label = ext.materialLabels.join(' / ');
+                        }
+                    } catch (e) { /* ignore */ }
+
+                    if (materialType === 104) {
+                        groups.push({
+                            type: 'grid',
+                            groupIndex: groups.length + 1,
+                            label,
+                            cells: padCellsToNine(cells.map(c => c.url), `api-g${groupIdx}-r${rowIdx}`)
+                        });
+                    } else {
+                        details.forEach((d, i) => {
+                            groups.push({
+                                type: 'single',
+                                groupIndex: groups.length + 1,
+                                label: details.length > 1 ? `${label} · ${i + 1}` : label,
+                                cells: [{ index: 1, url: d.showMaterialUrl || d.materialUrl || '', status: d.status }]
+                            });
+                        });
+                    }
+                });
+            });
+
+            return {
+                displayType: groups.some(g => g.type === 'grid') ? 'grouped' : 'single',
+                groups,
+                meta: {
+                    tab: 'fission',
+                    materialType,
+                    taskId: taskDetail?.taskId,
+                    groupCount: groups.length
+                }
+            };
+        }
+
+        function getTaskCardPreviewHtml(task) {
+            const record = normalizeGenerationRecord(task);
+            const firstGroup = record.groups[0];
+            if (!firstGroup) {
+                const fallback = task.resultImage || '';
+                return `<img src="${escapeGenHtml(fallback)}" alt="${escapeGenHtml(task.title)}" class="task-card-result">`;
+            }
+            if (firstGroup.type === 'grid') {
+                const cells = (firstGroup.cells || []).slice(0, FISSION_GRID_CELL_COUNT);
+                const groupBadge = record.groups.length > 1
+                    ? `<span class="task-card-group-badge">${record.groups.length} 套</span>`
+                    : `<span class="task-card-group-badge">九宫格</span>`;
+                return `
+                    <div class="task-card-nine-grid">
+                        ${cells.map((cell, idx) => `
+                            <div class="task-card-grid-cell">
+                                <img src="${escapeGenHtml(cell.url)}" alt="${idx + 1}" loading="lazy">
+                            </div>
+                        `).join('')}
+                    </div>
+                    ${groupBadge}
+                `;
+            }
+            const url = firstGroup.cells?.[0]?.url || task.resultImage || '';
+            const multiBadge = record.groups.length > 1
+                ? `<span class="task-card-group-badge">${record.groups.length} 张</span>`
+                : '';
+            return `
+                <img src="${escapeGenHtml(url)}" alt="${escapeGenHtml(task.title)}" class="task-card-result">
+                ${multiBadge}
+            `;
+        }
+
+        function prependGenerationTaskToHistory(taskPayload) {
+            const now = new Date();
+            const task = {
+                id: `task_${now.getTime()}`,
+                date: now.toISOString().split('T')[0],
+                time: now.toTimeString().slice(0, 5),
+                operator: 'demo.user',
+                ...taskPayload
+            };
+            allTaskData.unshift(task);
+            updateTaskList(allTaskData);
+            return task;
         }
         
         // 切换万能指令 Tab
@@ -12457,8 +13201,8 @@
         async function submitUniversalCommand() {
             console.log('🎨 开始万能指令生成...');
             
-            // 验证图片
-            if (universalUploadedImages.length === 0) {
+            // 指令生成才校验上传图片；仿写裂变使用 URL 输入
+            if (currentUniversalTab === 'generate' && universalUploadedImages.length === 0) {
                 alert('请先上传图片');
                 return;
             }
@@ -12524,7 +13268,38 @@
             showToast(currentUniversalTab === 'fission' ? '🚀 开始仿写裂变...' : '🚀 开始万能指令生成...');
             
             if (currentUniversalTab === 'fission') {
-                showToast('⚠️ 仿写裂变接口对接开发中，参数已收集至控制台');
+                const fissionData = collectFissionFormData();
+                setTimeout(() => {
+                    const generationRecord = buildFissionDemoGenerationRecord(fissionData);
+                    const modeLabels = { copy: '仅仿写', fission: '仅裂变', both: '仿写&裂变' };
+                    const taskTitle = `仿写裂变-${new Date().toISOString().slice(0, 10).replace(/-/g, '')}-${String(Date.now()).slice(-4)}`;
+
+                    showGenerationRecord({ generationRecord, title: taskTitle }, {
+                        title: taskTitle,
+                        subtitle: `${modeLabels[fissionData._ui.mode] || ''} · 演示数据（接口对接后替换为真实结果）`
+                    });
+
+                    prependGenerationTaskToHistory({
+                        title: taskTitle,
+                        tab: 'fission',
+                        resultImage: generationRecord.groups[0]?.type === 'grid'
+                            ? generationRecord.groups[0].cells[0]?.url
+                            : (generationRecord.groups[0]?.cells?.[0]?.url || ''),
+                        originalImage: fissionData.referenceMaterialInfoList[0] || '',
+                        generationRecord,
+                        fissionGoodsId: fissionData._ui.goodsId,
+                        fissionMode: fissionData._ui.mode,
+                        fissionMaterialType: String(fissionData.logicGenerateType),
+                        fissionRefUrls: [...fissionData.referenceMaterialInfoList],
+                        fissionCopyCount: fissionData.copyCount ? String(fissionData.copyCount) : undefined,
+                        fissionOutputRatio: fissionData.outputRatio || undefined,
+                        fissionAutoNum: fissionData.autoFissionNum,
+                        fissionSceneNum: fissionData.sceneFissionNum,
+                        fissionSolidNum: fissionData.solidFissionNum
+                    });
+
+                    showToast('✅ 仿写裂变演示结果已生成（接口对接开发中）');
+                }, 800);
                 return;
             }
             
@@ -12584,41 +13359,35 @@
         
         // 显示万能指令结果
         function showUniversalCommandResult(imageUrl, requestInfo) {
-            const middlePanelContent = document.getElementById('middlePanelContent');
-            const currentTime = new Date().toLocaleString('zh-CN');
-            
-            middlePanelContent.innerHTML = `
-                <div style="margin-bottom: 20px;">
-                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
-                        <div>
-                            <span style="font-weight: 500; color: #333;">万能指令生成结果</span>
-                            <span style="margin-left: 10px; color: #999; font-size: 12px;">${currentTime}</span>
-                        </div>
-                        <button class="btn btn-primary" onclick="submitUniversalCommand()">重新生成</button>
-                    </div>
-                    
-                    <div style="text-align: center; margin-bottom: 20px;">
-                        <img src="${imageUrl}" alt="生成结果" style="max-width: 100%; max-height: 500px; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
-                    </div>
-                    
-                    <div style="display: flex; gap: 10px; justify-content: center; margin-bottom: 20px;">
-                        <button class="btn btn-primary" onclick="window.open('${imageUrl}', '_blank')">
-                            <span class="material-icons" style="font-size: 16px; vertical-align: middle;">open_in_new</span>
-                            查看原图
-                        </button>
-                        <button class="btn btn-primary" onclick="downloadImage('${imageUrl}', '万能指令生成_${Date.now()}.png')">
-                            <span class="material-icons" style="font-size: 16px; vertical-align: middle;">download</span>
-                            下载图片
-                        </button>
-                    </div>
-                    
-                    <div style="padding: 16px; background: #f5f5f5; border-radius: 6px; font-size: 13px; color: #666;">
-                        <div style="margin-bottom: 8px;"><strong>📷 图片数量：</strong>${requestInfo.image_urls.length}张</div>
-                        <div style="margin-bottom: 8px;"><strong>📝 Prompt：</strong>${requestInfo.prompt}</div>
-                        <div><strong>📐 比例：</strong>${requestInfo.bg_ratio}</div>
-                    </div>
-                </div>
-            `;
+            const record = {
+                generationRecord: {
+                    displayType: 'single',
+                    groups: [{
+                        type: 'single',
+                        groupIndex: 1,
+                        label: '生成结果',
+                        cells: [{ index: 1, url: imageUrl, status: 10 }]
+                    }],
+                    meta: { tab: 'generate' }
+                },
+                title: '万能指令生成结果'
+            };
+            showGenerationRecord(record, {
+                title: '万能指令生成结果',
+                subtitle: new Date().toLocaleString('zh-CN')
+            });
+
+            prependGenerationTaskToHistory({
+                title: `万能指令-${new Date().toISOString().slice(0, 10).replace(/-/g, '')}-${String(Date.now()).slice(-4)}`,
+                tab: 'generate',
+                resultImage: imageUrl,
+                originalImage: requestInfo.image_urls?.[0] || imageUrl,
+                generationRecord: record.generationRecord,
+                model: requestInfo.model,
+                prompt: requestInfo.prompt,
+                bgRatio: requestInfo.bg_ratio,
+                uploadedImages: requestInfo.image_urls || [imageUrl]
+            });
         }
         
         // 轮询万能指令任务状态
