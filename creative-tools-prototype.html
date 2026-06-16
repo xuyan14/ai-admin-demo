@@ -32,10 +32,126 @@
         }
 
         .sidebar {
-            width: 240px;
-            background: linear-gradient(180deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 20px 0;
+            width: 220px;
+            flex-shrink: 0;
+            background: #fff;
+            color: #4e5969;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.08);
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+        }
+
+        .arco-layout-sider-children {
+            height: 100%;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .logo-container {
+            box-sizing: border-box;
+            width: 100%;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            padding: 0 16px;
+            font-size: 18px;
+            font-weight: 600;
+            color: #e3488c;
+            border-bottom: 1px solid #e5e6eb;
+            flex-shrink: 0;
+        }
+
+        .logo-container .logo-icon {
+            width: 20px;
+            height: 20px;
+            margin-right: 8px;
+            border-radius: 4px;
+            background: linear-gradient(135deg, #e3488c, #165dff);
+        }
+
+        .arco-menu {
+            flex: 1;
+            padding: 4px 8px;
+            font-size: 14px;
+            line-height: 1.5715;
+        }
+
+        .arco-menu-inline-header {
+            display: flex;
+            align-items: center;
+            padding: 0 12px;
+            height: 40px;
+            border-radius: 2px;
+            cursor: pointer;
+            color: #4e5969;
+            user-select: none;
+            transition: background 0.2s;
+        }
+
+        .arco-menu-inline-header:hover {
+            background: #f2f3f5;
+        }
+
+        .arco-menu-inline-header .arco-menu-icon {
+            margin-right: 12px;
+            font-size: 18px;
+            color: #86909c;
+            display: flex;
+            align-items: center;
+        }
+
+        .arco-menu-inline-header .arco-menu-title {
+            flex: 1;
+            font-weight: 500;
+            color: #1d2129;
+        }
+
+        .arco-menu-inline-header .arco-menu-icon-suffix {
+            font-size: 16px;
+            color: #86909c;
+            transition: transform 0.2s;
+        }
+
+        .arco-menu-inline-header.open .arco-menu-icon-suffix {
+            transform: rotate(180deg);
+        }
+
+        .arco-menu-inline-content {
+            overflow: hidden;
+            padding-left: 12px;
+        }
+
+        .arco-menu-inline-content.collapsed {
+            display: none;
+        }
+
+        .arco-menu-item {
+            display: block;
+            padding: 0 12px 0 32px;
+            height: 36px;
+            line-height: 36px;
+            margin-bottom: 4px;
+            border-radius: 2px;
+            color: #4e5969;
+            text-decoration: none;
+            cursor: pointer;
+            transition: all 0.2s;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .arco-menu-item:hover {
+            background: #f2f3f5;
+            color: #1d2129;
+        }
+
+        .arco-menu-item.arco-menu-selected {
+            background: #f2f3f5;
+            color: #165dff;
+            font-weight: 500;
         }
 
         .logo {
@@ -1032,6 +1148,692 @@
         .custom-ratio-card.selected {
             border-color: #1890ff;
             background: #e6f7ff;
+        }
+
+        /* 仿写裂变面板 */
+        .fission-hint-banner {
+            margin-bottom: 20px;
+            padding: 12px 16px;
+            background: #f0f5ff;
+            border: 1px solid #adc6ff;
+            border-radius: 6px;
+            font-size: 13px;
+            color: #1890ff;
+            line-height: 1.5;
+        }
+
+        .fission-hint-banner .material-icons {
+            font-size: 16px;
+            vertical-align: middle;
+            margin-right: 4px;
+        }
+
+        .fission-mode-cards {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+        }
+
+        @media (max-width: 768px) {
+            .fission-mode-cards {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .fission-mode-card {
+            position: relative;
+            padding: 14px 12px;
+            border: 2px solid #e8e8e8;
+            border-radius: 8px;
+            background: #fff;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-align: center;
+        }
+
+        .fission-mode-card:hover {
+            border-color: #40a9ff;
+            background: #f0f8ff;
+        }
+
+        .fission-mode-card.selected {
+            border-color: #1890ff;
+            background: #e6f7ff;
+            box-shadow: 0 0 0 2px rgba(24, 144, 255, 0.1);
+        }
+
+        .fission-mode-card input[type="radio"] {
+            position: absolute;
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .fission-mode-card .mode-title {
+            font-size: 13px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 4px;
+        }
+
+        .fission-mode-card.selected .mode-title {
+            color: #1890ff;
+        }
+
+        .fission-mode-card .mode-desc {
+            font-size: 11px;
+            color: #999;
+            line-height: 1.4;
+        }
+
+        .fission-field-hint {
+            font-size: 12px;
+            color: #999;
+            margin-top: 6px;
+            line-height: 1.5;
+        }
+
+        .fission-material-type {
+            display: flex;
+            gap: 10px;
+        }
+
+        .fission-material-type label {
+            flex: 1;
+            display: flex;
+            align-items: flex-start;
+            gap: 8px;
+            padding: 12px;
+            border: 1px solid #e8e8e8;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .fission-material-type label:hover {
+            border-color: #40a9ff;
+            background: #fafafa;
+        }
+
+        .fission-material-type label:has(input:checked) {
+            border-color: #1890ff;
+            background: #e6f7ff;
+        }
+
+        .fission-material-type .type-name {
+            font-size: 13px;
+            font-weight: 500;
+            color: #333;
+            display: block;
+        }
+
+        .fission-material-type .type-desc {
+            font-size: 11px;
+            color: #999;
+            margin-top: 2px;
+            display: block;
+        }
+
+        .fission-direction-panel {
+            background: #fafafa;
+            border: 1px solid #e8e8e8;
+            border-radius: 8px;
+            padding: 14px;
+        }
+
+        .fission-direction-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            padding: 10px 0;
+        }
+
+        .fission-direction-row + .fission-direction-row {
+            border-top: 1px solid #f0f0f0;
+        }
+
+        .fission-direction-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex: 1;
+            min-width: 0;
+        }
+
+        .fission-direction-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .fission-direction-icon.auto {
+            background: linear-gradient(135deg, #f6ffed, #d9f7be);
+            color: #52c41a;
+        }
+
+        .fission-direction-icon.scene {
+            background: linear-gradient(135deg, #e6f7ff, #bae7ff);
+            color: #1890ff;
+        }
+
+        .fission-direction-icon.solid {
+            background: linear-gradient(135deg, #f9f0ff, #efdbff);
+            color: #722ed1;
+        }
+
+        .fission-direction-icon .material-icons {
+            font-size: 20px;
+        }
+
+        .fission-direction-label {
+            font-size: 13px;
+            font-weight: 500;
+            color: #333;
+        }
+
+        .fission-direction-desc {
+            font-size: 11px;
+            color: #999;
+            margin-top: 2px;
+        }
+
+        .fission-stepper {
+            display: flex;
+            align-items: center;
+            gap: 0;
+            border: 1px solid #d9d9d9;
+            border-radius: 6px;
+            overflow: hidden;
+            background: #fff;
+            flex-shrink: 0;
+        }
+
+        .fission-stepper button {
+            width: 32px;
+            height: 32px;
+            border: none;
+            background: #fafafa;
+            color: #666;
+            cursor: pointer;
+            font-size: 16px;
+            line-height: 1;
+            transition: all 0.2s;
+        }
+
+        .fission-stepper button:hover:not(:disabled) {
+            background: #e6f7ff;
+            color: #1890ff;
+        }
+
+        .fission-stepper button:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+        }
+
+        .fission-stepper input {
+            width: 40px;
+            height: 32px;
+            border: none;
+            border-left: 1px solid #d9d9d9;
+            border-right: 1px solid #d9d9d9;
+            text-align: center;
+            font-size: 14px;
+            font-weight: 500;
+            color: #333;
+            -moz-appearance: textfield;
+        }
+
+        .fission-stepper input::-webkit-outer-spin-button,
+        .fission-stepper input::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
+        .fission-summary-bar {
+            margin-top: 12px;
+            padding: 10px 12px;
+            background: #fff;
+            border: 1px dashed #d9d9d9;
+            border-radius: 6px;
+            font-size: 12px;
+            color: #666;
+        }
+
+        .fission-summary-bar strong {
+            color: #1890ff;
+        }
+
+        .fission-ref-preview {
+            margin-top: 10px;
+            padding: 10px;
+            background: #fafafa;
+            border: 1px solid #e8e8e8;
+            border-radius: 8px;
+        }
+
+        .fission-ref-preview-title {
+            font-size: 12px;
+            color: #666;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .fission-ref-preview-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(72px, 1fr));
+            gap: 8px;
+        }
+
+        .fission-ref-preview-item {
+            position: relative;
+            aspect-ratio: 1;
+            border-radius: 6px;
+            overflow: hidden;
+            border: 1px solid #e8e8e8;
+            background: #f0f0f0;
+        }
+
+        .fission-ref-preview-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .fission-ref-preview-item .ref-index {
+            position: absolute;
+            left: 4px;
+            bottom: 4px;
+            background: rgba(0,0,0,0.55);
+            color: #fff;
+            font-size: 10px;
+            padding: 1px 5px;
+            border-radius: 3px;
+        }
+
+        /* 万能指令 - Arco Design 参考风格 */
+        .universal-command-form {
+            --uc-primary: #165dff;
+            --uc-primary-rgb: 22, 93, 255;
+            --uc-text-1: #1d2129;
+            --uc-text-2: #4e5969;
+            --uc-text-3: #86909c;
+            --uc-border: #e5e6eb;
+            --uc-fill-2: #f2f3f5;
+            --uc-fill-3: #e5e6eb;
+            --uc-radius: 2px;
+            --uc-radius-md: 6px;
+            font-size: 14px;
+            color: var(--uc-text-1);
+            line-height: 1.5715;
+        }
+
+        .uc-form-title {
+            margin: 0 0 12px;
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--uc-text-1);
+        }
+
+        .universal-command-form .arco-form-item {
+            margin-bottom: 20px;
+        }
+
+        .universal-command-form .arco-form-item-label {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--uc-text-1);
+            font-size: 14px;
+            font-weight: 400;
+            line-height: 1.5715;
+        }
+
+        .universal-command-form .arco-form-item-required {
+            color: #f53f3f;
+            margin-right: 4px;
+        }
+
+        .universal-command-form .arco-input,
+        .universal-command-form .arco-textarea {
+            width: 100%;
+            box-sizing: border-box;
+            padding: 4px 12px;
+            font-size: 14px;
+            line-height: 1.5715;
+            color: var(--uc-text-1);
+            background: #fff;
+            border: 1px solid var(--uc-border);
+            border-radius: var(--uc-radius);
+            transition: border-color 0.1s, box-shadow 0.1s;
+        }
+
+        .universal-command-form .arco-textarea {
+            min-height: 88px;
+            resize: vertical;
+            padding: 4px 12px;
+        }
+
+        .universal-command-form .arco-input:hover,
+        .universal-command-form .arco-textarea:hover {
+            border-color: var(--uc-fill-3);
+        }
+
+        .universal-command-form .arco-input:focus,
+        .universal-command-form .arco-textarea:focus {
+            outline: none;
+            border-color: rgb(var(--uc-primary-rgb));
+            box-shadow: 0 0 0 2px rgba(var(--uc-primary-rgb), 0.2);
+        }
+
+        .universal-command-form .arco-textarea-word-limit {
+            margin-top: 4px;
+            font-size: 12px;
+            color: var(--uc-text-3);
+            text-align: right;
+        }
+
+        .universal-command-form .arco-tabs-nav {
+            display: flex;
+            position: relative;
+            border-bottom: 1px solid var(--uc-border);
+            margin-bottom: 20px;
+        }
+
+        .universal-command-form .arco-tabs-tab {
+            padding: 8px 16px;
+            margin-right: 0;
+            font-size: 14px;
+            color: var(--uc-text-2);
+            cursor: pointer;
+            user-select: none;
+            transition: color 0.2s;
+            border-bottom: 2px solid transparent;
+            margin-bottom: -1px;
+        }
+
+        .universal-command-form .arco-tabs-tab:hover {
+            color: var(--uc-text-1);
+        }
+
+        .universal-command-form .arco-tabs-tab.active {
+            color: rgb(var(--uc-primary-rgb));
+            font-weight: 500;
+        }
+
+        .universal-command-form .arco-tabs-nav-ink {
+            position: absolute;
+            bottom: 0;
+            height: 2px;
+            background: rgb(var(--uc-primary-rgb));
+            transition: left 0.2s, width 0.2s;
+            pointer-events: none;
+        }
+
+        .universal-command-form .arco-radio-group {
+            display: inline-flex;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .universal-command-form .arco-radio {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            color: var(--uc-text-2);
+            font-size: 14px;
+            user-select: none;
+        }
+
+        .universal-command-form .arco-radio input {
+            position: absolute;
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .universal-command-form .arco-radio-icon {
+            width: 14px;
+            height: 14px;
+            border: 1px solid var(--uc-border);
+            border-radius: 50%;
+            background: #fff;
+            position: relative;
+            flex-shrink: 0;
+            transition: all 0.1s;
+        }
+
+        .universal-command-form .arco-radio:has(input:checked) {
+            color: rgb(var(--uc-primary-rgb));
+        }
+
+        .universal-command-form .arco-radio:has(input:checked) .arco-radio-icon {
+            border-color: rgb(var(--uc-primary-rgb));
+            border-width: 4px;
+        }
+
+        .universal-command-form .arco-radio-group-button {
+            display: inline-flex;
+            padding: 2px;
+            background: var(--uc-fill-2);
+            border-radius: var(--uc-radius);
+            gap: 0;
+        }
+
+        .universal-command-form .arco-radio-button {
+            position: relative;
+            display: inline-block;
+            margin: 0;
+            cursor: pointer;
+        }
+
+        .universal-command-form .arco-radio-button input {
+            position: absolute;
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .universal-command-form .arco-radio-button-content {
+            display: block;
+            padding: 0 12px;
+            font-size: 14px;
+            line-height: 26px;
+            color: var(--uc-text-2);
+            border-radius: var(--uc-radius);
+            transition: all 0.1s;
+            white-space: nowrap;
+        }
+
+        .universal-command-form .arco-radio-button:hover .arco-radio-button-content {
+            background: var(--uc-fill-3);
+        }
+
+        .universal-command-form .arco-radio-button.arco-radio-checked .arco-radio-button-content {
+            color: #fff;
+            background: rgb(var(--uc-primary-rgb));
+        }
+
+        .universal-command-form .arco-btn-text {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            padding: 0 4px;
+            border: none;
+            background: none;
+            color: rgb(var(--uc-primary-rgb));
+            font-size: 12px;
+            cursor: pointer;
+            margin-bottom: 8px;
+        }
+
+        .universal-command-form .arco-btn-text:hover {
+            opacity: 0.85;
+        }
+
+        .universal-command-form .upload-trigger {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100px;
+            border: 1px dashed var(--uc-border);
+            border-radius: var(--uc-radius-md);
+            background: var(--uc-fill-2);
+            cursor: pointer;
+            transition: all 0.2s;
+            color: var(--uc-text-3);
+        }
+
+        .universal-command-form .upload-trigger:hover {
+            border-color: rgb(var(--uc-primary-rgb));
+            background: rgba(var(--uc-primary-rgb), 0.04);
+            color: rgb(var(--uc-primary-rgb));
+        }
+
+        .universal-command-form .upload-trigger-text {
+            margin-top: 8px;
+            font-size: 13px;
+        }
+
+        .universal-command-form .upload-tip {
+            margin-top: 8px;
+            font-size: 12px;
+            color: var(--uc-text-3);
+        }
+
+        .universal-command-form .image-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(88px, 1fr));
+            gap: 8px;
+            margin-bottom: 8px;
+        }
+
+        .universal-command-form .image-grid-item {
+            position: relative;
+            aspect-ratio: 1;
+            border-radius: var(--uc-radius-md);
+            overflow: hidden;
+            border: 1px solid var(--uc-border);
+            background: var(--uc-fill-2);
+            cursor: grab;
+        }
+
+        .universal-command-form .image-grid-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            pointer-events: none;
+        }
+
+        .universal-command-form .image-mask {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            opacity: 0;
+            transition: opacity 0.2s;
+            background: rgba(0,0,0,0.35);
+        }
+
+        .universal-command-form .image-grid-item:hover .image-mask {
+            opacity: 1;
+        }
+
+        .universal-command-form .mask-top,
+        .universal-command-form .mask-bottom {
+            display: flex;
+            justify-content: space-between;
+            padding: 4px;
+        }
+
+        .universal-command-form .mask-icon {
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: none;
+            border-radius: var(--uc-radius);
+            background: rgba(255,255,255,0.92);
+            color: var(--uc-text-1);
+            cursor: pointer;
+            font-size: 14px;
+            padding: 0;
+        }
+
+        .universal-command-form .mask-icon:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+        }
+
+        .universal-command-form .mask-icon.delete {
+            background: rgba(245, 63, 63, 0.92);
+            color: #fff;
+        }
+
+        .universal-command-form .fission-direction-panel {
+            background: var(--uc-fill-2);
+            border: none;
+            border-radius: var(--uc-radius-md);
+            padding: 4px 12px;
+        }
+
+        .universal-command-form .fission-direction-row {
+            padding: 12px 0;
+        }
+
+        .universal-command-form .fission-direction-label {
+            font-size: 14px;
+        }
+
+        .universal-command-form .fission-direction-desc {
+            font-size: 12px;
+            color: var(--uc-text-3);
+        }
+
+        .universal-command-form .fission-summary-bar {
+            background: #fff;
+            border-color: var(--uc-border);
+            color: var(--uc-text-2);
+        }
+
+        .universal-command-form .fission-summary-bar strong {
+            color: rgb(var(--uc-primary-rgb));
+        }
+
+        .universal-command-form .fission-stepper {
+            border-radius: var(--uc-radius);
+        }
+
+        .universal-command-form .fission-stepper button:hover:not(:disabled) {
+            background: rgba(var(--uc-primary-rgb), 0.08);
+            color: rgb(var(--uc-primary-rgb));
+        }
+
+        .universal-command-form .fission-ref-preview {
+            background: var(--uc-fill-2);
+            border-color: var(--uc-border);
+        }
+
+        .universal-command-form .upload-trigger.upload-trigger-dragover {
+            border-color: rgb(var(--uc-primary-rgb));
+            background: rgba(var(--uc-primary-rgb), 0.06);
+            color: rgb(var(--uc-primary-rgb));
+        }
+
+        .left-panel.uc-module .panel-content {
+            padding: 12px;
+        }
+
+        .left-panel.uc-module .panel-title {
+            font-size: 16px;
+            font-weight: 600;
         }
 
         /* 图片创作页面样式 */
@@ -2944,28 +3746,29 @@
 <body>
     <div class="app-container">
         <!-- 侧边栏 -->
-        <div class="sidebar">
-            <div class="logo">
-                <h1>
-                    <span class="material-icons">favorite</span>
-                    AI内容管理后台
-                </h1>
+        <div class="sidebar arco-layout-sider arco-layout-sider-light">
+            <div class="arco-layout-sider-children">
+                <div class="logo-container">
+                    <span class="logo-icon"></span>
+                    <span>AI内容管理后台</span>
+                </div>
+                <nav class="arco-menu arco-menu-light arco-menu-vertical">
+                    <div class="arco-menu-inner">
+                        <div class="arco-menu-inline-header open" id="creativeMenuHeader" onclick="toggleCreativeMenu()">
+                            <span class="arco-menu-icon material-icons">auto_awesome</span>
+                            <span class="arco-menu-title">创意工具</span>
+                            <span class="arco-menu-icon-suffix material-icons">expand_more</span>
+                        </div>
+                        <div class="arco-menu-inline-content open" id="creativeSubMenu">
+                            <a href="#" class="arco-menu-item arco-menu-selected" data-module="expand" onclick="showModule('expand'); return false;">扩图</a>
+                            <a href="#" class="arco-menu-item" data-module="changeBg" onclick="showModule('changeBg'); return false;">换背景</a>
+                            <a href="#" class="arco-menu-item" data-module="imageCreation" onclick="showModule('imageCreation'); return false;">图片创作</a>
+                            <a href="#" class="arco-menu-item" data-module="universalCommand" onclick="showModule('universalCommand'); return false;">万能指令</a>
+                            <a href="#" class="arco-menu-item" data-module="feedbackManagement" onclick="showModule('feedbackManagement'); return false;">意见管理</a>
+                        </div>
+                    </div>
+                </nav>
             </div>
-            <ul class="nav-menu">
-                <li class="nav-item">
-                    <a href="#" class="nav-link active">
-                        <span class="material-icons">lightbulb</span>
-                        创意工具
-                    </a>
-                    <ul class="sub-menu">
-                        <li><a href="#" class="nav-link active" onclick="showModule('expand')">扩图</a></li>
-                        <li><a href="#" class="nav-link" onclick="showModule('changeBg')">换背景</a></li>
-                        <li><a href="#" class="nav-link" onclick="showModule('imageCreation')">图片创作</a></li>
-                        <li><a href="#" class="nav-link" onclick="showModule('universalCommand')">万能指令</a></li>
-                        <li><a href="#" class="nav-link" onclick="showModule('feedbackManagement')">意见管理</a></li>
-                    </ul>
-                </li>
-            </ul>
         </div>
 
         <!-- 主内容区域 -->
@@ -4041,186 +4844,201 @@
                 breadcrumb: '创意工具 / 万能指令',
                 middlePanelTitle: '生成记录',
                 uploadInfo: `
-                    <!-- 功能切换 Tab -->
-                    <div style="margin-bottom: 20px;">
-                        <div class="module-tabs" style="display: flex; gap: 0; border-bottom: 2px solid #e8e8e8;">
-                            <button id="tabGenerate" onclick="switchUniversalTab('generate')" class="module-tab active" style="padding: 10px 24px; border: none; background: none; cursor: pointer; font-size: 14px; font-weight: 500; color: #1890ff; border-bottom: 2px solid #1890ff; margin-bottom: -2px;">
-                                指令生成
-                            </button>
-                            <button id="tabFission" onclick="switchUniversalTab('fission')" class="module-tab" style="padding: 10px 24px; border: none; background: none; cursor: pointer; font-size: 14px; font-weight: 500; color: #999; border-bottom: 2px solid transparent; margin-bottom: -2px;">
-                                仿写裂变
-                            </button>
+                    <div class="universal-command-form arco-form arco-form-layout-vertical arco-form-size-small">
+                        <h2 class="uc-form-title">生图任务信息编辑</h2>
+
+                        <div class="arco-tabs arco-tabs-type-line">
+                            <div class="arco-tabs-nav">
+                                <div id="tabGenerate" class="arco-tabs-tab active" onclick="switchUniversalTab('generate')">指令生成</div>
+                                <div id="tabFission" class="arco-tabs-tab" onclick="switchUniversalTab('fission')">仿写裂变</div>
+                                <div id="universalTabInk" class="arco-tabs-nav-ink" style="left: 16px; width: 56px;"></div>
+                            </div>
                         </div>
-                    </div>
-                    
-                    <!-- 上传图片（通用） -->
-                    <div style="margin-bottom: 20px;">
-                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
-                            <h4 style="margin: 0; color: #333;">上传图片</h4>
-                            <div style="display: flex; gap: 8px;">
-                                <button onclick="triggerUniversalFileUpload()" style="padding: 6px 16px; border: 1px solid #1890ff; background: #1890ff; color: white; border-radius: 4px; cursor: pointer; font-size: 13px; font-weight: 500; display: flex; align-items: center; gap: 5px;">
-                                    <span class="material-icons" style="font-size: 16px;">add_photo_alternate</span>
-                                    添加图片
+
+                        <div id="universalUploadSection" class="arco-form-item">
+                            <label class="arco-form-item-label">上传图片</label>
+                            <input type="file" id="universalFileUpload" accept="image/jpeg,image/jpg,image/png,image/webp" multiple style="display: none;" onchange="handleUniversalFileUpload(event)">
+                            <div id="universalUploadArea" ondragover="handleUniversalDragOver(event)" ondragleave="handleUniversalDragLeave(event)" ondrop="handleUniversalDrop(event)">
+                                <div id="universalUploadedImages" style="display: none;">
+                                    <div id="universalImagesGrid" class="image-grid"></div>
+                                </div>
+                                <div id="universalEmptyHint" class="upload-trigger" onclick="triggerUniversalFileUpload()">
+                                    <span class="material-icons" style="font-size: 20px;">add</span>
+                                    <div class="upload-trigger-text">点击/拖拽/Ctrl+V粘贴上传</div>
+                                </div>
+                                <div id="universalUploadTip" class="upload-tip">0 / 10 张（支持拖拽排序，Ctrl+V 粘贴上传）</div>
+                            </div>
+                        </div>
+
+                        <div id="generatePanel">
+                            <div class="arco-form-item">
+                                <label class="arco-form-item-label"><span class="arco-form-item-required">*</span>模型选择</label>
+                                <div class="arco-radio-group">
+                                    <label class="arco-radio"><input type="radio" name="universalModel" value="nano-banana-fast" checked><span class="arco-radio-icon"></span><span class="arco-radio-label">nano-banana-fast</span></label>
+                                    <label class="arco-radio"><input type="radio" name="universalModel" value="nano-banana-pro"><span class="arco-radio-icon"></span><span class="arco-radio-label">nano-banana-pro</span></label>
+                                    <label class="arco-radio"><input type="radio" name="universalModel" value="image-2"><span class="arco-radio-icon"></span><span class="arco-radio-label">image-2</span></label>
+                                </div>
+                            </div>
+
+                            <div class="arco-form-item prompt-form-item">
+                                <label class="arco-form-item-label"><span class="arco-form-item-required">*</span>指令Prompt</label>
+                                <button type="button" class="arco-btn-text" onclick="openPromptManager()">
+                                    <span class="material-icons" style="font-size: 14px;">storage</span> 管理器
                                 </button>
-                                <button id="clearUniversalUploadBtn" onclick="clearUniversalUpload()" style="padding: 6px 16px; border: 1px solid #d9d9d9; background: white; color: #666; border-radius: 4px; cursor: pointer; font-size: 13px; display: none;">
-                                    清空全部
-                                </button>
+                                <textarea id="universalPrompt" class="arco-textarea" placeholder="请输入指令Prompt" rows="5"></textarea>
+                                <div class="arco-textarea-word-limit"><span id="universalPromptCharCount">0</span>/2000</div>
                             </div>
-                        </div>
-                        <input type="file" id="universalFileUpload" accept="image/jpeg,image/jpg,image/png,image/webp" multiple style="display: none;" onchange="handleUniversalFileUpload(event)">
-                        
-                        <!-- 上传区域（支持拖拽） -->
-                        <div id="universalUploadArea" 
-                             style="position: relative;"
-                             ondragover="handleUniversalDragOver(event)"
-                             ondragleave="handleUniversalDragLeave(event)"
-                             ondrop="handleUniversalDrop(event)">
-                            
-                            <!-- 已上传图片预览 -->
-                            <div id="universalUploadedImages" style="display: none;">
-                                <div style="font-size: 11px; color: #999; margin-bottom: 6px; display: flex; align-items: center; gap: 4px;">
-                                    <span class="material-icons" style="font-size: 14px;">drag_indicator</span>
-                                    拖拽图片或使用箭头按钮调整顺序
-                                </div>
-                                <div id="universalImagesGrid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(96px, 1fr)); gap: 8px;">
-                                    <!-- 图片会动态添加到这里 -->
+
+                            <div class="arco-form-item">
+                                <label class="arco-form-item-label"><span class="arco-form-item-required">*</span>背景图比例</label>
+                                <div class="arco-radio-group">
+                                    <label class="arco-radio"><input type="radio" name="universalBgRatio" value="auto" checked><span class="arco-radio-icon"></span><span class="arco-radio-label">Auto</span></label>
+                                    <label class="arco-radio"><input type="radio" name="universalBgRatio" value="1:1"><span class="arco-radio-icon"></span><span class="arco-radio-label">1:1</span></label>
+                                    <label class="arco-radio"><input type="radio" name="universalBgRatio" value="3:4"><span class="arco-radio-icon"></span><span class="arco-radio-label">3:4</span></label>
+                                    <label class="arco-radio"><input type="radio" name="universalBgRatio" value="9:16"><span class="arco-radio-icon"></span><span class="arco-radio-label">9:16</span></label>
+                                    <label class="arco-radio"><input type="radio" name="universalBgRatio" value="16:9"><span class="arco-radio-icon"></span><span class="arco-radio-label">16:9</span></label>
                                 </div>
                             </div>
-                            
-                            <!-- 空状态提示 -->
-                            <div id="universalEmptyHint" style="border: 2px dashed #d9d9d9; border-radius: 8px; padding: 30px; text-align: center; background: #fafafa;">
-                                <div style="margin-bottom: 10px;">
-                                    <span class="material-icons" style="font-size: 48px; color: #d9d9d9;">cloud_upload</span>
-                                </div>
-                                <div style="color: #999; font-size: 13px;">
-                                    <span style="color: #1890ff; font-weight: 500;">Ctrl+V 粘贴</span> / 点击按钮 / <span style="color: #1890ff; font-weight: 500;">拖拽图片</span>到此处上传
+
+                            <div class="arco-form-item">
+                                <label class="arco-form-item-label">生成数量</label>
+                                <div class="arco-radio-group">
+                                    <label class="arco-radio"><input type="radio" name="universalGenerateCount" value="1" checked><span class="arco-radio-icon"></span><span class="arco-radio-label">1张</span></label>
+                                    <label class="arco-radio"><input type="radio" name="universalGenerateCount" value="2"><span class="arco-radio-icon"></span><span class="arco-radio-label">2张</span></label>
+                                    <label class="arco-radio"><input type="radio" name="universalGenerateCount" value="3"><span class="arco-radio-icon"></span><span class="arco-radio-label">3张</span></label>
+                                    <label class="arco-radio"><input type="radio" name="universalGenerateCount" value="4"><span class="arco-radio-icon"></span><span class="arco-radio-label">4张</span></label>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    
-                    <!-- 指令生成内容 -->
-                    <div id="generatePanel" style="display: block;">
-                        <!-- 模型选择 -->
-                        <div class="form-section" style="margin-bottom: 20px;">
-                            <h4>选择模型</h4>
-                            <div class="radio-group">
-                                <label>
-                                    <input type="radio" name="universalModel" value="nano-banana-fast" checked> nano-banana-fast
-                                </label>
-                                <label>
-                                    <input type="radio" name="universalModel" value="nano-banana-pro"> nano-banana-pro
-                                </label>
-                                <label>
-                                    <input type="radio" name="universalModel" value="image-2"> image-2
-                                </label>
+
+                        <div id="fissionPanel" style="display: none;">
+                            <div class="arco-form-item">
+                                <label class="arco-form-item-label"><span class="arco-form-item-required">*</span>复刻策略</label>
+                                <span class="arco-radio-group arco-radio-group-button arco-radio-group-size-small" id="fissionModeGroup">
+                                    <label class="arco-radio-button arco-radio-checked" data-mode="copy" onclick="selectFissionModeCard(this)">
+                                        <input type="radio" name="fissionMode" value="copy" checked>
+                                        <span class="arco-radio-button-content">仅仿写</span>
+                                    </label>
+                                    <label class="arco-radio-button" data-mode="fission" onclick="selectFissionModeCard(this)">
+                                        <input type="radio" name="fissionMode" value="fission">
+                                        <span class="arco-radio-button-content">仅裂变</span>
+                                    </label>
+                                    <label class="arco-radio-button" data-mode="both" onclick="selectFissionModeCard(this)">
+                                        <input type="radio" name="fissionMode" value="both">
+                                        <span class="arco-radio-button-content">仿写&裂变</span>
+                                    </label>
+                                </span>
                             </div>
-                        </div>
-                        
-                        <div style="margin-bottom: 20px;">
-                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
-                                <h4 style="margin: 0; color: #333;">指令Prompt <span style="color: #ff4d4f;">*</span></h4>
-                                <button onclick="openPromptManager()" style="padding: 6px 12px; border: 1px solid #d9d9d9; background: white; border-radius: 4px; cursor: pointer; font-size: 13px; display: flex; align-items: center; gap: 5px;">
-                                    <span class="material-icons" style="font-size: 16px;">settings</span>
-                                    管理Prompt
-                                </button>
+
+                            <div class="arco-form-item">
+                                <label class="arco-form-item-label"><span class="arco-form-item-required">*</span>素材类型</label>
+                                <span class="arco-radio-group arco-radio-group-button arco-radio-group-size-small" id="fissionMaterialTypeGroup">
+                                    <label class="arco-radio-button arco-radio-checked" data-value="101" onclick="selectFissionMaterialType(this)">
+                                        <input type="radio" name="fissionMaterialType" value="101" checked>
+                                        <span class="arco-radio-button-content">单品单图</span>
+                                    </label>
+                                    <label class="arco-radio-button" data-value="104" onclick="selectFissionMaterialType(this)">
+                                        <input type="radio" name="fissionMaterialType" value="104">
+                                        <span class="arco-radio-button-content">多品多图</span>
+                                    </label>
+                                </span>
                             </div>
-                            <textarea id="universalPrompt" class="form-input" placeholder="请输入指令prompt，或点击右上角"管理Prompt"选择应用" rows="4" style="width: 100%; resize: vertical; font-size: 14px;"></textarea>
-                            <div style="margin-top: 5px; font-size: 12px; color: #999; text-align: right;">
-                                <span id="universalPromptCharCount">0</span>/2000
+
+                            <div id="fissionRefUrlSection" class="arco-form-item">
+                                <label class="arco-form-item-label"><span class="arco-form-item-required">*</span><span id="fissionRefUrlLabel">参考图 URL</span></label>
+                                <div id="fissionRefUrlSingleWrap">
+                                    <input type="text" id="fissionRefUrlSingle" class="arco-input" placeholder="请粘贴参考图的可访问 URL" oninput="updateFissionRefPreview()">
+                                </div>
+                                <div id="fissionRefUrlMultiWrap" style="display: none;">
+                                    <textarea id="fissionRefUrlMulti" class="arco-textarea" rows="4" placeholder="请粘贴多个参考图 URL，用分号（;）或换行分隔" oninput="updateFissionRefPreview()"></textarea>
+                                </div>
+                                <div id="fissionRefPreview" class="fission-ref-preview" style="display: none; margin-top: 8px;">
+                                    <div class="fission-ref-preview-title">参考图预览（<span id="fissionRefUrlCount">0</span> 张）</div>
+                                    <div id="fissionRefPreviewGrid" class="fission-ref-preview-grid"></div>
+                                </div>
                             </div>
-                        </div>
-                        
-                        <div class="form-section">
-                            <h4>背景图比例 <span style="color: #ff4d4f;">*</span></h4>
-                            <div class="radio-group radio-group-compact">
-                                <label>
-                                    <input type="radio" name="universalBgRatio" value="auto" checked> Auto
-                                </label>
-                                <label>
-                                    <input type="radio" name="universalBgRatio" value="1:1"> 1:1
-                                </label>
-                                <label>
-                                    <input type="radio" name="universalBgRatio" value="3:4"> 3:4
-                                </label>
-                                <label>
-                                    <input type="radio" name="universalBgRatio" value="9:16"> 9:16
-                                </label>
-                                <label>
-                                    <input type="radio" name="universalBgRatio" value="16:9"> 16:9
-                                </label>
+
+                            <div id="fissionGoodsIdSection" class="arco-form-item">
+                                <label class="arco-form-item-label"><span class="arco-form-item-required">*</span><span id="fissionGoodsIdLabel">新商品 ID</span></label>
+                                <input type="text" id="fissionGoodsId" class="arco-input" placeholder="请输入唯品会商品 ID">
                             </div>
-                        </div>
-                        
-                        <div class="form-section">
-                            <h4>生成数量 <span style="color: #ff4d4f;">*</span></h4>
-                            <div class="radio-group radio-group-compact">
-                                <label>
-                                    <input type="radio" name="universalGenerateCount" value="1" checked> 1张
-                                </label>
-                                <label>
-                                    <input type="radio" name="universalGenerateCount" value="2"> 2张
-                                </label>
-                                <label>
-                                    <input type="radio" name="universalGenerateCount" value="3"> 3张
-                                </label>
-                                <label>
-                                    <input type="radio" name="universalGenerateCount" value="4"> 4张
-                                </label>
+
+                            <div id="fissionRatioSection" class="arco-form-item">
+                                <label class="arco-form-item-label"><span class="arco-form-item-required">*</span>生图比例</label>
+                                <div class="arco-radio-group">
+                                    <label class="arco-radio"><input type="radio" name="fissionOutputRatio" value="auto" checked><span class="arco-radio-icon"></span><span class="arco-radio-label">Auto</span></label>
+                                    <label class="arco-radio"><input type="radio" name="fissionOutputRatio" value="1:1"><span class="arco-radio-icon"></span><span class="arco-radio-label">1:1</span></label>
+                                    <label class="arco-radio"><input type="radio" name="fissionOutputRatio" value="3:4"><span class="arco-radio-icon"></span><span class="arco-radio-label">3:4</span></label>
+                                    <label class="arco-radio"><input type="radio" name="fissionOutputRatio" value="9:16"><span class="arco-radio-icon"></span><span class="arco-radio-label">9:16</span></label>
+                                    <label class="arco-radio"><input type="radio" name="fissionOutputRatio" value="16:9"><span class="arco-radio-icon"></span><span class="arco-radio-label">16:9</span></label>
+                                </div>
                             </div>
-                        </div>
-                    </div>
-                    
-                    <!-- 仿写裂变内容 -->
-                    <div id="fissionPanel" style="display: none;">
-                        <!-- 图片上传提示 -->
-                        <div style="margin-bottom: 20px; padding: 12px 16px; background: #f0f5ff; border: 1px solid #adc6ff; border-radius: 6px;">
-                            <p style="font-size: 13px; color: #1890ff; margin: 0;">
-                                <span class="material-icons" style="font-size: 16px; vertical-align: middle;">info</span>
-                                请上传包含唯品会营销元素的完整图片素材
-                            </p>
-                        </div>
-                        
-                        <!-- 商品ID输入（仿写和仿写&裂变模式显示） -->
-                        <div id="fissionGoodsIdSection" style="margin-bottom: 20px;">
-                            <div style="display: flex; align-items: center; gap: 12px;">
-                                <h4 style="margin: 0; color: #333;">商品ID</h4>
+
+                            <div id="fissionCopyCountSection" class="arco-form-item">
+                                <label class="arco-form-item-label">生成数量</label>
+                                <div class="arco-radio-group">
+                                    <label class="arco-radio"><input type="radio" name="fissionCopyCount" value="1" checked><span class="arco-radio-icon"></span><span class="arco-radio-label">1张</span></label>
+                                    <label class="arco-radio"><input type="radio" name="fissionCopyCount" value="2"><span class="arco-radio-icon"></span><span class="arco-radio-label">2张</span></label>
+                                    <label class="arco-radio"><input type="radio" name="fissionCopyCount" value="3"><span class="arco-radio-icon"></span><span class="arco-radio-label">3张</span></label>
+                                    <label class="arco-radio"><input type="radio" name="fissionCopyCount" value="4"><span class="arco-radio-icon"></span><span class="arco-radio-label">4张</span></label>
+                                </div>
                             </div>
-                            <input type="text" id="fissionGoodsId" class="form-input" placeholder="请输入商品ID" style="margin-top: 8px; width: 100%;">
-                        </div>
-                        
-                        <!-- 模式选择 -->
-                        <div class="form-section" style="margin-bottom: 20px;">
-                            <h4>选择模式</h4>
-                            <div class="radio-group">
-                                <label>
-                                    <input type="radio" name="fissionMode" value="both" checked onclick="toggleFissionGoodsId()"> 仿写&裂变
-                                </label>
-                                <label>
-                                    <input type="radio" name="fissionMode" value="copy" onclick="toggleFissionGoodsId()"> 仿写
-                                </label>
-                                <label>
-                                    <input type="radio" name="fissionMode" value="fission" onclick="toggleFissionGoodsId()"> 裂变
-                                </label>
-                            </div>
-                        </div>
-                        
-                        <!-- 生成数量 -->
-                        <div class="form-section">
-                            <h4>生成数量 <span style="color: #ff4d4f;">*</span></h4>
-                            <div class="radio-group radio-group-compact">
-                                <label>
-                                    <input type="radio" name="fissionGenerateCount" value="1" checked> 1张
-                                </label>
-                                <label>
-                                    <input type="radio" name="fissionGenerateCount" value="2"> 2张
-                                </label>
-                                <label>
-                                    <input type="radio" name="fissionGenerateCount" value="3"> 3张
-                                </label>
-                                <label>
-                                    <input type="radio" name="fissionGenerateCount" value="4"> 4张
-                                </label>
+
+                            <div id="fissionDirectionSection" class="arco-form-item" style="display: none;">
+                                <label class="arco-form-item-label"><span class="arco-form-item-required">*</span>裂变方向</label>
+                                <div class="fission-direction-panel">
+                                    <div class="fission-direction-row">
+                                        <div class="fission-direction-info">
+                                            <div class="fission-direction-icon auto">
+                                                <span class="material-icons">auto_awesome</span>
+                                            </div>
+                                            <div>
+                                                <div class="fission-direction-label">Auto</div>
+                                                <div class="fission-direction-desc">系统自动分配裂变风格</div>
+                                            </div>
+                                        </div>
+                                        <div class="fission-stepper">
+                                            <button type="button" onclick="adjustFissionNum('auto', -1)">−</button>
+                                            <input type="number" id="fissionAutoNum" value="2" min="0" max="10" readonly>
+                                            <button type="button" onclick="adjustFissionNum('auto', 1)">+</button>
+                                        </div>
+                                    </div>
+                                    <div class="fission-direction-row">
+                                        <div class="fission-direction-info">
+                                            <div class="fission-direction-icon scene">
+                                                <span class="material-icons">landscape</span>
+                                            </div>
+                                            <div>
+                                                <div class="fission-direction-label">场景风</div>
+                                                <div class="fission-direction-desc">生活化/主题化场景，氛围感强</div>
+                                            </div>
+                                        </div>
+                                        <div class="fission-stepper">
+                                            <button type="button" onclick="adjustFissionNum('scene', -1)">−</button>
+                                            <input type="number" id="fissionSceneNum" value="1" min="0" max="10" readonly>
+                                            <button type="button" onclick="adjustFissionNum('scene', 1)">+</button>
+                                        </div>
+                                    </div>
+                                    <div class="fission-direction-row">
+                                        <div class="fission-direction-info">
+                                            <div class="fission-direction-icon solid">
+                                                <span class="material-icons">palette</span>
+                                            </div>
+                                            <div>
+                                                <div class="fission-direction-label">纯色风</div>
+                                                <div class="fission-direction-desc">纯色/简洁色块背景，突出商品</div>
+                                            </div>
+                                        </div>
+                                        <div class="fission-stepper">
+                                            <button type="button" onclick="adjustFissionNum('solid', -1)">−</button>
+                                            <input type="number" id="fissionSolidNum" value="1" min="0" max="10" readonly>
+                                            <button type="button" onclick="adjustFissionNum('solid', 1)">+</button>
+                                        </div>
+                                    </div>
+                                    <div id="fissionSummaryBar" class="fission-summary-bar">
+                                        预计产出约 <strong id="fissionTotalCount">4</strong> 张（Auto <strong id="fissionAutoCountDisplay">2</strong> + 场景 <strong id="fissionSceneCountDisplay">1</strong> + 纯色 <strong id="fissionSolidCountDisplay">1</strong>）
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -4634,6 +5452,13 @@
             
             currentModule = moduleName;
             const data = mockData[moduleName];
+
+            const leftPanelEl = document.querySelector('.left-panel');
+            if (leftPanelEl && moduleName !== 'universalCommand') {
+                leftPanelEl.classList.remove('uc-module');
+                const panelTitle = leftPanelEl.querySelector('.panel-title');
+                if (panelTitle) panelTitle.textContent = '上传信息';
+            }
             
             // 检查必要的DOM元素是否存在
             const breadcrumbElement = document.getElementById('breadcrumb');
@@ -4823,8 +5648,13 @@
             } else if (moduleName === 'universalCommand') {
                 // 万能指令特殊处理
                 hideTabsAndGoodsId();
-                // 恢复正常布局
-                document.querySelector('.left-panel').style.display = 'flex';
+                const leftPanelEl = document.querySelector('.left-panel');
+                if (leftPanelEl) {
+                    leftPanelEl.classList.add('uc-module');
+                    leftPanelEl.style.display = 'flex';
+                    const panelTitle = leftPanelEl.querySelector('.panel-title');
+                    if (panelTitle) panelTitle.textContent = '';
+                }
                 document.querySelector('.middle-panel').style.flex = '';
                 document.querySelector('.right-panel').style.display = 'flex';
                 // 初始化默认prompts
@@ -4839,6 +5669,8 @@
                     }
                     // 初始化任务列表mock数据
                     initializeMockTaskList();
+                    updateUniversalTabInk(document.getElementById('tabGenerate'));
+                    updateFissionPanelState();
                 }, 100);
                 // 恢复中间面板的"全部下载"按钮显示
                 const middlePanelHeader = document.querySelector('.middle-panel .panel-header');
@@ -5080,30 +5912,67 @@
                 }
 
             } else if (tab === 'fission') {
-                // 2d. 回填商品ID
                 const goodsIdInput = document.getElementById('fissionGoodsId');
                 if (goodsIdInput && task.fissionGoodsId !== undefined) {
                     goodsIdInput.value = task.fissionGoodsId;
                 }
 
-                // 2e. 回填模式
                 if (task.fissionMode) {
-                    const modeRadio = document.querySelector(`input[name="fissionMode"][value="${task.fissionMode}"]`);
-                    if (modeRadio) {
-                        modeRadio.checked = true;
-                        toggleFissionGoodsId();
+                    const modeCard = document.querySelector(`#fissionModeGroup .arco-radio-button[data-mode="${task.fissionMode}"]`);
+                    if (modeCard) selectFissionModeCard(modeCard);
+                }
+
+                if (task.fissionMaterialType) {
+                    const typeBtn = document.querySelector(`#fissionMaterialTypeGroup .arco-radio-button[data-value="${task.fissionMaterialType}"]`);
+                    if (typeBtn) selectFissionMaterialType(typeBtn);
+                }
+
+                if (task.fissionRefUrls && task.fissionRefUrls.length > 0) {
+                    const isSingle = (task.fissionMaterialType || '101') === '101';
+                    if (isSingle) {
+                        const singleInput = document.getElementById('fissionRefUrlSingle');
+                        if (singleInput) singleInput.value = task.fissionRefUrls[0];
+                    } else {
+                        const multiInput = document.getElementById('fissionRefUrlMulti');
+                        if (multiInput) multiInput.value = task.fissionRefUrls.join('\n');
+                    }
+                } else if (task.uploadedImages && task.uploadedImages.length > 0) {
+                    const isSingle = (task.fissionMaterialType || '101') === '101';
+                    if (isSingle) {
+                        const singleInput = document.getElementById('fissionRefUrlSingle');
+                        if (singleInput) singleInput.value = task.uploadedImages[0];
+                    } else {
+                        const multiInput = document.getElementById('fissionRefUrlMulti');
+                        if (multiInput) multiInput.value = task.uploadedImages.join('\n');
                     }
                 }
 
-                // 2f. 回填生成数量
-                if (task.fissionCount) {
-                    const countRadio = document.querySelector(`input[name="fissionGenerateCount"][value="${task.fissionCount}"]`);
+                if (task.fissionAutoNum !== undefined) {
+                    const autoInput = document.getElementById('fissionAutoNum');
+                    if (autoInput) autoInput.value = task.fissionAutoNum;
+                }
+                if (task.fissionSceneNum !== undefined) {
+                    const sceneInput = document.getElementById('fissionSceneNum');
+                    if (sceneInput) sceneInput.value = task.fissionSceneNum;
+                }
+                if (task.fissionSolidNum !== undefined) {
+                    const solidInput = document.getElementById('fissionSolidNum');
+                    if (solidInput) solidInput.value = task.fissionSolidNum;
+                }
+                if (task.fissionCopyCount) {
+                    const countRadio = document.querySelector(`input[name="fissionCopyCount"][value="${task.fissionCopyCount}"]`);
                     if (countRadio) countRadio.checked = true;
                 }
+                if (task.fissionOutputRatio) {
+                    const ratioRadio = document.querySelector(`input[name="fissionOutputRatio"][value="${task.fissionOutputRatio}"]`);
+                    if (ratioRadio) ratioRadio.checked = true;
+                }
+
+                updateFissionPanelState();
             }
 
-            // 3. 回填已上传图片（展示历史图片）
-            if (task.uploadedImages && task.uploadedImages.length > 0) {
+            // 3. 回填已上传图片（仅指令生成）
+            if (tab === 'generate' && task.uploadedImages && task.uploadedImages.length > 0) {
                 universalUploadedImages = [...task.uploadedImages];
                 renderUniversalImages();
             }
@@ -5223,8 +6092,29 @@
                     operator: 'yang.liu',
                     tab: 'fission',
                     fissionGoodsId: '6920234553221107522',
+                    fissionMode: 'copy',
+                    fissionMaterialType: '101',
+                    fissionRefUrls: [mockImage],
+                    fissionCopyCount: '2',
+                    uploadedImages: [mockImage]
+                },
+                {
+                    id: 'task_4b',
+                    title: '万能指令0415-004b',
+                    resultImage: mockImage,
+                    originalImage: mockImage,
+                    date: today.toISOString().split('T')[0],
+                    time: '10:30',
+                    operator: 'yang.liu',
+                    tab: 'fission',
+                    fissionGoodsId: '6921884166766247117',
                     fissionMode: 'both',
-                    fissionCount: '2',
+                    fissionMaterialType: '101',
+                    fissionRefUrls: [mockImage],
+                    fissionOutputRatio: '1:1',
+                    fissionAutoNum: 2,
+                    fissionSceneNum: 1,
+                    fissionSolidNum: 1,
                     uploadedImages: [mockImage]
                 },
                 // 昨天的数据
@@ -5251,9 +6141,13 @@
                     time: '16:20',
                     operator: 'lucien.xu',
                     tab: 'fission',
-                    fissionGoodsId: '',
+                    fissionGoodsId: '6921884166766247117',
                     fissionMode: 'fission',
-                    fissionCount: '3',
+                    fissionMaterialType: '101',
+                    fissionRefUrls: [mockImage],
+                    fissionAutoNum: 1,
+                    fissionSceneNum: 2,
+                    fissionSolidNum: 1,
                     uploadedImages: [mockImage]
                 },
                 {
@@ -5280,33 +6174,32 @@
 
         // 更新导航状态
         function updateNavigation(moduleName) {
+            document.querySelectorAll('.arco-menu-item[data-module]').forEach(link => {
+                link.classList.remove('arco-menu-selected');
+            });
+
+            let targetModule = moduleName;
+            if (moduleName === 'bgFission') {
+                targetModule = 'changeBg';
+            }
+
+            const targetLink = document.querySelector(`.arco-menu-item[data-module="${targetModule}"]`);
+            if (targetLink) {
+                targetLink.classList.add('arco-menu-selected');
+            }
+
+            // 兼容旧 nav-link 选择器
             document.querySelectorAll('.sub-menu .nav-link').forEach(link => {
                 link.classList.remove('active');
             });
-            
-            if (moduleName === 'bgFission') {
-                // 背景裂变是换背景的子功能，需要特殊处理
-                const changeBgLink = document.querySelector('.nav-link[onclick*="changeBg"]');
-                if (changeBgLink) {
-                    changeBgLink.classList.add('active');
-                }
-                const bgFissionLink = document.querySelector('.nav-link[onclick*="bgFission"]');
-                if (bgFissionLink) {
-                    bgFissionLink.classList.add('active');
-                }
-            } else if (moduleName === 'changeBg') {
-                // 换背景功能本身，只激活换背景链接
-                const changeBgLink = document.querySelector('.nav-link[onclick*="changeBg"]');
-                if (changeBgLink) {
-                    changeBgLink.classList.add('active');
-                }
-            } else {
-                // 找到对应的导航链接并激活
-                const targetLink = document.querySelector(`.nav-link[onclick*="${moduleName}"]`);
-                if (targetLink) {
-                    targetLink.classList.add('active');
-                }
-            }
+        }
+
+        function toggleCreativeMenu() {
+            const header = document.getElementById('creativeMenuHeader');
+            const subMenu = document.getElementById('creativeSubMenu');
+            if (!header || !subMenu) return;
+            const collapsed = subMenu.classList.toggle('collapsed');
+            header.classList.toggle('open', !collapsed);
         }
 
         // 切换标签页
@@ -6571,7 +7464,7 @@
             }
             
             // 确保导航链接正常工作
-            const navLinks = document.querySelectorAll('.nav-link');
+            const navLinks = document.querySelectorAll('.arco-menu-item[data-module]');
             navLinks.forEach(link => {
                 link.style.pointerEvents = 'auto';
                 link.style.cursor = 'pointer';
@@ -10977,17 +11870,230 @@
         // 当前万能指令的 Tab
         let currentUniversalTab = 'generate';
         
-        // 切换仿写裂变模式，控制商品ID显示
-        function toggleFissionGoodsId() {
+        // 切换仿写裂变面板状态（模式联动）
+        function selectFissionModeCard(cardEl) {
+            document.querySelectorAll('#fissionModeGroup .arco-radio-button').forEach(c => c.classList.remove('arco-radio-checked'));
+            cardEl.classList.add('arco-radio-checked');
+            const radio = cardEl.querySelector('input[type="radio"]');
+            if (radio) radio.checked = true;
+            updateFissionPanelState();
+        }
+
+        function selectFissionMaterialType(cardEl) {
+            document.querySelectorAll('#fissionMaterialTypeGroup .arco-radio-button').forEach(c => c.classList.remove('arco-radio-checked'));
+            cardEl.classList.add('arco-radio-checked');
+            const radio = cardEl.querySelector('input[type="radio"]');
+            if (radio) radio.checked = true;
+            updateFissionPanelState();
+        }
+
+        function updateUniversalTabInk(activeTabEl) {
+            const ink = document.getElementById('universalTabInk');
+            if (!ink || !activeTabEl) return;
+            ink.style.left = activeTabEl.offsetLeft + 'px';
+            ink.style.width = activeTabEl.offsetWidth + 'px';
+        }
+
+        function parseFissionReferenceUrls() {
+            const materialType = document.querySelector('input[name="fissionMaterialType"]:checked')?.value || '101';
+            if (materialType === '101') {
+                const url = document.getElementById('fissionRefUrlSingle')?.value?.trim() || '';
+                return url ? [url] : [];
+            }
+            const raw = document.getElementById('fissionRefUrlMulti')?.value || '';
+            return raw
+                .split(/[;\n]+/)
+                .map(s => s.trim())
+                .filter(Boolean);
+        }
+
+        function updateFissionRefPreview() {
+            const urls = parseFissionReferenceUrls();
+            const preview = document.getElementById('fissionRefPreview');
+            const grid = document.getElementById('fissionRefPreviewGrid');
+            const countEl = document.getElementById('fissionRefUrlCount');
+            if (!preview || !grid) return;
+
+            if (countEl) countEl.textContent = urls.length;
+
+            if (urls.length === 0) {
+                preview.style.display = 'none';
+                grid.innerHTML = '';
+                return;
+            }
+
+            preview.style.display = 'block';
+            grid.innerHTML = urls.map((url, i) => `
+                <div class="fission-ref-preview-item">
+                    <img src="${url.replace(/"/g, '&quot;')}" alt="参考图${i + 1}" onerror="this.style.display='none'">
+                    <span class="ref-index">${i + 1}</span>
+                </div>
+            `).join('');
+        }
+
+        function adjustFissionNum(type, delta) {
+            const inputMap = { auto: 'fissionAutoNum', scene: 'fissionSceneNum', solid: 'fissionSolidNum' };
+            const inputId = inputMap[type];
+            const input = document.getElementById(inputId);
+            if (!input) return;
+            const min = parseInt(input.min) || 0;
+            const max = parseInt(input.max) || 10;
+            const next = Math.min(max, Math.max(min, (parseInt(input.value) || 0) + delta));
+            input.value = next;
+            updateFissionSummary();
+        }
+
+        function updateFissionSummary() {
+            const auto = parseInt(document.getElementById('fissionAutoNum')?.value) || 0;
+            const scene = parseInt(document.getElementById('fissionSceneNum')?.value) || 0;
+            const solid = parseInt(document.getElementById('fissionSolidNum')?.value) || 0;
             const mode = document.querySelector('input[name="fissionMode"]:checked')?.value;
-            const goodsIdSection = document.getElementById('fissionGoodsIdSection');
-            if (goodsIdSection) {
-                if (mode === 'both' || mode === 'copy') {
-                    goodsIdSection.style.display = 'block';
-                } else {
-                    goodsIdSection.style.display = 'none';
+            const summaryBar = document.getElementById('fissionSummaryBar');
+
+            if (mode === 'copy' || !summaryBar) return;
+
+            const totalEl = document.getElementById('fissionTotalCount');
+            const autoDisplay = document.getElementById('fissionAutoCountDisplay');
+            const sceneDisplay = document.getElementById('fissionSceneCountDisplay');
+            const solidDisplay = document.getElementById('fissionSolidCountDisplay');
+
+            if (autoDisplay) autoDisplay.textContent = auto;
+            if (sceneDisplay) sceneDisplay.textContent = scene;
+            if (solidDisplay) solidDisplay.textContent = solid;
+
+            const total = auto + scene + solid;
+            if (totalEl) totalEl.textContent = total;
+            summaryBar.innerHTML = `预计产出约 <strong>${total}</strong> 张（Auto <strong>${auto}</strong> + 场景 <strong>${scene}</strong> + 纯色 <strong>${solid}</strong>）`;
+        }
+
+        function getFissionOutputSize() {
+            const ratio = document.querySelector('input[name="fissionOutputRatio"]:checked')?.value || 'auto';
+            const sizeMap = {
+                '1:1': [800, 800],
+                '3:4': [750, 1000],
+                '9:16': [1080, 1920],
+                '16:9': [1920, 1080]
+            };
+            if (ratio === 'auto' || !sizeMap[ratio]) {
+                return { targetWidth: null, targetHeight: null, ratio };
+            }
+            const [targetWidth, targetHeight] = sizeMap[ratio];
+            return { targetWidth, targetHeight, ratio };
+        }
+
+        function updateFissionPanelState() {
+            const mode = document.querySelector('input[name="fissionMode"]:checked')?.value || 'copy';
+            const materialType = document.querySelector('input[name="fissionMaterialType"]:checked')?.value || '101';
+            const isSingleMaterial = materialType === '101';
+            const directionSection = document.getElementById('fissionDirectionSection');
+            const copyCountSection = document.getElementById('fissionCopyCountSection');
+            const ratioSection = document.getElementById('fissionRatioSection');
+            const goodsIdLabel = document.getElementById('fissionGoodsIdLabel');
+            const goodsIdInput = document.getElementById('fissionGoodsId');
+            const singleWrap = document.getElementById('fissionRefUrlSingleWrap');
+            const multiWrap = document.getElementById('fissionRefUrlMultiWrap');
+
+            if (goodsIdLabel) {
+                goodsIdLabel.textContent = mode === 'fission' ? '商品 ID' : '新商品 ID';
+            }
+            if (goodsIdInput) {
+                goodsIdInput.placeholder = mode === 'fission'
+                    ? '请输入参考图中的商品 ID'
+                    : '请输入唯品会商品 ID';
+            }
+
+            if (copyCountSection) {
+                copyCountSection.style.display = mode === 'copy' ? 'block' : 'none';
+            }
+            // 单品单图：所有复刻策略均展示生图比例；多品多图：不展示
+            if (ratioSection) {
+                ratioSection.style.display = isSingleMaterial ? 'block' : 'none';
+            }
+            if (directionSection) {
+                directionSection.style.display = mode === 'copy' ? 'none' : 'block';
+            }
+
+            if (singleWrap && multiWrap) {
+                singleWrap.style.display = isSingleMaterial ? 'block' : 'none';
+                multiWrap.style.display = isSingleMaterial ? 'none' : 'block';
+            }
+
+            updateFissionRefPreview();
+            updateFissionSummary();
+        }
+
+        // 收集仿写裂变表单参数（映射接口字段）
+        function collectFissionFormData() {
+            const mode = document.querySelector('input[name="fissionMode"]:checked')?.value || 'both';
+            const copyStrategyMap = { both: '2', copy: '3', fission: '4' };
+            const logicGenerateType = parseInt(document.querySelector('input[name="fissionMaterialType"]:checked')?.value) || 101;
+            const goodsId = document.getElementById('fissionGoodsId')?.value?.trim() || '';
+            const referenceUrls = parseFissionReferenceUrls();
+
+            const sceneFissionNum = mode === 'copy' ? 0 : (parseInt(document.getElementById('fissionSceneNum')?.value) || 0);
+            const solidFissionNum = mode === 'copy' ? 0 : (parseInt(document.getElementById('fissionSolidNum')?.value) || 0);
+            const autoFissionNum = mode === 'copy' ? 0 : (parseInt(document.getElementById('fissionAutoNum')?.value) || 0);
+            const copyCount = parseInt(document.querySelector('input[name="fissionCopyCount"]:checked')?.value) || 1;
+            const isSingleMaterial = logicGenerateType === 101;
+            const outputSize = isSingleMaterial
+                ? getFissionOutputSize()
+                : { targetWidth: null, targetHeight: null, ratio: null };
+
+            return {
+                copyStrategy: copyStrategyMap[mode],
+                logicGenerateType,
+                midList: goodsId ? [goodsId] : [],
+                referenceMaterialInfoList: referenceUrls,
+                targetWidth: outputSize.targetWidth,
+                targetHeight: outputSize.targetHeight,
+                sceneFissionNum,
+                solidFissionNum,
+                autoFissionNum,
+                copyCount: mode === 'copy' ? copyCount : null,
+                outputRatio: isSingleMaterial ? outputSize.ratio : null,
+                _ui: { mode, goodsId, materialType: String(logicGenerateType) }
+            };
+        }
+
+        function validateFissionForm() {
+            const materialType = document.querySelector('input[name="fissionMaterialType"]:checked')?.value || '101';
+            const urls = parseFissionReferenceUrls();
+
+            if (urls.length === 0) {
+                alert(materialType === '101' ? '请粘贴参考图 URL' : '请粘贴至少一个参考图 URL');
+                return false;
+            }
+            if (materialType === '101' && urls.length > 1) {
+                alert('单品单图模式仅支持 1 条参考图 URL');
+                return false;
+            }
+            const invalidUrl = urls.find(u => !/^https?:\/\/.+/i.test(u));
+            if (invalidUrl) {
+                alert('参考图 URL 格式不正确，请以 http:// 或 https:// 开头');
+                return false;
+            }
+
+            const goodsId = document.getElementById('fissionGoodsId')?.value?.trim();
+            if (!goodsId) {
+                alert('请输入商品 ID');
+                return false;
+            }
+            const mode = document.querySelector('input[name="fissionMode"]:checked')?.value;
+            if (mode !== 'copy') {
+                const auto = parseInt(document.getElementById('fissionAutoNum')?.value) || 0;
+                const scene = parseInt(document.getElementById('fissionSceneNum')?.value) || 0;
+                const solid = parseInt(document.getElementById('fissionSolidNum')?.value) || 0;
+                if (auto + scene + solid === 0) {
+                    alert('请至少为一个裂变方向设置数量（Auto / 场景风 / 纯色风）');
+                    return false;
                 }
             }
+            return true;
+        }
+
+        // 兼容旧调用
+        function toggleFissionGoodsId() {
+            updateFissionPanelState();
         }
         
         // 切换万能指令 Tab
@@ -10998,25 +12104,23 @@
             const tabFission = document.getElementById('tabFission');
             const generatePanel = document.getElementById('generatePanel');
             const fissionPanel = document.getElementById('fissionPanel');
+            const uploadSection = document.getElementById('universalUploadSection');
             
             if (tab === 'generate') {
                 tabGenerate.classList.add('active');
-                tabGenerate.style.color = '#1890ff';
-                tabGenerate.style.borderBottomColor = '#1890ff';
                 tabFission.classList.remove('active');
-                tabFission.style.color = '#999';
-                tabFission.style.borderBottomColor = 'transparent';
                 generatePanel.style.display = 'block';
                 fissionPanel.style.display = 'none';
+                if (uploadSection) uploadSection.style.display = 'block';
+                updateUniversalTabInk(tabGenerate);
             } else {
                 tabFission.classList.add('active');
-                tabFission.style.color = '#1890ff';
-                tabFission.style.borderBottomColor = '#1890ff';
                 tabGenerate.classList.remove('active');
-                tabGenerate.style.color = '#999';
-                tabGenerate.style.borderBottomColor = 'transparent';
                 generatePanel.style.display = 'none';
                 fissionPanel.style.display = 'block';
+                if (uploadSection) uploadSection.style.display = 'none';
+                updateFissionPanelState();
+                updateUniversalTabInk(tabFission);
             }
         }
         
@@ -11041,8 +12145,8 @@
         // 粘贴上传功能
         function initPasteUpload() {
             document.addEventListener('paste', async function(e) {
-                // 检查是否在万能指令模块
-                if (currentModule !== 'universalCommand') return;
+                // 检查是否在万能指令模块且为指令生成 Tab
+                if (currentModule !== 'universalCommand' || currentUniversalTab !== 'generate') return;
                 
                 // 检查剪贴板内容
                 const items = e.clipboardData.items;
@@ -11091,46 +12195,27 @@
         
         // 拖拽上传功能
         function handleUniversalDragOver(e) {
-            if (currentModule !== 'universalCommand') return;
+            if (currentModule !== 'universalCommand' || currentUniversalTab !== 'generate') return;
             e.preventDefault();
             e.stopPropagation();
-            
-            const uploadArea = document.getElementById('universalUploadArea');
             const emptyHint = document.getElementById('universalEmptyHint');
-            
-            if (emptyHint) {
-                emptyHint.style.borderColor = '#1890ff';
-                emptyHint.style.background = '#e6f7ff';
-                emptyHint.style.transform = 'scale(1.02)';
-                emptyHint.style.transition = 'all 0.3s ease';
-            }
+            if (emptyHint) emptyHint.classList.add('upload-trigger-dragover');
         }
         
         function handleUniversalDragLeave(e) {
-            if (currentModule !== 'universalCommand') return;
+            if (currentModule !== 'universalCommand' || currentUniversalTab !== 'generate') return;
             e.preventDefault();
             e.stopPropagation();
-            
             const emptyHint = document.getElementById('universalEmptyHint');
-            
-            if (emptyHint) {
-                emptyHint.style.borderColor = '#d9d9d9';
-                emptyHint.style.background = '#fafafa';
-                emptyHint.style.transform = 'scale(1)';
-            }
+            if (emptyHint) emptyHint.classList.remove('upload-trigger-dragover');
         }
         
         function handleUniversalDrop(e) {
-            if (currentModule !== 'universalCommand') return;
+            if (currentModule !== 'universalCommand' || currentUniversalTab !== 'generate') return;
             e.preventDefault();
             e.stopPropagation();
-            
             const emptyHint = document.getElementById('universalEmptyHint');
-            if (emptyHint) {
-                emptyHint.style.borderColor = '#d9d9d9';
-                emptyHint.style.background = '#fafafa';
-                emptyHint.style.transform = 'scale(1)';
-            }
+            if (emptyHint) emptyHint.classList.remove('upload-trigger-dragover');
             
             const files = Array.from(e.dataTransfer.files);
             if (files.length === 0) return;
@@ -11232,7 +12317,7 @@
             const imagesGrid = document.getElementById('universalImagesGrid');
             const emptyHint = document.getElementById('universalEmptyHint');
             const uploadedImagesDiv = document.getElementById('universalUploadedImages');
-            const clearBtn = document.getElementById('clearUniversalUploadBtn');
+            const uploadTip = document.getElementById('universalUploadTip');
             
             if (!imagesGrid) return;
             imagesGrid.innerHTML = '';
@@ -11240,21 +12325,25 @@
             universalUploadedImages.forEach((imageUrl, idx) => {
                 const isFirst = idx === 0;
                 const isLast  = idx === universalUploadedImages.length - 1;
+                const safeUrl = imageUrl.replace(/'/g, "\\'");
 
                 const tile = document.createElement('div');
-                tile.className = 'universal-image-tile';
+                tile.className = 'image-grid-item';
                 tile.setAttribute('draggable', 'true');
                 tile.setAttribute('data-image-url', imageUrl);
                 tile.setAttribute('data-index', idx);
-                tile.style.cssText = 'position: relative; border-radius: 6px; overflow: hidden; border: 2px solid #e8e8e8; cursor: grab; transition: transform 0.15s, border-color 0.15s, opacity 0.15s; background: #fafafa;';
                 
                 tile.innerHTML = `
-                    <img src="${imageUrl}" style="width: 100%; height: 90px; object-fit: cover; pointer-events: none; display: block;" alt="预览图${idx + 1}">
-                    <div style="position: absolute; top: 3px; left: 3px; background: rgba(0,0,0,0.65); color: white; padding: 1px 6px; border-radius: 3px; font-size: 10px; font-weight: 500; pointer-events: none;">${idx + 1}</div>
-                    <button class="tile-btn-delete" onclick="event.stopPropagation(); removeUniversalImage('${imageUrl}')" title="删除" style="position: absolute; top: 3px; right: 3px; width: 18px; height: 18px; padding: 0; border: none; background: rgba(255,77,79,0.92); color: white; border-radius: 50%; cursor: pointer; font-size: 12px; line-height: 1; display: flex; align-items: center; justify-content: center;">×</button>
-                    <div class="tile-toolbar" style="position: absolute; left: 0; right: 0; bottom: 0; display: flex; justify-content: space-between; padding: 3px 4px; background: linear-gradient(to top, rgba(0,0,0,0.55), transparent); opacity: 0; transition: opacity 0.15s;">
-                        <button onclick="event.stopPropagation(); moveUniversalImage(${idx}, -1)" ${isFirst ? 'disabled' : ''} title="向前移动" style="width: 20px; height: 20px; padding: 0; border: none; background: rgba(255,255,255,0.92); border-radius: 3px; cursor: ${isFirst ? 'not-allowed' : 'pointer'}; font-size: 13px; line-height: 1; opacity: ${isFirst ? '0.4' : '1'};">‹</button>
-                        <button onclick="event.stopPropagation(); moveUniversalImage(${idx}, 1)" ${isLast ? 'disabled' : ''} title="向后移动" style="width: 20px; height: 20px; padding: 0; border: none; background: rgba(255,255,255,0.92); border-radius: 3px; cursor: ${isLast ? 'not-allowed' : 'pointer'}; font-size: 13px; line-height: 1; opacity: ${isLast ? '0.4' : '1'};">›</button>
+                    <img src="${imageUrl}" alt="预览图${idx + 1}">
+                    <div class="image-mask">
+                        <div class="mask-top">
+                            <button type="button" class="mask-icon delete" onclick="event.stopPropagation(); removeUniversalImage('${safeUrl}')" title="删除">×</button>
+                        </div>
+                        <div class="mask-bottom">
+                            <button type="button" class="mask-icon" onclick="event.stopPropagation(); moveUniversalImage(${idx}, -1)" ${isFirst ? 'disabled' : ''} title="向前">‹</button>
+                            <button type="button" class="mask-icon" onclick="event.stopPropagation(); window.open('${safeUrl}', '_blank')" title="预览">◎</button>
+                            <button type="button" class="mask-icon" onclick="event.stopPropagation(); moveUniversalImage(${idx}, 1)" ${isLast ? 'disabled' : ''} title="向后">›</button>
+                        </div>
                     </div>
                 `;
                 
@@ -11264,26 +12353,19 @@
                 tile.addEventListener('drop',      handleTileDrop);
                 tile.addEventListener('dragend',   handleTileDragEnd);
                 
-                tile.addEventListener('mouseenter', () => {
-                    const tb = tile.querySelector('.tile-toolbar');
-                    if (tb) tb.style.opacity = '1';
-                });
-                tile.addEventListener('mouseleave', () => {
-                    const tb = tile.querySelector('.tile-toolbar');
-                    if (tb) tb.style.opacity = '0';
-                });
-                
                 imagesGrid.appendChild(tile);
             });
             
-            if (universalUploadedImages.length > 0) {
+            const count = universalUploadedImages.length;
+            if (uploadTip) {
+                uploadTip.textContent = `${count} / 10 张（支持拖拽排序，Ctrl+V 粘贴上传）`;
+            }
+            if (count > 0) {
                 if (emptyHint) emptyHint.style.display = 'none';
                 if (uploadedImagesDiv) uploadedImagesDiv.style.display = 'block';
-                if (clearBtn) clearBtn.style.display = 'block';
             } else {
-                if (emptyHint) emptyHint.style.display = 'block';
+                if (emptyHint) emptyHint.style.display = 'flex';
                 if (uploadedImagesDiv) uploadedImagesDiv.style.display = 'none';
-                if (clearBtn) clearBtn.style.display = 'none';
             }
         }
 
@@ -11298,13 +12380,11 @@
         function handleTileDragOver(e) {
             if (e.preventDefault) e.preventDefault();
             e.dataTransfer.dropEffect = 'move';
-            this.style.borderColor = '#1890ff';
-            this.style.transform = 'scale(1.04)';
+            this.style.outline = '2px solid #165dff';
             return false;
         }
         function handleTileDragLeave(e) {
-            this.style.borderColor = '#e8e8e8';
-            this.style.transform = '';
+            this.style.outline = '';
         }
         function handleTileDrop(e) {
             if (e.stopPropagation) e.stopPropagation();
@@ -11351,28 +12431,11 @@
         // 清空上传
         function clearUniversalUpload() {
             if (universalUploadedImages.length === 0) return;
-            
-            if (!confirm(`确定要清空全部${universalUploadedImages.length}张图片吗？`)) {
-                return;
-            }
-            
+            if (!confirm(`确定要清空全部${universalUploadedImages.length}张图片吗？`)) return;
             universalUploadedImages = [];
-            const imagesGrid = document.getElementById('universalImagesGrid');
-            if (imagesGrid) {
-                imagesGrid.innerHTML = '';
-            }
-            
-            const emptyHint = document.getElementById('universalEmptyHint');
-            const uploadedImagesDiv = document.getElementById('universalUploadedImages');
-            const clearBtn = document.getElementById('clearUniversalUploadBtn');
-            
-            emptyHint.style.display = 'block';
-            uploadedImagesDiv.style.display = 'none';
-            clearBtn.style.display = 'none';
             document.getElementById('universalFileUpload').value = '';
-            
+            renderUniversalImages();
             showToast('✅ 已清空全部图片');
-            console.log('🗑️ 已清空全部图片');
         }
         
         // 更新Prompt字符计数
@@ -11432,29 +12495,38 @@
                     model: model
                 });
             } else {
-                // 仿写裂变模式
-                console.log('📋 仿写裂变参数:', {
-                    imageCount: universalUploadedImages.length,
-                    imageUrls: universalUploadedImages
-                });
+                if (!validateFissionForm()) return;
+                const fissionData = collectFissionFormData();
+                console.log('📋 仿写裂变参数:', fissionData);
+                prompt = `仿写裂变 · ${fissionData._ui.mode}`;
+                bgRatio = '跟随参考图';
             }
             
+            const refUrlCount = currentUniversalTab === 'fission'
+                ? parseFissionReferenceUrls().length
+                : universalUploadedImages.length;
+
             // 显示加载状态
             const middlePanelContent = document.getElementById('middlePanelContent');
             middlePanelContent.innerHTML = `
                 <div style="text-align: center; padding: 60px 20px;">
                     <div class="loading"></div>
                     <h3 style="color: #333; margin: 20px 0 10px;">正在生成中...</h3>
-                    <p style="color: #999; font-size: 14px;">万能指令生成</p>
+                    <p style="color: #999; font-size: 14px;">${currentUniversalTab === 'fission' ? '仿写裂变' : '万能指令生成'}</p>
                     <div style="margin-top: 16px; padding: 16px; background: #e6f7ff; border: 1px solid #91d5ff; border-radius: 6px; text-align: left; max-width: 500px; margin-left: auto; margin-right: auto;">
-                        <p style="font-size: 12px; color: #0050b3; margin-bottom: 4px;"><strong>📷 图片数量：</strong>${universalUploadedImages.length}张</p>
-                        <p style="font-size: 12px; color: #0050b3; margin: 4px 0;"><strong>📝 Prompt：</strong>${prompt.substring(0, 100)}${prompt.length > 100 ? '...' : ''}</p>
-                        <p style="font-size: 12px; color: #0050b3; margin: 4px 0;"><strong>📐 比例：</strong>${bgRatio}</p>
+                        <p style="font-size: 12px; color: #0050b3; margin-bottom: 4px;"><strong>📷 参考图：</strong>${refUrlCount}张</p>
+                        ${currentUniversalTab === 'generate' ? `<p style="font-size: 12px; color: #0050b3; margin: 4px 0;"><strong>📝 Prompt：</strong>${prompt.substring(0, 100)}${prompt.length > 100 ? '...' : ''}</p>` : ''}
+                        <p style="font-size: 12px; color: #0050b3; margin: 4px 0;"><strong>📐 尺寸：</strong>${bgRatio}</p>
                     </div>
                 </div>
             `;
             
-            showToast('🚀 开始万能指令生成...');
+            showToast(currentUniversalTab === 'fission' ? '🚀 开始仿写裂变...' : '🚀 开始万能指令生成...');
+            
+            if (currentUniversalTab === 'fission') {
+                showToast('⚠️ 仿写裂变接口对接开发中，参数已收集至控制台');
+                return;
+            }
             
             try {
                 // 调用API
