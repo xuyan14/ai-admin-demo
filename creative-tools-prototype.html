@@ -1750,6 +1750,52 @@
             color: #c9cdd4;
         }
 
+        .fission-info-tip {
+            position: relative;
+            display: inline-flex;
+            align-items: center;
+            color: #86909c;
+            cursor: help;
+            vertical-align: middle;
+            margin-left: 2px;
+        }
+
+        .fission-info-tip .material-icons {
+            font-size: 16px;
+        }
+
+        .fission-info-tip-popover {
+            display: none;
+            position: absolute;
+            left: 50%;
+            bottom: calc(100% + 8px);
+            transform: translateX(-50%);
+            width: 260px;
+            padding: 8px 10px;
+            font-size: 12px;
+            line-height: 1.5;
+            font-weight: normal;
+            color: #4e5969;
+            background: #fff;
+            border: 1px solid #e5e6eb;
+            border-radius: 6px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            z-index: 20;
+            white-space: normal;
+            pointer-events: none;
+        }
+
+        .fission-info-tip:hover .fission-info-tip-popover,
+        .fission-info-tip:focus-within .fission-info-tip-popover {
+            display: block;
+        }
+
+        .fission-label-with-tip {
+            display: inline-flex;
+            align-items: center;
+            gap: 2px;
+        }
+
         .fission-ref-preview {
             margin-top: 10px;
             padding: 10px;
@@ -5446,9 +5492,14 @@
                             </div>
 
                             <div id="fissionCustomDirectionSection" class="arco-form-item">
-                                <label class="arco-form-item-label">自定义裂变方向</label>
+                                <label class="arco-form-item-label fission-label-with-tip">
+                                    自定义裂变方向
+                                    <span class="fission-info-tip" tabindex="0" aria-label="自定义裂变方向说明">
+                                        <span class="material-icons">info</span>
+                                        <span class="fission-info-tip-popover">选填，素材结果按自定义方向裂变。指令不一定能完全遵循</span>
+                                    </span>
+                                </label>
                                 <input type="text" id="fissionCustomDirections" class="arco-input" placeholder="例如突出价格优势、突出商品功能、突出上身效果" oninput="updateFissionSummary()">
-                                <div class="fission-field-hint">选填，多个方向可用顿号、逗号或换行分隔，每个方向各生成一组结果</div>
                             </div>
                         </div>
                     </div>
