@@ -1657,37 +1657,54 @@
         }
 
         .fission-direction-row-custom {
-            align-items: flex-start;
+            display: block;
+            width: 100%;
         }
 
-        .fission-direction-row-custom .fission-stepper {
-            margin-top: 4px;
+        .fission-direction-custom-grid {
+            display: grid;
+            grid-template-columns: 36px 1fr auto;
+            grid-template-rows: auto auto;
+            gap: 8px 10px;
+            width: 100%;
+            align-items: center;
         }
 
-        .fission-direction-detail {
-            flex: 1;
+        .fission-direction-custom-grid .fission-direction-icon {
+            grid-column: 1;
+            grid-row: 1;
+        }
+
+        .fission-direction-custom-grid .fission-direction-label-wrap {
+            grid-column: 2;
+            grid-row: 1;
+        }
+
+        .fission-direction-custom-grid .fission-stepper {
+            grid-column: 3;
+            grid-row: 1;
+            align-self: start;
+        }
+
+        .fission-direction-custom-grid .fission-direction-custom-input {
+            grid-column: 1 / 3;
+            grid-row: 2;
+            margin-top: 0;
+            width: 100%;
+        }
+
+        .fission-direction-label-wrap {
+            display: flex;
+            align-items: center;
+            gap: 2px;
             min-width: 0;
         }
 
-        .fission-direction-label-inline {
-            display: inline-flex;
-            align-items: center;
-            gap: 2px;
-        }
-
         .fission-direction-custom-input {
-            margin-top: 6px;
-            width: 100%;
             font-size: 12px;
-            padding: 4px 8px;
-            height: 30px;
+            padding: 6px 8px;
+            height: 32px;
             box-sizing: border-box;
-        }
-
-        .fission-direction-custom-input:disabled {
-            background: #f7f8fa;
-            color: #c9cdd4;
-            cursor: not-allowed;
         }
 
         .fission-direction-icon .material-icons {
@@ -5525,25 +5542,23 @@
                                         </div>
                                     </div>
                                     <div class="fission-direction-row fission-direction-row-custom">
-                                        <div class="fission-direction-info">
+                                        <div class="fission-direction-custom-grid">
                                             <div class="fission-direction-icon custom">
                                                 <span class="material-icons">edit_note</span>
                                             </div>
-                                            <div class="fission-direction-detail">
-                                                <div class="fission-direction-label fission-direction-label-inline">
-                                                    自定义裂变方向
-                                                    <span class="fission-info-tip" tabindex="0" aria-label="自定义裂变方向说明">
-                                                        <span class="material-icons">info</span>
-                                                        <span class="fission-info-tip-popover">选填，素材结果按自定义方向裂变。指令不一定能完全遵循</span>
-                                                    </span>
-                                                </div>
-                                                <input type="text" id="fissionCustomDirections" class="arco-input fission-direction-custom-input" placeholder="例如突出价格优势、突出商品功能、突出上身效果" oninput="updateFissionSummary()" disabled>
+                                            <div class="fission-direction-label-wrap">
+                                                <div class="fission-direction-label">自定义裂变方向</div>
+                                                <span class="fission-info-tip" tabindex="0" aria-label="自定义裂变方向说明">
+                                                    <span class="material-icons">info</span>
+                                                    <span class="fission-info-tip-popover">选填，素材结果按自定义方向裂变。指令不一定能完全遵循</span>
+                                                </span>
                                             </div>
-                                        </div>
-                                        <div class="fission-stepper">
-                                            <button type="button" onclick="adjustFissionNum('custom', -1)">−</button>
-                                            <input type="number" id="fissionCustomNum" value="0" min="0" max="10" readonly>
-                                            <button type="button" onclick="adjustFissionNum('custom', 1)">+</button>
+                                            <div class="fission-stepper">
+                                                <button type="button" onclick="adjustFissionNum('custom', -1)">−</button>
+                                                <input type="number" id="fissionCustomNum" value="0" min="0" max="10" readonly>
+                                                <button type="button" onclick="adjustFissionNum('custom', 1)">+</button>
+                                            </div>
+                                            <input type="text" id="fissionCustomDirections" class="arco-input fission-direction-custom-input" placeholder="例如突出价格优势、突出商品功能、突出上身效果" oninput="updateFissionSummary()">
                                         </div>
                                     </div>
                                     <div id="fissionSummaryBar" class="fission-summary-bar">
@@ -12611,14 +12626,6 @@
             return labels;
         }
 
-        function syncCustomDirectionInputState() {
-            const customNum = parseInt(document.getElementById('fissionCustomNum')?.value) || 0;
-            const customInput = document.getElementById('fissionCustomDirections');
-            if (!customInput) return;
-            customInput.disabled = customNum <= 0;
-            if (customNum <= 0) customInput.value = '';
-        }
-
         function adjustFissionNum(type, delta) {
             const inputMap = { auto: 'fissionAutoNum', scene: 'fissionSceneNum', solid: 'fissionSolidNum', custom: 'fissionCustomNum' };
             const inputId = inputMap[type];
@@ -12628,7 +12635,6 @@
             const max = parseInt(input.max) || 10;
             const next = Math.min(max, Math.max(min, (parseInt(input.value) || 0) + delta));
             input.value = next;
-            if (type === 'custom') syncCustomDirectionInputState();
             updateFissionSummary();
         }
 
@@ -12799,7 +12805,6 @@
             }
 
             updateFissionRefPreview();
-            syncCustomDirectionInputState();
             updateFissionSummary();
         }
 
