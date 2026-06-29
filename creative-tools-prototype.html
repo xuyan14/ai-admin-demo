@@ -863,6 +863,98 @@
             margin-top: 12px;
         }
 
+        .gen-record-header-actions {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-shrink: 0;
+        }
+
+        .gen-record-header-actions .btn-text {
+            font-size: 13px;
+            padding: 4px 12px;
+            border: 1px solid #e5e6eb;
+            background: #fff;
+            border-radius: 4px;
+            cursor: pointer;
+            color: #4e5969;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .gen-record-header-actions .btn-text:hover {
+            border-color: #165dff;
+            color: #165dff;
+        }
+
+        .gen-group-loading {
+            text-align: center;
+            padding: 40px 20px;
+            color: #86909c;
+            font-size: 13px;
+        }
+
+        .gen-group-loading .loading {
+            margin: 0 auto 12px;
+        }
+
+        .gen-group-failed {
+            text-align: center;
+            padding: 32px 20px;
+            background: #fff2f0;
+            border: 1px dashed #ffccc7;
+            border-radius: 8px;
+            color: #cf1322;
+        }
+
+        .gen-group-failed .material-icons {
+            font-size: 36px;
+            margin-bottom: 8px;
+        }
+
+        .gen-group-failed-msg {
+            font-size: 13px;
+            margin-bottom: 12px;
+            line-height: 1.5;
+        }
+
+        .gen-group-status-badge {
+            font-size: 11px;
+            padding: 2px 8px;
+            border-radius: 4px;
+        }
+
+        .gen-group-status-badge.loading {
+            background: #e8f3ff;
+            color: #165dff;
+        }
+
+        .gen-group-status-badge.failed {
+            background: #fff2f0;
+            color: #cf1322;
+        }
+
+        .gen-nine-grid-cell.is-failed {
+            background: #fff2f0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .gen-nine-grid-cell.is-failed .material-icons {
+            color: #ff4d4f;
+            font-size: 20px;
+        }
+
+        .image-modal.gen-preview-mode .modal-arrow {
+            display: flex;
+        }
+
+        .image-modal.gen-preview-mode .modal-info {
+            bottom: -36px;
+        }
+
         .task-card-nine-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
@@ -1435,6 +1527,35 @@
             color: #999;
             margin-top: 6px;
             line-height: 1.5;
+        }
+
+        .fission-field-hint.is-warning {
+            color: #cf1322;
+        }
+
+        .fission-url-requirement {
+            display: flex;
+            align-items: flex-start;
+            gap: 6px;
+            margin-top: 8px;
+            padding: 8px 10px;
+            font-size: 12px;
+            line-height: 1.5;
+            color: #165dff;
+            background: #e8f3ff;
+            border: 1px solid #bedaff;
+            border-radius: 4px;
+        }
+
+        .fission-url-requirement .material-icons {
+            font-size: 16px;
+            flex-shrink: 0;
+            margin-top: 1px;
+        }
+
+        .fission-ref-preview-count-invalid {
+            color: #cf1322;
+            font-weight: 500;
         }
 
         .fission-material-type {
@@ -4162,7 +4283,7 @@
 
     <!-- 图片放大弹窗 -->
     <div class="image-modal" id="imageModal">
-        <div class="image-modal-content">
+        <div class="image-modal-content" id="imageModalContent">
             <div class="modal-close" onclick="closeImageModal()">×</div>
             <div class="modal-arrow prev" onclick="showPrevImage()">‹</div>
             <img class="modal-image" id="modalImage" src="" alt="放大图片">
@@ -5196,6 +5317,10 @@
                                         <span class="arco-radio-button-content">多品多图</span>
                                     </label>
                                 </span>
+                                <div id="fission104UrlRequirement" class="fission-url-requirement" style="display: none;">
+                                    <span class="material-icons">info</span>
+                                    <span>多品多图模式下，<strong>仿写对象须为恰好 9 个</strong>可访问的图片 URL（与九宫格 9 个位一一对应），用分号（;）或换行分隔。</span>
+                                </div>
                             </div>
 
                             <div id="fissionRefUrlSection" class="arco-form-item">
@@ -5204,8 +5329,9 @@
                                     <input type="text" id="fissionRefUrlSingle" class="arco-input" placeholder="请粘贴参考图的可访问 URL" oninput="updateFissionRefPreview()">
                                 </div>
                                 <div id="fissionRefUrlMultiWrap" style="display: none;">
-                                    <textarea id="fissionRefUrlMulti" class="arco-textarea" rows="4" placeholder="请粘贴 9 张参考图 URL（必填），用分号（;）或换行分隔" oninput="updateFissionRefPreview()"></textarea>
-                                    <div class="fission-field-hint">多品多图须恰好 9 张参考图，生成结果按组以九宫格展示</div>
+                                    <textarea id="fissionRefUrlMulti" class="arco-textarea" rows="5" placeholder="请粘贴 9 个仿写对象 URL（必填，恰好 9 条），用分号（;）或换行分隔" oninput="updateFissionRefPreview()"></textarea>
+                                    <div id="fissionUrlCountHint" class="fission-field-hint">须输入恰好 <strong>9 个</strong>仿写对象 URL，少填或多填均无法提交</div>
+                                    <div id="fissionUrlCountWarn" class="fission-field-hint is-warning" style="display: none;"></div>
                                 </div>
                                 <div id="fissionRefPreview" class="fission-ref-preview" style="display: none; margin-top: 8px;">
                                     <div class="fission-ref-preview-title">
@@ -10648,22 +10774,36 @@
         function closeImageModal() {
             const modal = document.getElementById('imageModal');
             modal.style.display = 'none';
+            modal.classList.remove('gen-preview-mode');
+            generationPreviewActive = false;
         }
 
         // 显示上一张图片
         function showPrevImage() {
+            if (generationPreviewActive && generationPreviewList.length) {
+                showGenerationPreviewPrev();
+                return;
+            }
             currentImageIndex = (currentImageIndex - 1 + imageData.length) % imageData.length;
             updateModalImage();
         }
 
         // 显示下一张图片
         function showNextImage() {
+            if (generationPreviewActive && generationPreviewList.length) {
+                showGenerationPreviewNext();
+                return;
+            }
             currentImageIndex = (currentImageIndex + 1) % imageData.length;
             updateModalImage();
         }
 
         // 更新弹窗中的图片
         function updateModalImage() {
+            if (generationPreviewActive) {
+                updateGenerationModalImage();
+                return;
+            }
             const modalImage = document.getElementById('modalImage');
             const modalInfo = document.getElementById('modalInfo');
             
@@ -12240,16 +12380,34 @@
             const totalEl = document.getElementById('fissionRefUrlTotal');
             const titleTextEl = document.getElementById('fissionRefPreviewTitleText');
             const countWrap = document.getElementById('fissionRefPreviewCountWrap');
+            const countWarnEl = document.getElementById('fissionUrlCountWarn');
             if (!preview || !grid) return;
 
             preview.classList.toggle('is-multi-mode', isMulti);
 
             if (isMulti) {
                 preview.style.display = 'block';
-                if (countEl) countEl.textContent = urls.length;
+                if (countEl) {
+                    countEl.textContent = urls.length;
+                    countEl.classList.toggle('fission-ref-preview-count-invalid', urls.length !== 9);
+                }
                 if (totalEl) totalEl.textContent = '/9';
-                if (titleTextEl) titleTextEl.textContent = '参考图预览 · 3×3';
+                if (titleTextEl) titleTextEl.textContent = '仿写对象预览 · 3×3';
                 if (countWrap) countWrap.style.display = '';
+
+                if (countWarnEl) {
+                    if (urls.length === 0) {
+                        countWarnEl.style.display = 'none';
+                    } else if (urls.length < 9) {
+                        countWarnEl.style.display = 'block';
+                        countWarnEl.textContent = `当前 ${urls.length} 个 URL，还需 ${9 - urls.length} 个仿写对象 URL 方可提交`;
+                    } else if (urls.length > 9) {
+                        countWarnEl.style.display = 'block';
+                        countWarnEl.textContent = `当前 ${urls.length} 个 URL，超出 ${urls.length - 9} 个，请删减至恰好 9 个`;
+                    } else {
+                        countWarnEl.style.display = 'none';
+                    }
+                }
 
                 grid.className = 'fission-ref-preview-grid is-nine-grid';
                 const cells = Array.from({ length: 9 }, (_, i) => urls[i] || null);
@@ -12272,6 +12430,8 @@
             if (totalEl) totalEl.textContent = '/1';
             if (titleTextEl) titleTextEl.textContent = '参考图预览';
             if (countWrap) countWrap.style.display = urls.length ? '' : 'none';
+            if (countWarnEl) countWarnEl.style.display = 'none';
+            if (countEl) countEl.classList.remove('fission-ref-preview-count-invalid');
 
             if (urls.length === 0) {
                 preview.style.display = 'none';
@@ -12412,6 +12572,15 @@
             const goodsIdInput = document.getElementById('fissionGoodsId');
             const singleWrap = document.getElementById('fissionRefUrlSingleWrap');
             const multiWrap = document.getElementById('fissionRefUrlMultiWrap');
+            const refUrlLabel = document.getElementById('fissionRefUrlLabel');
+            const requirement104 = document.getElementById('fission104UrlRequirement');
+
+            if (refUrlLabel) {
+                refUrlLabel.textContent = isSingleMaterial ? '参考图 URL' : '仿写对象 URL（9 个）';
+            }
+            if (requirement104) {
+                requirement104.style.display = isSingleMaterial ? 'none' : 'flex';
+            }
 
             if (goodsIdLabel) {
                 goodsIdLabel.textContent = mode === 'fission' ? '商品 ID' : '新商品 ID';
@@ -12480,7 +12649,7 @@
             const urls = parseFissionReferenceUrls();
 
             if (urls.length === 0) {
-                alert(materialType === '101' ? '请粘贴参考图 URL' : '请粘贴至少一个参考图 URL');
+                alert(materialType === '101' ? '请粘贴参考图 URL' : '请粘贴 9 个仿写对象 URL（多品多图模式必填）');
                 return false;
             }
             if (materialType === '101' && urls.length > 1) {
@@ -12488,7 +12657,7 @@
                 return false;
             }
             if (materialType === '104' && urls.length !== 9) {
-                alert('多品多图模式须输入恰好 9 张参考图 URL，当前为 ' + urls.length + ' 张');
+                alert(`多品多图模式须输入恰好 9 个仿写对象 URL，当前为 ${urls.length} 个`);
                 return false;
             }
             const invalidUrl = urls.find(u => !/^https?:\/\/.+/i.test(u));
@@ -12589,6 +12758,296 @@
             };
         }
 
+        // ==================== 万能指令 2.0：生成会话 / 预览 / 重试 ====================
+
+        let currentUniversalGenerationSession = null;
+        let generationPreviewList = [];
+        let generationPreviewIndex = 0;
+        let generationPreviewActive = false;
+        let universalPollToken = 0;
+
+        const GEN_GROUP_LOADING = 'loading';
+        const GEN_GROUP_SUCCESS = 'success';
+        const GEN_GROUP_FAILED = 'failed';
+
+        function createLoadingGroupsFromSpecs(specs) {
+            return specs.map((spec, idx) => ({
+                type: spec.type,
+                groupIndex: idx + 1,
+                label: spec.label,
+                status: GEN_GROUP_LOADING,
+                spec,
+                cells: spec.type === 'grid'
+                    ? Array.from({ length: 9 }, (_, i) => ({ index: i + 1, url: '', status: 0 }))
+                    : []
+            }));
+        }
+
+        function initUniversalGenerationSession(payload) {
+            currentUniversalGenerationSession = {
+                id: `gen_${Date.now()}`,
+                tab: payload.tab,
+                title: payload.title,
+                subtitle: payload.subtitle || '',
+                record: {
+                    displayType: payload.displayType || 'single',
+                    groups: payload.groups || [],
+                    meta: payload.meta || {}
+                },
+                requestContext: payload.requestContext || {}
+            };
+            return currentUniversalGenerationSession;
+        }
+
+        function flattenGenerationPreviewList(record) {
+            const normalized = normalizeGenerationRecord(
+                record?.generationRecord ? record : { generationRecord: record }
+            );
+            const list = [];
+            (normalized.groups || []).forEach(group => {
+                if (group.status === GEN_GROUP_FAILED || group.status === GEN_GROUP_LOADING) return;
+                (group.cells || []).forEach(cell => {
+                    if (cell.url && cell.status !== 11) {
+                        list.push({
+                            url: cell.url,
+                            label: `${group.label || '结果'} · ${cell.index || 1}`,
+                            groupIndex: group.groupIndex
+                        });
+                    }
+                });
+            });
+            return list;
+        }
+
+        function countDownloadableImages(record) {
+            return flattenGenerationPreviewList(record).length;
+        }
+
+        function renderCurrentGenerationSession(options = {}) {
+            if (!currentUniversalGenerationSession) return;
+            const s = currentUniversalGenerationSession;
+            showGenerationRecord(
+                { generationRecord: s.record, title: s.title },
+                {
+                    title: options.title || s.title,
+                    subtitle: options.subtitle || s.subtitle,
+                    showRegenerate: false,
+                    skipSessionSync: true
+                }
+            );
+        }
+
+        function genPreviewClickAttr(url) {
+            if (!url) return '';
+            return `onclick="openGenerationPreview(decodeURIComponent('${encodeURIComponent(url)}'))"`;
+        }
+
+        function openGenerationPreview(startUrl) {
+            const record = currentUniversalGenerationSession?.record;
+            if (!record) return;
+            generationPreviewList = flattenGenerationPreviewList(record);
+            if (!generationPreviewList.length) {
+                showToast('暂无可预览的图片');
+                return;
+            }
+            generationPreviewActive = true;
+            const idx = generationPreviewList.findIndex(item => item.url === startUrl);
+            generationPreviewIndex = idx >= 0 ? idx : 0;
+            updateGenerationModalImage();
+            const modal = document.getElementById('imageModal');
+            if (modal) {
+                modal.classList.add('gen-preview-mode');
+                modal.style.display = 'flex';
+            }
+        }
+
+        function updateGenerationModalImage() {
+            const modalImage = document.getElementById('modalImage');
+            const modalInfo = document.getElementById('modalInfo');
+            const item = generationPreviewList[generationPreviewIndex];
+            if (!modalImage || !item) return;
+            modalImage.src = item.url;
+            if (modalInfo) {
+                modalInfo.textContent = `${generationPreviewIndex + 1} / ${generationPreviewList.length} · ${item.label}`;
+            }
+        }
+
+        function showGenerationPreviewPrev() {
+            if (!generationPreviewActive || !generationPreviewList.length) return;
+            generationPreviewIndex = (generationPreviewIndex - 1 + generationPreviewList.length) % generationPreviewList.length;
+            updateGenerationModalImage();
+        }
+
+        function showGenerationPreviewNext() {
+            if (!generationPreviewActive || !generationPreviewList.length) return;
+            generationPreviewIndex = (generationPreviewIndex + 1) % generationPreviewList.length;
+            updateGenerationModalImage();
+        }
+
+        async function downloadImageFile(url, filename) {
+            try {
+                const res = await fetch(url, { mode: 'cors' });
+                const blob = await res.blob();
+                const blobUrl = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = blobUrl;
+                a.download = filename;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(blobUrl);
+            } catch (e) {
+                const a = document.createElement('a');
+                a.href = url;
+                a.target = '_blank';
+                a.rel = 'noopener';
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+            }
+        }
+
+        async function batchDownloadGenerationResults() {
+            const record = currentUniversalGenerationSession?.record;
+            if (!record) return;
+            const list = flattenGenerationPreviewList(record);
+            if (!list.length) {
+                showToast('没有可下载的图片');
+                return;
+            }
+            showToast(`开始批量下载 ${list.length} 张图片...`);
+            const baseName = (currentUniversalGenerationSession.title || 'result').replace(/[^\w\u4e00-\u9fa5-]/g, '_');
+            for (let i = 0; i < list.length; i++) {
+                const item = list[i];
+                const ext = (item.url.split('?')[0].match(/\.(jpg|jpeg|png|webp|gif)$/i) || [])[1] || 'jpg';
+                await downloadImageFile(item.url, `${baseName}_${i + 1}.${ext}`);
+                await new Promise(r => setTimeout(r, 300));
+            }
+            showToast(`✅ 已触发 ${list.length} 张图片下载`);
+        }
+
+        async function retryUniversalGenerationGroup(groupIndex) {
+            const session = currentUniversalGenerationSession;
+            if (!session) return;
+            const group = session.record.groups.find(g => g.groupIndex === groupIndex);
+            if (!group) return;
+
+            group.status = GEN_GROUP_LOADING;
+            group.errorMessage = '';
+            renderCurrentGenerationSession();
+
+            if (session.tab === 'fission') {
+                const fissionData = session.requestContext.fissionData;
+                const spec = group.spec || collectFissionGroupSpecs(fissionData).find((_, i) => i + 1 === groupIndex);
+                if (!spec || !fissionData) {
+                    group.status = GEN_GROUP_FAILED;
+                    group.errorMessage = '无法定位重试参数';
+                    renderCurrentGenerationSession();
+                    return;
+                }
+                setTimeout(() => {
+                    const newGroup = buildGroupFromSpec(spec, fissionData.referenceMaterialInfoList || [], Date.now(), groupIndex);
+                    newGroup.status = GEN_GROUP_SUCCESS;
+                    newGroup.spec = spec;
+                    Object.assign(group, newGroup);
+                    renderCurrentGenerationSession();
+                    showToast(`✅「${group.label}」重试成功`);
+                }, 800);
+                return;
+            }
+
+            const apiPayload = session.requestContext.apiPayload;
+            if (!apiPayload) {
+                group.status = GEN_GROUP_FAILED;
+                group.errorMessage = '缺少重试上下文';
+                renderCurrentGenerationSession();
+                return;
+            }
+            try {
+                const response = await fetch('http://localhost:5001/api/change-background', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(apiPayload)
+                });
+                const result = await response.json();
+                if (result.success && result.status === 'succeeded' && result.data?.output_url) {
+                    group.type = 'single';
+                    group.status = GEN_GROUP_SUCCESS;
+                    group.cells = [{ index: 1, url: result.data.output_url, status: 10 }];
+                    renderCurrentGenerationSession();
+                    showToast('✅ 重试成功');
+                } else if (result.data?.task_id) {
+                    const pollToken = ++universalPollToken;
+                    await pollUniversalCommandStatusForGroup(result.data.task_id, groupIndex, pollToken);
+                } else {
+                    throw new Error(result.message || '重试失败');
+                }
+            } catch (err) {
+                group.status = GEN_GROUP_FAILED;
+                group.errorMessage = err.message || '重试失败';
+                renderCurrentGenerationSession();
+                showToast('❌ 重试失败: ' + group.errorMessage);
+            }
+        }
+
+        async function pollUniversalCommandStatusForGroup(taskId, groupIndex, pollToken) {
+            const session = currentUniversalGenerationSession;
+            const group = session?.record.groups.find(g => g.groupIndex === groupIndex);
+            if (!group) return;
+            const maxAttempts = 60;
+            let attempts = 0;
+
+            const check = async () => {
+                if (pollToken !== universalPollToken) return;
+                try {
+                    const response = await fetch(`http://localhost:5001/api/check-task/${taskId}`);
+                    const result = await response.json();
+                    if (result.status === 'succeeded' && result.data?.output_url) {
+                        group.type = 'single';
+                        group.status = GEN_GROUP_SUCCESS;
+                        group.cells = [{ index: 1, url: result.data.output_url, status: 10 }];
+                        renderCurrentGenerationSession();
+                        showToast('✅ 重试成功');
+                        return;
+                    }
+                    if (result.status === 'failed') {
+                        throw new Error(result.data?.failure_reason || '生成失败');
+                    }
+                    attempts++;
+                    if (attempts < maxAttempts) {
+                        setTimeout(check, 2000);
+                    } else {
+                        throw new Error('生成超时');
+                    }
+                } catch (err) {
+                    group.status = GEN_GROUP_FAILED;
+                    group.errorMessage = err.message || '生成失败';
+                    renderCurrentGenerationSession();
+                    showToast('❌ 重试失败: ' + group.errorMessage);
+                }
+            };
+            check();
+        }
+
+        function initGenerationPreviewSwipe() {
+            const content = document.getElementById('imageModalContent');
+            if (!content || content.dataset.genSwipeBound) return;
+            content.dataset.genSwipeBound = '1';
+            let touchStartX = 0;
+            content.addEventListener('touchstart', e => {
+                touchStartX = e.changedTouches[0].screenX;
+            }, { passive: true });
+            content.addEventListener('touchend', e => {
+                const modal = document.getElementById('imageModal');
+                if (!modal || modal.style.display !== 'flex' || !generationPreviewActive) return;
+                const diff = e.changedTouches[0].screenX - touchStartX;
+                if (Math.abs(diff) > 50) {
+                    if (diff > 0) showGenerationPreviewPrev();
+                    else showGenerationPreviewNext();
+                }
+            }, { passive: true });
+        }
+
         function renderNineGridMarkup(cells, options = {}) {
             const compact = options.compact === true;
             const gridClass = compact ? 'gen-nine-grid compact' : 'gen-nine-grid';
@@ -12598,59 +13057,83 @@
             }
             return `
                 <div class="${gridClass}">
-                    ${safeCells.map((cell, idx) => `
-                        <div class="gen-nine-grid-cell" ${cell.url ? `onclick="previewGenerationImage('${escapeGenHtml(cell.url)}')"` : ''} title="第 ${idx + 1} 张">
-                            ${cell.url
-                                ? `<img src="${escapeGenHtml(cell.url)}" alt="结果${idx + 1}" loading="lazy" onerror="this.style.opacity='0.3'">`
-                                : `<div style="width:100%;height:100%;background:#f2f3f5;"></div>`}
+                    ${safeCells.map((cell, idx) => {
+                        const isFailed = cell.status === 11;
+                        const safeUrl = cell.url ? escapeGenHtml(cell.url) : '';
+                        const clickAttr = cell.url && !isFailed ? genPreviewClickAttr(cell.url) : '';
+                        return `
+                        <div class="gen-nine-grid-cell${isFailed ? ' is-failed' : ''}" ${clickAttr} title="第 ${idx + 1} 张">
+                            ${isFailed
+                                ? '<span class="material-icons">broken_image</span>'
+                                : cell.url
+                                    ? `<img src="${safeUrl}" alt="结果${idx + 1}" loading="lazy" onerror="this.style.opacity='0.3'">`
+                                    : `<div style="width:100%;height:100%;background:#f2f3f5;"></div>`}
                             <span class="cell-index">${idx + 1}</span>
-                        </div>
-                    `).join('')}
+                        </div>`;
+                    }).join('')}
                 </div>
             `;
         }
 
         function renderGenerationGroupMarkup(group) {
             if (!group) return '';
-            if (group.type === 'grid') {
-                return `
-                    <div class="gen-record-group" data-group-index="${group.groupIndex || 1}">
-                        <div class="gen-record-group-header">
-                            <span class="gen-record-group-title">${escapeGenHtml(group.label || `结果组 ${group.groupIndex || 1}`)}</span>
-                            <span class="gen-record-group-badge">九宫格 · 9 张 / 套</span>
-                        </div>
-                        ${renderNineGridMarkup(group.cells)}
-                    </div>
-                `;
-            }
-            const cells = group.cells || [];
-            if (cells.length === 1) {
-                const url = cells[0].url;
-                return `
-                    <div class="gen-record-group" data-group-index="${group.groupIndex || 1}">
-                        <div class="gen-record-group-header">
-                            <span class="gen-record-group-title">${escapeGenHtml(group.label || '生成结果')}</span>
-                            <span class="gen-record-group-badge">单图</span>
-                        </div>
+            const groupIndex = group.groupIndex || 1;
+            const status = group.status || GEN_GROUP_SUCCESS;
+            const statusBadge = status === GEN_GROUP_LOADING
+                ? '<span class="gen-group-status-badge loading">生成中</span>'
+                : status === GEN_GROUP_FAILED
+                    ? '<span class="gen-group-status-badge failed">失败</span>'
+                    : '';
+
+            let bodyHtml = '';
+            if (status === GEN_GROUP_LOADING) {
+                bodyHtml = `<div class="gen-group-loading"><div class="loading"></div><p>正在生成中，请稍候...</p></div>`;
+            } else if (status === GEN_GROUP_FAILED) {
+                bodyHtml = `
+                    <div class="gen-group-failed">
+                        <span class="material-icons">error_outline</span>
+                        <div class="gen-group-failed-msg">${escapeGenHtml(group.errorMessage || '生成失败，请重试')}</div>
+                        <button type="button" class="btn btn-primary" onclick="retryUniversalGenerationGroup(${groupIndex})">重试本组</button>
+                    </div>`;
+            } else if (group.type === 'grid') {
+                bodyHtml = renderNineGridMarkup(group.cells);
+            } else {
+                const cells = group.cells || [];
+                if (cells.length === 1) {
+                    const url = cells[0].url;
+                    const safeUrl = escapeGenHtml(url);
+                    bodyHtml = `
                         <div class="gen-single-result">
-                            <img src="${escapeGenHtml(url)}" alt="生成结果" onclick="previewGenerationImage('${escapeGenHtml(url)}')">
-                        </div>
-                    </div>
-                `;
+                            <img src="${safeUrl}" alt="生成结果" ${genPreviewClickAttr(url)}>
+                        </div>`;
+                } else {
+                    bodyHtml = `
+                        <div class="gen-single-gallery">
+                            ${cells.map((cell, idx) => {
+                                const safeUrl = escapeGenHtml(cell.url);
+                                return `
+                                <div class="gen-single-gallery-item" ${genPreviewClickAttr(cell.url)}>
+                                    <img src="${safeUrl}" alt="结果${idx + 1}" loading="lazy">
+                                </div>`;
+                            }).join('')}
+                        </div>`;
+                }
             }
+
+            const typeBadge = group.type === 'grid'
+                ? '九宫格 · 9 张 / 套'
+                : (status === GEN_GROUP_LOADING ? '等待结果' : (group.cells?.length > 1 ? `${group.cells.length} 张` : '单图'));
+
             return `
-                <div class="gen-record-group" data-group-index="${group.groupIndex || 1}">
+                <div class="gen-record-group" data-group-index="${groupIndex}" data-group-status="${status}">
                     <div class="gen-record-group-header">
-                        <span class="gen-record-group-title">${escapeGenHtml(group.label || '生成结果')}</span>
-                        <span class="gen-record-group-badge">${cells.length} 张</span>
+                        <span class="gen-record-group-title">${escapeGenHtml(group.label || `结果组 ${groupIndex}`)}</span>
+                        <span style="display:flex;align-items:center;gap:6px;">
+                            ${statusBadge}
+                            <span class="gen-record-group-badge">${typeBadge}</span>
+                        </span>
                     </div>
-                    <div class="gen-single-gallery">
-                        ${cells.map((cell, idx) => `
-                            <div class="gen-single-gallery-item" onclick="previewGenerationImage('${escapeGenHtml(cell.url)}')">
-                                <img src="${escapeGenHtml(cell.url)}" alt="结果${idx + 1}" loading="lazy">
-                            </div>
-                        `).join('')}
-                    </div>
+                    ${bodyHtml}
                 </div>
             `;
         }
@@ -12659,10 +13142,9 @@
             const normalized = normalizeGenerationRecord(record);
             const groups = normalized.groups || [];
             const meta = normalized.meta || {};
-            const title = options.title || meta.title || '生成记录';
+            const title = options.title || meta.title || record.title || '生成记录';
             const subtitle = options.subtitle || new Date().toLocaleString('zh-CN');
-            const showRegenerate = options.showRegenerate !== false;
-            const regenerateHandler = options.regenerateHandler || 'submitUniversalCommand()';
+            const downloadCount = countDownloadableImages(normalized);
 
             const chips = [];
             if (meta.tab === 'fission' || meta.mode) {
@@ -12681,10 +13163,19 @@
             if (groups.length > 1 && meta.materialType !== 104 && meta.materialType !== '104') {
                 chips.push(`<span class="gen-record-chip">${groups.length} 个结果组</span>`);
             }
+            if (groups.some(g => g.status === GEN_GROUP_FAILED)) {
+                chips.push(`<span class="gen-record-chip" style="background:#fff2f0;color:#cf1322;">含失败项，可单组重试</span>`);
+            }
 
             const groupsHtml = groups.length
                 ? groups.map(g => renderGenerationGroupMarkup(g)).join('')
                 : `<div class="empty-state"><span class="material-icons">image</span><p>暂无生成结果</p></div>`;
+
+            const batchDownloadBtn = downloadCount > 0
+                ? `<button type="button" class="btn-text" onclick="batchDownloadGenerationResults()" title="下载全部成功图片">
+                        <span class="material-icons" style="font-size:16px;">download</span>批量下载 (${downloadCount})
+                   </button>`
+                : '';
 
             return `
                 <div class="gen-record-panel">
@@ -12693,7 +13184,9 @@
                             <div class="gen-record-title">${escapeGenHtml(title)}</div>
                             <div class="gen-record-subtitle">${escapeGenHtml(subtitle)}</div>
                         </div>
-                        ${showRegenerate ? `<button class="btn btn-primary" onclick="${regenerateHandler}">重新生成</button>` : ''}
+                        <div class="gen-record-header-actions">
+                            ${batchDownloadBtn}
+                        </div>
                     </div>
                     ${chips.length ? `<div class="gen-record-meta">${chips.join('')}</div>` : ''}
                     <div class="gen-record-groups">${groupsHtml}</div>
@@ -12704,12 +13197,30 @@
         function showGenerationRecord(record, options = {}) {
             const middlePanelContent = document.getElementById('middlePanelContent');
             if (!middlePanelContent) return;
-            middlePanelContent.innerHTML = renderGenerationRecordHtml(record, options);
+            const normalized = normalizeGenerationRecord(record);
+            const title = options.title || record.title || normalized.meta?.title || '生成记录';
+
+            if (!options.skipSessionSync) {
+                const tab = normalized.meta?.tab || record.tab || currentUniversalTab;
+                currentUniversalGenerationSession = {
+                    id: record.id || `view_${Date.now()}`,
+                    tab,
+                    title,
+                    subtitle: options.subtitle || '',
+                    record: JSON.parse(JSON.stringify(normalized)),
+                    requestContext: options.requestContext || {
+                        fissionData: record.storedFissionData || null,
+                        apiPayload: record.storedApiPayload || null
+                    }
+                };
+            }
+
+            middlePanelContent.innerHTML = renderGenerationRecordHtml(record, { ...options, title });
+            initGenerationPreviewSwipe();
         }
 
         function previewGenerationImage(url) {
-            if (!url) return;
-            window.open(url, '_blank');
+            openGenerationPreview(url);
         }
 
         function buildFissionDemoGenerationRecord(fissionData) {
@@ -12718,7 +13229,12 @@
             const refUrls = fissionData.referenceMaterialInfoList || [];
             const taskSeed = Date.now();
             const specs = collectFissionGroupSpecs(fissionData);
-            const groups = specs.map((spec, idx) => buildGroupFromSpec(spec, refUrls, taskSeed, idx + 1));
+            const groups = specs.map((spec, idx) => {
+                const g = buildGroupFromSpec(spec, refUrls, taskSeed, idx + 1);
+                g.status = GEN_GROUP_SUCCESS;
+                g.spec = spec;
+                return g;
+            });
 
             return {
                 displayType: groups.some(g => g.type === 'grid') ? 'grouped' : (groups.length > 1 ? 'multi' : 'single'),
@@ -13250,38 +13766,47 @@
                 ? parseFissionReferenceUrls().length
                 : universalUploadedImages.length;
 
-            // 显示加载状态
-            const middlePanelContent = document.getElementById('middlePanelContent');
-            middlePanelContent.innerHTML = `
-                <div style="text-align: center; padding: 60px 20px;">
-                    <div class="loading"></div>
-                    <h3 style="color: #333; margin: 20px 0 10px;">正在生成中...</h3>
-                    <p style="color: #999; font-size: 14px;">${currentUniversalTab === 'fission' ? '仿写裂变' : '万能指令生成'}</p>
-                    <div style="margin-top: 16px; padding: 16px; background: #e6f7ff; border: 1px solid #91d5ff; border-radius: 6px; text-align: left; max-width: 500px; margin-left: auto; margin-right: auto;">
-                        <p style="font-size: 12px; color: #0050b3; margin-bottom: 4px;"><strong>📷 参考图：</strong>${refUrlCount}张</p>
-                        ${currentUniversalTab === 'generate' ? `<p style="font-size: 12px; color: #0050b3; margin: 4px 0;"><strong>📝 Prompt：</strong>${prompt.substring(0, 100)}${prompt.length > 100 ? '...' : ''}</p>` : ''}
-                        <p style="font-size: 12px; color: #0050b3; margin: 4px 0;"><strong>📐 尺寸：</strong>${bgRatio}</p>
-                    </div>
-                </div>
-            `;
-            
+            const taskTitle = currentUniversalTab === 'fission'
+                ? `仿写裂变-${new Date().toISOString().slice(0, 10).replace(/-/g, '')}-${String(Date.now()).slice(-4)}`
+                : `万能指令-${new Date().toISOString().slice(0, 10).replace(/-/g, '')}-${String(Date.now()).slice(-4)}`;
+
             showToast(currentUniversalTab === 'fission' ? '🚀 开始仿写裂变...' : '🚀 开始万能指令生成...');
             
             if (currentUniversalTab === 'fission') {
                 const fissionData = collectFissionFormData();
-                setTimeout(() => {
-                    const generationRecord = buildFissionDemoGenerationRecord(fissionData);
-                    const modeLabels = { copy: '仅仿写', fission: '仅裂变', both: '仿写&裂变' };
-                    const taskTitle = `仿写裂变-${new Date().toISOString().slice(0, 10).replace(/-/g, '')}-${String(Date.now()).slice(-4)}`;
+                const specs = collectFissionGroupSpecs(fissionData);
+                const modeLabels = { copy: '仅仿写', fission: '仅裂变', both: '仿写&裂变' };
+                const subtitle = `${modeLabels[fissionData._ui.mode] || ''} · 生成中...`;
 
-                    showGenerationRecord({ generationRecord, title: taskTitle }, {
-                        title: taskTitle,
-                        subtitle: `${modeLabels[fissionData._ui.mode] || ''} · 演示数据（接口对接后替换为真实结果）`
-                    });
+                initUniversalGenerationSession({
+                    tab: 'fission',
+                    title: taskTitle,
+                    subtitle,
+                    displayType: specs.some(s => s.type === 'grid') ? 'grouped' : 'single',
+                    groups: createLoadingGroupsFromSpecs(specs),
+                    meta: {
+                        tab: 'fission',
+                        materialType: fissionData.logicGenerateType || 101,
+                        mode: fissionData._ui?.mode,
+                        inputCount: (fissionData.referenceMaterialInfoList || []).length,
+                        groupCount: specs.length
+                    },
+                    requestContext: { fissionData }
+                });
+                renderCurrentGenerationSession({ subtitle });
+
+                universalPollToken++;
+                setTimeout(() => {
+                    if (!currentUniversalGenerationSession || currentUniversalGenerationSession.title !== taskTitle) return;
+                    const generationRecord = buildFissionDemoGenerationRecord(fissionData);
+                    currentUniversalGenerationSession.record = generationRecord;
+                    currentUniversalGenerationSession.subtitle = `${modeLabels[fissionData._ui.mode] || ''} · 演示数据（接口对接后替换为真实结果）`;
+                    renderCurrentGenerationSession();
 
                     prependGenerationTaskToHistory({
                         title: taskTitle,
                         tab: 'fission',
+                        storedFissionData: fissionData,
                         resultImage: generationRecord.groups[0]?.type === 'grid'
                             ? generationRecord.groups[0].cells[0]?.url
                             : (generationRecord.groups[0]?.cells?.[0]?.url || ''),
@@ -13302,18 +13827,34 @@
                 }, 800);
                 return;
             }
+
+            const apiPayload = {
+                image_url: universalUploadedImages[0],
+                image_urls: universalUploadedImages,
+                prompt: prompt,
+                model: model,
+                bg_ratio: bgRatio,
+                bg_method: 'universal'
+            };
+
+            initUniversalGenerationSession({
+                tab: 'generate',
+                title: taskTitle,
+                subtitle: '生成中...',
+                displayType: 'single',
+                groups: [{
+                    type: 'single',
+                    groupIndex: 1,
+                    label: '生成结果',
+                    status: GEN_GROUP_LOADING,
+                    cells: []
+                }],
+                meta: { tab: 'generate' },
+                requestContext: { apiPayload }
+            });
+            renderCurrentGenerationSession({ subtitle: `参考图 ${refUrlCount} 张 · 生成中...` });
             
             try {
-                // 调用API
-                const apiPayload = {
-                    image_url: universalUploadedImages[0],
-                    image_urls: universalUploadedImages,
-                    prompt: prompt,
-                    model: model,
-                    bg_ratio: bgRatio,
-                    bg_method: 'universal'
-                };
-                
                 console.log('📤 发送API请求:', apiPayload);
                 
                 const response = await fetch('http://localhost:5001/api/change-background', {
@@ -13346,43 +13887,48 @@
             } catch (error) {
                 console.error('❌ 万能指令生成失败:', error);
                 showToast('❌ 生成失败: ' + error.message);
-                
-                middlePanelContent.innerHTML = `
-                    <div class="empty-state">
-                        <span class="material-icons" style="color: #ff4d4f;">error</span>
-                        <p style="color: #ff4d4f;">生成失败：${error.message}</p>
-                        <button class="btn btn-primary" onclick="submitUniversalCommand()" style="margin-top: 16px;">重新生成</button>
-                    </div>
-                `;
+                const group = currentUniversalGenerationSession?.record.groups[0];
+                if (group) {
+                    group.status = GEN_GROUP_FAILED;
+                    group.errorMessage = error.message;
+                    renderCurrentGenerationSession({ subtitle: '生成失败' });
+                }
             }
         }
         
         // 显示万能指令结果
         function showUniversalCommandResult(imageUrl, requestInfo) {
-            const record = {
-                generationRecord: {
-                    displayType: 'single',
-                    groups: [{
-                        type: 'single',
-                        groupIndex: 1,
-                        label: '生成结果',
-                        cells: [{ index: 1, url: imageUrl, status: 10 }]
-                    }],
-                    meta: { tab: 'generate' }
-                },
-                title: '万能指令生成结果'
+            const subtitle = new Date().toLocaleString('zh-CN');
+            const generationRecord = {
+                displayType: 'single',
+                groups: [{
+                    type: 'single',
+                    groupIndex: 1,
+                    label: '生成结果',
+                    status: GEN_GROUP_SUCCESS,
+                    cells: [{ index: 1, url: imageUrl, status: 10 }]
+                }],
+                meta: { tab: 'generate' }
             };
-            showGenerationRecord(record, {
-                title: '万能指令生成结果',
-                subtitle: new Date().toLocaleString('zh-CN')
-            });
+
+            if (currentUniversalGenerationSession) {
+                currentUniversalGenerationSession.record = generationRecord;
+                currentUniversalGenerationSession.subtitle = subtitle;
+                renderCurrentGenerationSession({ subtitle });
+            } else {
+                showGenerationRecord({ generationRecord, title: '万能指令生成结果' }, {
+                    title: '万能指令生成结果',
+                    subtitle
+                });
+            }
 
             prependGenerationTaskToHistory({
-                title: `万能指令-${new Date().toISOString().slice(0, 10).replace(/-/g, '')}-${String(Date.now()).slice(-4)}`,
+                title: currentUniversalGenerationSession?.title || `万能指令-${new Date().toISOString().slice(0, 10).replace(/-/g, '')}-${String(Date.now()).slice(-4)}`,
                 tab: 'generate',
+                storedApiPayload: requestInfo,
                 resultImage: imageUrl,
                 originalImage: requestInfo.image_urls?.[0] || imageUrl,
-                generationRecord: record.generationRecord,
+                generationRecord,
                 model: requestInfo.model,
                 prompt: requestInfo.prompt,
                 bgRatio: requestInfo.bg_ratio,
@@ -13392,10 +13938,12 @@
         
         // 轮询万能指令任务状态
         async function pollUniversalCommandStatus(taskId, requestInfo) {
+            const pollToken = ++universalPollToken;
             const maxAttempts = 60;
             let attempts = 0;
             
             const checkStatus = async () => {
+                if (pollToken !== universalPollToken) return;
                 try {
                     const response = await fetch(`http://localhost:5001/api/check-task/${taskId}`);
                     const result = await response.json();
@@ -13418,17 +13966,15 @@
                     }
                     
                 } catch (error) {
+                    if (pollToken !== universalPollToken) return;
                     console.error('❌ 查询任务状态失败:', error);
                     showToast('❌ 生成失败: ' + error.message);
-                    
-                    const middlePanelContent = document.getElementById('middlePanelContent');
-                    middlePanelContent.innerHTML = `
-                        <div class="empty-state">
-                            <span class="material-icons" style="color: #ff4d4f;">error</span>
-                            <p style="color: #ff4d4f;">生成失败：${error.message}</p>
-                            <button class="btn btn-primary" onclick="submitUniversalCommand()" style="margin-top: 16px;">重新生成</button>
-                        </div>
-                    `;
+                    const group = currentUniversalGenerationSession?.record.groups[0];
+                    if (group) {
+                        group.status = GEN_GROUP_FAILED;
+                        group.errorMessage = error.message;
+                        renderCurrentGenerationSession({ subtitle: '生成失败' });
+                    }
                 }
             };
             
