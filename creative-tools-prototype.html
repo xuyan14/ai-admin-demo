@@ -1733,6 +1733,23 @@
             color: #1890ff;
         }
 
+        .fission-direction-custom {
+            margin-top: 12px;
+            padding-top: 12px;
+            border-top: 1px solid #f0f0f0;
+        }
+
+        .fission-direction-custom-label {
+            font-size: 13px;
+            font-weight: 500;
+            color: #333;
+            margin-bottom: 8px;
+        }
+
+        .fission-direction-custom .arco-input::placeholder {
+            color: #c9cdd4;
+        }
+
         .fission-ref-preview {
             margin-top: 10px;
             padding: 10px;
@@ -5290,19 +5307,22 @@
                             <div class="arco-form-item">
                                 <label class="arco-form-item-label"><span class="arco-form-item-required">*</span>复刻策略</label>
                                 <span class="arco-radio-group arco-radio-group-button arco-radio-group-size-small" id="fissionModeGroup">
-                                    <label class="arco-radio-button arco-radio-checked" data-mode="copy" onclick="selectFissionModeCard(this)">
-                                        <input type="radio" name="fissionMode" value="copy" checked>
+                                    <label class="arco-radio-button" data-mode="copy" onclick="selectFissionModeCard(this)">
+                                        <input type="radio" name="fissionMode" value="copy">
                                         <span class="arco-radio-button-content">仅仿写</span>
                                     </label>
                                     <label class="arco-radio-button" data-mode="fission" onclick="selectFissionModeCard(this)">
                                         <input type="radio" name="fissionMode" value="fission">
                                         <span class="arco-radio-button-content">仅裂变</span>
                                     </label>
-                                    <label class="arco-radio-button" data-mode="both" onclick="selectFissionModeCard(this)">
-                                        <input type="radio" name="fissionMode" value="both">
+                                    <label class="arco-radio-button arco-radio-checked" data-mode="both" onclick="selectFissionModeCard(this)">
+                                        <input type="radio" name="fissionMode" value="both" checked>
                                         <span class="arco-radio-button-content">仿写&裂变</span>
                                     </label>
                                 </span>
+                                <div id="fissionModeDirectionHint" class="fission-field-hint" style="display: none; margin-top: 8px;">
+                                    「仅仿写」不配置裂变方向；请选择「仅裂变」或「仿写&裂变」以设置裂变方向
+                                </div>
                             </div>
 
                             <div class="arco-form-item">
@@ -5368,7 +5388,7 @@
                                 </div>
                             </div>
 
-                            <div id="fissionDirectionSection" class="arco-form-item" style="display: none;">
+                            <div id="fissionDirectionSection" class="arco-form-item">
                                 <label class="arco-form-item-label"><span class="arco-form-item-required">*</span>裂变方向</label>
                                 <div class="fission-direction-panel">
                                     <div class="fission-direction-row">
@@ -5399,30 +5419,36 @@
                                         </div>
                                         <div class="fission-stepper">
                                             <button type="button" onclick="adjustFissionNum('scene', -1)">−</button>
-                                            <input type="number" id="fissionSceneNum" value="1" min="0" max="10" readonly>
+                                            <input type="number" id="fissionSceneNum" value="0" min="0" max="10" readonly>
                                             <button type="button" onclick="adjustFissionNum('scene', 1)">+</button>
                                         </div>
                                     </div>
                                     <div class="fission-direction-row">
                                         <div class="fission-direction-info">
                                             <div class="fission-direction-icon solid">
-                                                <span class="material-icons">palette</span>
+                                                <span class="material-icons">photo_camera</span>
                                             </div>
                                             <div>
-                                                <div class="fission-direction-label">纯色风</div>
-                                                <div class="fission-direction-desc">纯色/简洁色块背景，突出商品</div>
+                                                <div class="fission-direction-label">实拍风</div>
+                                                <div class="fission-direction-desc">真实场景/上身实拍，突出商品质感</div>
                                             </div>
                                         </div>
                                         <div class="fission-stepper">
                                             <button type="button" onclick="adjustFissionNum('solid', -1)">−</button>
-                                            <input type="number" id="fissionSolidNum" value="1" min="0" max="10" readonly>
+                                            <input type="number" id="fissionSolidNum" value="0" min="0" max="10" readonly>
                                             <button type="button" onclick="adjustFissionNum('solid', 1)">+</button>
                                         </div>
                                     </div>
                                     <div id="fissionSummaryBar" class="fission-summary-bar">
-                                        预计产出约 <strong id="fissionTotalCount">4</strong> 张（Auto <strong id="fissionAutoCountDisplay">2</strong> + 场景 <strong id="fissionSceneCountDisplay">1</strong> + 纯色 <strong id="fissionSolidCountDisplay">1</strong>）
+                                        预计产出约 <strong id="fissionTotalCount">2</strong> 张（Auto <strong id="fissionAutoCountDisplay">2</strong> + 场景 <strong id="fissionSceneCountDisplay">0</strong> + 实拍 <strong id="fissionSolidCountDisplay">0</strong>）
                                     </div>
                                 </div>
+                            </div>
+
+                            <div id="fissionCustomDirectionSection" class="arco-form-item">
+                                <label class="arco-form-item-label">自定义裂变方向</label>
+                                <input type="text" id="fissionCustomDirections" class="arco-input" placeholder="例如突出价格优势、突出商品功能、突出上身效果" oninput="updateFissionSummary()">
+                                <div class="fission-field-hint">选填，多个方向可用顿号、逗号或换行分隔，每个方向各生成一组结果</div>
                             </div>
                         </div>
                     </div>
@@ -6342,6 +6368,14 @@
                     const solidInput = document.getElementById('fissionSolidNum');
                     if (solidInput) solidInput.value = task.fissionSolidNum;
                 }
+                if (task.fissionCustomDirections !== undefined) {
+                    const customInput = document.getElementById('fissionCustomDirections');
+                    if (customInput) {
+                        customInput.value = Array.isArray(task.fissionCustomDirections)
+                            ? task.fissionCustomDirections.join('、')
+                            : (task.fissionCustomDirections || '');
+                    }
+                }
                 if (task.fissionCopyCount) {
                     const countRadio = document.querySelector(`input[name="fissionCopyCount"][value="${task.fissionCopyCount}"]`);
                     if (countRadio) countRadio.checked = true;
@@ -6449,7 +6483,7 @@
             const multiGridGroup4 = {
                 type: 'grid',
                 groupIndex: 4,
-                label: '纯色风',
+                label: '实拍风',
                 cells: padCellsToNine(multiRefUrls.map((_, i) => buildDemoResultImageUrl(`mock-g4-${i}`)), 'mock-g4')
             };
             const multiGenerationRecord = {
@@ -6541,7 +6575,7 @@
                             { type: 'single', groupIndex: 1, label: 'Auto 裂变 1', cells: [{ index: 1, url: buildDemoResultImageUrl('mock-4b-1'), status: 10 }] },
                             { type: 'single', groupIndex: 2, label: 'Auto 裂变 2', cells: [{ index: 1, url: buildDemoResultImageUrl('mock-4b-2'), status: 10 }] },
                             { type: 'single', groupIndex: 3, label: '场景风 1', cells: [{ index: 1, url: buildDemoResultImageUrl('mock-4b-3'), status: 10 }] },
-                            { type: 'single', groupIndex: 4, label: '纯色风 1', cells: [{ index: 1, url: buildDemoResultImageUrl('mock-4b-4'), status: 10 }] }
+                            { type: 'single', groupIndex: 4, label: '实拍风 1', cells: [{ index: 1, url: buildDemoResultImageUrl('mock-4b-4'), status: 10 }] }
                         ],
                         meta: { tab: 'fission', materialType: 101, mode: 'both', groupCount: 4 }
                     },
@@ -12448,6 +12482,14 @@
             `;
         }
 
+        function parseCustomFissionDirections(raw) {
+            if (!raw || !String(raw).trim()) return [];
+            return String(raw)
+                .split(/[,，;；\n、]+/)
+                .map(s => s.trim())
+                .filter(Boolean);
+        }
+
         function adjustFissionNum(type, delta) {
             const inputMap = { auto: 'fissionAutoNum', scene: 'fissionSceneNum', solid: 'fissionSolidNum' };
             const inputId = inputMap[type];
@@ -12464,6 +12506,8 @@
             const auto = parseInt(document.getElementById('fissionAutoNum')?.value) || 0;
             const scene = parseInt(document.getElementById('fissionSceneNum')?.value) || 0;
             const solid = parseInt(document.getElementById('fissionSolidNum')?.value) || 0;
+            const customDirs = parseCustomFissionDirections(document.getElementById('fissionCustomDirections')?.value);
+            const customCount = customDirs.length;
             const mode = document.querySelector('input[name="fissionMode"]:checked')?.value;
             const summaryBar = document.getElementById('fissionSummaryBar');
 
@@ -12478,13 +12522,14 @@
             if (sceneDisplay) sceneDisplay.textContent = scene;
             if (solidDisplay) solidDisplay.textContent = solid;
 
-            const total = auto + scene + solid;
+            const total = auto + scene + solid + customCount;
             if (totalEl) totalEl.textContent = total;
             const materialType = document.querySelector('input[name="fissionMaterialType"]:checked')?.value || '101';
+            const customPart = customCount > 0 ? ` + 自定义 <strong>${customCount}</strong>` : '';
             if (materialType === '104') {
-                summaryBar.innerHTML = `预计产出 <strong>${total}</strong> 套九宫格（每套 9 张 · Auto <strong>${auto}</strong> + 场景 <strong>${scene}</strong> + 纯色 <strong>${solid}</strong>）`;
+                summaryBar.innerHTML = `预计产出 <strong>${total}</strong> 套九宫格（每套 9 张 · Auto <strong>${auto}</strong> + 场景 <strong>${scene}</strong> + 实拍 <strong>${solid}</strong>${customPart}）`;
             } else {
-                summaryBar.innerHTML = `预计产出约 <strong>${total}</strong> 张（Auto <strong>${auto}</strong> + 场景 <strong>${scene}</strong> + 纯色 <strong>${solid}</strong>）`;
+                summaryBar.innerHTML = `预计产出约 <strong>${total}</strong> 张（Auto <strong>${auto}</strong> + 场景 <strong>${scene}</strong> + 实拍 <strong>${solid}</strong>${customPart}）`;
             }
         }
 
@@ -12507,8 +12552,17 @@
                     specs.push({ label: scene > 1 ? `场景风 ${i + 1}` : '场景风', seed: `scene-${i}`, type: cellType });
                 }
                 for (let i = 0; i < solid; i++) {
-                    specs.push({ label: solid > 1 ? `纯色风 ${i + 1}` : '纯色风', seed: `solid-${i}`, type: cellType });
+                    specs.push({ label: solid > 1 ? `实拍风 ${i + 1}` : '实拍风', seed: `solid-${i}`, type: cellType });
                 }
+                const customDirs = fissionData.customFissionDirections || [];
+                customDirs.forEach((dir, i) => {
+                    specs.push({
+                        label: dir,
+                        seed: `custom-${i}`,
+                        type: cellType,
+                        customDirection: dir
+                    });
+                });
             };
 
             if (mode === 'copy') {
@@ -12566,6 +12620,8 @@
             const materialType = document.querySelector('input[name="fissionMaterialType"]:checked')?.value || '101';
             const isSingleMaterial = materialType === '101';
             const directionSection = document.getElementById('fissionDirectionSection');
+            const customDirectionSection = document.getElementById('fissionCustomDirectionSection');
+            const modeDirectionHint = document.getElementById('fissionModeDirectionHint');
             const copyCountSection = document.getElementById('fissionCopyCountSection');
             const ratioSection = document.getElementById('fissionRatioSection');
             const goodsIdLabel = document.getElementById('fissionGoodsIdLabel');
@@ -12598,8 +12654,15 @@
             if (ratioSection) {
                 ratioSection.style.display = isSingleMaterial ? 'block' : 'none';
             }
+            const showDirection = mode !== 'copy';
             if (directionSection) {
-                directionSection.style.display = mode === 'copy' ? 'none' : 'block';
+                directionSection.style.display = showDirection ? 'block' : 'none';
+            }
+            if (customDirectionSection) {
+                customDirectionSection.style.display = showDirection ? 'block' : 'none';
+            }
+            if (modeDirectionHint) {
+                modeDirectionHint.style.display = mode === 'copy' ? 'block' : 'none';
             }
 
             if (singleWrap && multiWrap) {
@@ -12623,6 +12686,7 @@
             const solidFissionNum = mode === 'copy' ? 0 : (parseInt(document.getElementById('fissionSolidNum')?.value) || 0);
             const autoFissionNum = mode === 'copy' ? 0 : (parseInt(document.getElementById('fissionAutoNum')?.value) || 0);
             const copyCount = parseInt(document.querySelector('input[name="fissionCopyCount"]:checked')?.value) || 1;
+            const customFissionDirections = parseCustomFissionDirections(document.getElementById('fissionCustomDirections')?.value);
             const isSingleMaterial = logicGenerateType === 101;
             const outputSize = isSingleMaterial
                 ? getFissionOutputSize()
@@ -12639,6 +12703,7 @@
                 solidFissionNum,
                 autoFissionNum,
                 copyCount: mode === 'copy' ? copyCount : null,
+                customFissionDirections,
                 outputRatio: isSingleMaterial ? outputSize.ratio : null,
                 _ui: { mode, goodsId, materialType: String(logicGenerateType) }
             };
@@ -12676,8 +12741,9 @@
                 const auto = parseInt(document.getElementById('fissionAutoNum')?.value) || 0;
                 const scene = parseInt(document.getElementById('fissionSceneNum')?.value) || 0;
                 const solid = parseInt(document.getElementById('fissionSolidNum')?.value) || 0;
-                if (auto + scene + solid === 0) {
-                    alert('请至少为一个裂变方向设置数量（Auto / 场景风 / 纯色风）');
+                const customCount = parseCustomFissionDirections(document.getElementById('fissionCustomDirections')?.value).length;
+                if (auto + scene + solid + customCount === 0) {
+                    alert('请至少设置一个裂变方向（Auto / 场景风 / 实拍风），或填写自定义裂变方向');
                     return false;
                 }
             }
@@ -13820,7 +13886,8 @@
                         fissionOutputRatio: fissionData.outputRatio || undefined,
                         fissionAutoNum: fissionData.autoFissionNum,
                         fissionSceneNum: fissionData.sceneFissionNum,
-                        fissionSolidNum: fissionData.solidFissionNum
+                        fissionSolidNum: fissionData.solidFissionNum,
+                        fissionCustomDirections: fissionData.customFissionDirections || []
                     });
 
                     showToast('✅ 仿写裂变演示结果已生成（接口对接开发中）');
