@@ -1665,7 +1665,7 @@
         .fission-direction-custom-grid {
             display: grid;
             grid-template-columns: 36px 1fr auto;
-            grid-template-rows: auto auto auto;
+            grid-template-rows: auto auto;
             gap: 6px 10px;
             width: 100%;
             align-items: center;
@@ -1693,16 +1693,6 @@
             grid-row: 2;
             margin-top: 0;
             width: 100%;
-        }
-
-        .fission-custom-hint {
-            grid-column: 1 / -1;
-            grid-row: 3;
-            font-size: 11px;
-            line-height: 1.5;
-            color: #86909c;
-            word-break: break-word;
-            white-space: normal;
         }
 
         .fission-direction-label-wrap {
@@ -5565,7 +5555,7 @@
                                                 <div class="fission-direction-label">自定义裂变方向</div>
                                                 <span class="fission-info-tip" tabindex="0" aria-label="自定义裂变方向说明">
                                                     <span class="material-icons">info</span>
-                                                    <span class="fission-info-tip-popover">选填，素材结果按自定义方向裂变。指令不一定能完全遵循</span>
+                                                    <span class="fission-info-tip-popover">选填，素材结果按自定义方向裂变。指令遵循可能存在偏差</span>
                                                 </span>
                                             </div>
                                             <div class="fission-stepper">
@@ -5574,7 +5564,6 @@
                                                 <button type="button" onclick="adjustFissionNum('custom', 1)">+</button>
                                             </div>
                                             <input type="text" id="fissionCustomDirections" class="arco-input fission-direction-custom-input" placeholder="例如突出价格优势、突出商品功能、突出上身效果" oninput="updateFissionSummary()">
-                                            <div class="fission-custom-hint">选填，素材结果按自定义方向裂变。指令不一定能完全遵循</div>
                                         </div>
                                     </div>
                                     <div id="fissionSummaryBar" class="fission-summary-bar">
