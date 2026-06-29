@@ -5555,7 +5555,7 @@
                                                 <div class="fission-direction-label">自定义裂变方向</div>
                                                 <span class="fission-info-tip" tabindex="0" aria-label="自定义裂变方向说明">
                                                     <span class="material-icons">info</span>
-                                                    <span class="fission-info-tip-popover">选填，素材结果按自定义方向裂变。指令遵循可能存在偏差</span>
+                                                    <span class="fission-info-tip-popover">选填。输入框内容为整条裂变指令（不按标点拆分），步进器控制生成组数。指令遵循可能存在偏差</span>
                                                 </span>
                                             </div>
                                             <div class="fission-stepper">
@@ -5563,7 +5563,7 @@
                                                 <input type="number" id="fissionCustomNum" value="0" min="0" max="10" readonly>
                                                 <button type="button" onclick="adjustFissionNum('custom', 1)">+</button>
                                             </div>
-                                            <input type="text" id="fissionCustomDirections" class="arco-input fission-direction-custom-input" placeholder="例如突出价格优势、突出商品功能、突出上身效果" oninput="updateFissionSummary()">
+                                            <input type="text" id="fissionCustomDirections" class="arco-input fission-direction-custom-input" placeholder="例如：突出价格优势、突出商品功能与上身效果" oninput="updateFissionSummary()">
                                         </div>
                                     </div>
                                     <div id="fissionSummaryBar" class="fission-summary-bar">
@@ -6493,14 +6493,9 @@
                     const customNumInput = document.getElementById('fissionCustomNum');
                     if (customNumInput) customNumInput.value = task.fissionCustomNum;
                 }
-                if (task.fissionCustomDirections !== undefined || task.customDirectionText !== undefined) {
+                if (task.customDirectionText !== undefined) {
                     const customInput = document.getElementById('fissionCustomDirections');
-                    if (customInput) {
-                        customInput.value = task.customDirectionText
-                            || (Array.isArray(task.fissionCustomDirections)
-                                ? task.fissionCustomDirections.join('、')
-                                : (task.fissionCustomDirections || ''));
-                    }
+                    if (customInput) customInput.value = task.customDirectionText || '';
                 }
                 if (task.fissionCopyCount) {
                     const countRadio = document.querySelector(`input[name="fissionCopyCount"][value="${task.fissionCopyCount}"]`);
@@ -12608,27 +12603,15 @@
             `;
         }
 
-        function parseCustomFissionDirections(raw) {
-            if (!raw || !String(raw).trim()) return [];
-            return String(raw)
-                .split(/[,，;；\n、]+/)
-                .map(s => s.trim())
-                .filter(Boolean);
+        function getCustomDirectionPrompt(raw) {
+            return String(raw || '').trim();
         }
 
-        function buildCustomFissionLabels(count, rawText) {
-            const parsed = parseCustomFissionDirections(rawText);
-            const labels = [];
-            for (let i = 0; i < count; i++) {
-                if (parsed[i]) {
-                    labels.push(parsed[i]);
-                } else if (parsed[0]) {
-                    labels.push(count > 1 ? `${parsed[0]} ${i + 1}` : parsed[0]);
-                } else {
-                    labels.push(count > 1 ? `自定义裂变 ${i + 1}` : '自定义裂变');
-                }
+        function buildCustomFissionGroupLabel(index, total, prompt) {
+            if (prompt) {
+                return total > 1 ? `${prompt}（${index + 1}）` : prompt;
             }
-            return labels;
+            return total > 1 ? `自定义裂变 ${index + 1}` : '自定义裂变';
         }
 
         function adjustFissionNum(type, delta) {
@@ -12696,14 +12679,14 @@
                     specs.push({ label: solid > 1 ? `实拍风 ${i + 1}` : '实拍风', seed: `solid-${i}`, type: cellType });
                 }
                 const customNum = fissionData.customFissionNum || 0;
-                const customLabels = fissionData.customFissionDirections || [];
+                const prompt = fissionData.customDirectionText || '';
                 for (let i = 0; i < customNum; i++) {
-                    const label = customLabels[i] || (customNum > 1 ? `自定义裂变 ${i + 1}` : '自定义裂变');
+                    const label = buildCustomFissionGroupLabel(i, customNum, prompt);
                     specs.push({
                         label,
                         seed: `custom-${i}`,
                         type: cellType,
-                        customDirection: label
+                        customDirection: prompt
                     });
                 }
             };
@@ -12826,8 +12809,7 @@
             const autoFissionNum = mode === 'copy' ? 0 : (parseInt(document.getElementById('fissionAutoNum')?.value) || 0);
             const copyCount = parseInt(document.querySelector('input[name="fissionCopyCount"]:checked')?.value) || 1;
             const customFissionNum = mode === 'copy' ? 0 : (parseInt(document.getElementById('fissionCustomNum')?.value) || 0);
-            const customDirectionText = document.getElementById('fissionCustomDirections')?.value || '';
-            const customFissionDirections = buildCustomFissionLabels(customFissionNum, customDirectionText);
+            const customDirectionText = getCustomDirectionPrompt(document.getElementById('fissionCustomDirections')?.value);
             const isSingleMaterial = logicGenerateType === 101;
             const outputSize = isSingleMaterial
                 ? getFissionOutputSize()
@@ -12845,8 +12827,7 @@
                 autoFissionNum,
                 copyCount: mode === 'copy' ? copyCount : null,
                 customFissionNum,
-                customFissionDirections,
-                customDirectionText: customDirectionText.trim(),
+                customDirectionText,
                 outputRatio: isSingleMaterial ? outputSize.ratio : null,
                 _ui: { mode, goodsId, materialType: String(logicGenerateType) }
             };
@@ -14031,7 +14012,6 @@
                         fissionSceneNum: fissionData.sceneFissionNum,
                         fissionSolidNum: fissionData.solidFissionNum,
                         fissionCustomNum: fissionData.customFissionNum,
-                        fissionCustomDirections: fissionData.customFissionDirections || [],
                         customDirectionText: fissionData.customDirectionText || ''
                     });
 
