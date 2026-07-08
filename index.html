@@ -3,12 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI创意工具 - 最新版本</title>
+    <title>AI内容管理后台 - Demo</title>
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
     <script>
-        // 自动版本号防缓存
         var __v = new Date().toISOString().replace(/[-:.TZ]/g, '').slice(0, 14);
     </script>
     <style>
@@ -19,101 +18,74 @@
             align-items: center;
             min-height: 100vh;
             margin: 0;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #0d1f4a 0%, #165dff 55%, #4080ff 100%);
             color: white;
         }
         .container {
             text-align: center;
             padding: 40px;
+            max-width: 520px;
             background: rgba(255, 255, 255, 0.1);
             border-radius: 20px;
             backdrop-filter: blur(10px);
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
         }
-        h1 {
-            font-size: 48px;
-            margin-bottom: 20px;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
-        }
-        .version {
-            font-size: 14px;
-            opacity: 0.8;
-            margin-bottom: 30px;
+        h1 { font-size: 36px; margin-bottom: 8px; }
+        .subtitle { opacity: 0.88; margin-bottom: 8px; font-size: 15px; }
+        .badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 12px;
+            background: rgba(255,255,255,0.15);
+            font-size: 12px;
+            margin-bottom: 24px;
         }
         .btn {
-            display: inline-block;
-            padding: 15px 40px;
-            margin: 10px;
-            background: white;
-            color: #667eea;
-            text-decoration: none;
-            border-radius: 30px;
-            font-weight: 600;
-            font-size: 16px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-            transition: all 0.3s;
-        }
-        .btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
-        }
-        .features {
-            margin-top: 40px;
-            text-align: left;
-            font-size: 14px;
-            line-height: 2;
-        }
-        .feature-item {
+            display: block;
+            padding: 14px 24px;
             margin: 10px 0;
+            background: white;
+            color: #165dff;
+            text-decoration: none;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 15px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+            transition: all 0.2s;
         }
-        .new-badge {
-            background: #ff4d4f;
-            padding: 2px 8px;
-            border-radius: 10px;
+        .btn:hover { transform: translateY(-2px); }
+        .hint {
+            margin-top: 24px;
+            padding: 12px 16px;
+            background: rgba(255,255,255,0.12);
+            border-radius: 8px;
             font-size: 12px;
-            margin-left: 8px;
+            line-height: 1.7;
+            text-align: left;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>🎨 AI创意工具</h1>
-        <div class="version">在线预览 Demo（GitHub Pages）</div>
-        
-        <a id="enterBtn" href="creative-tools-prototype.html" class="btn">
-            🚀 进入创意工具
-        </a>
-        
-        <div class="features">
-            <div class="feature-item">✅ 扩图功能 - AI智能扩图</div>
-            <div class="feature-item">✅ 换背景 - 背景替换与生成</div>
-            <div class="feature-item">✅ 背景裂变 - 风格相似生成</div>
-            <div class="feature-item">✅ 图片创作 - 海报模板</div>
-            <div class="feature-item">✨ 万能指令 - 自由AI指令 <span class="new-badge">NEW</span></div>
-            <div class="feature-item">🔀 仿写裂变 - 素材仿写与风格裂变 <span class="new-badge">NEW</span></div>
-            <div class="feature-item">📝 意见管理 - 反馈管理</div>
-        </div>
-        
-        <div style="margin-top: 30px; padding: 12px 16px; background: rgba(255,255,255,0.12); border-radius: 8px; font-size: 12px; line-height: 1.7; text-align: left;">
-            <strong>📌 在线 Demo 提示</strong><br>
-            页面为纯静态预览，UI 与交互完整可用；图片上传 / AI 生成等需后端支持的能力<br>
-            在 Demo 环境下不会真正调用接口，仅作展示用途。
-        </div>
+        <h1>AI内容管理后台</h1>
+        <div class="subtitle">2026 · AI 能力全面升级</div>
+        <div class="badge">GitHub Pages 在线 Demo</div>
 
-        <div style="margin-top: 24px; font-size: 12px; opacity: 0.7;">
-            <p>部署时间: <span id="deployTime"></span></p>
+        <a id="enterBtn" class="btn" href="creative-tools-prototype.html">进入平台</a>
+
+        <div class="hint">
+            <strong>包含模块</strong><br>
+            首页宣传 · 万能指令 · 爆款创意通晒 · 素材洞察 · 视频编辑 · 原料库 · 视频创作<br><br>
+            <strong>说明</strong><br>
+            纯静态原型，AI 生图/视频生产/数据查询等为前端 Mock，无需本地后端即可体验交互。
         </div>
+        <p style="margin-top: 20px; font-size: 12px; opacity: 0.7;">部署时间: <span id="deployTime"></span></p>
     </div>
-    
     <script>
         document.getElementById('deployTime').textContent = new Date().toLocaleString('zh-CN');
-        var url = 'creative-tools-prototype.html?v=' + __v;
+        var url = 'creative-tools-prototype.html?module=home&v=' + __v;
         document.getElementById('enterBtn').href = url;
-
-        setTimeout(() => {
-            window.location.href = url;
-        }, 3000);
+        setTimeout(function() { location.href = url; }, 4000);
     </script>
 </body>
 </html>
-

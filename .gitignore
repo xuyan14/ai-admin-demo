@@ -56,6 +56,10 @@ atlassian-ide-plugin.xml
 # 用户上传文件（仅本地服务器使用，不应提交）
 uploads/
 
+# 本地参考页/媒体垃圾
+*.mp4
+AI内容管理后台-万能指令参考风格*
+
 # Python 缓存
 __pycache__/
 *.pyc

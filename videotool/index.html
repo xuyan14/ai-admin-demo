@@ -1,0 +1,1732 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI视频工具 - 内容管理后台</title>
+    <link rel="stylesheet" href="styles.css?v=automation-mode-45">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <script>
+        (function () {
+            if (new URLSearchParams(window.location.search).get('embed') === '1') {
+                document.documentElement.classList.add('vt-embed');
+            }
+        })();
+    </script>
+    <div class="container">
+        <!-- 左侧导航栏 -->
+        <div class="sidebar">
+            <div class="sidebar-header">
+                <h2>AI内容管理后台</h2>
+            </div>
+            <nav class="sidebar-nav">
+                <ul class="nav-list">
+                    <li class="nav-item">
+                        <a href="../creative-tools-prototype.html" class="nav-link">
+                            <i class="fas fa-wand-magic-sparkles"></i>
+                            <span>万能指令</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="../creative-tools-prototype.html?module=hotCreativeShowcase" class="nav-link">
+                            <i class="fas fa-fire"></i>
+                            <span>爆款创意通晒</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link">
+                            <i class="fas fa-home"></i>
+                            <span>首页</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link">
+                            <i class="fas fa-upload"></i>
+                            <span>素材上传</span>
+                        </a>
+                    </li>
+                    <li class="nav-item has-submenu">
+                        <a href="#" class="nav-link">
+                            <i class="fas fa-tools"></i>
+                            <span>运营工具</span>
+                            <i class="fas fa-chevron-down expand-icon"></i>
+                        </a>
+                        <ul class="submenu">
+                            <li class="nav-item">
+                                <a href="#" class="nav-link">
+                                    <i class="fas fa-palette"></i>
+                                    <span>AI平面创作</span>
+                                </a>
+                            </li>
+                            <li class="nav-item has-submenu">
+                                <a href="#" class="nav-link">
+                                    <i class="fas fa-video"></i>
+                                    <span>AI视频创作</span>
+                                    <i class="fas fa-chevron-down expand-icon"></i>
+                                </a>
+                                <ul class="submenu">
+                                    <li class="nav-item">
+                                        <a href="#" class="nav-link active">
+                                            <i class="fas fa-cut"></i>
+                                            <span>视频创作</span>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="#" class="nav-link" onclick="showVideoLibrary()">
+                                            <i class="fas fa-folder"></i>
+                                            <span>视频库</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="nav-item has-submenu">
+                                <a href="#" class="nav-link">
+                                    <i class="fas fa-database"></i>
+                                    <span>创意资产库</span>
+                                    <i class="fas fa-chevron-down expand-icon"></i>
+                                </a>
+                                <ul class="submenu">
+                                    <li class="nav-item">
+                                        <a href="#" class="nav-link" onclick="showMaterialLibrary()">
+                                            <i class="fas fa-images"></i>
+                                            <span>原料库</span>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="#" class="nav-link">
+                                            <i class="fas fa-file-alt"></i>
+                                            <span>文本库</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+
+        <!-- 主要内容区域 -->
+        <div class="main-content">
+            <!-- 顶部头部栏 -->
+            <header class="header">
+                <div class="breadcrumb">
+                    <span>运营工具</span>
+                    <i class="fas fa-chevron-right"></i>
+                    <span>AI视频创作</span>
+                    <i class="fas fa-chevron-right"></i>
+                    <span>视频创作</span>
+                </div>
+                <div class="header-actions">
+                    <div class="user-info">
+                        <span>david01.chen</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                </div>
+            </header>
+
+            <!-- 主要内容 -->
+            <div class="content">
+                <!-- 生产模式切换 -->
+                <div class="production-mode-switch">
+                    <div class="mode-tabs">
+                        <button class="mode-tab active" id="manualModeTab" onclick="switchProductionMode('manual')">
+                            <i class="fas fa-user-edit"></i>
+                            人工模式
+                        </button>
+                        <button class="mode-tab" id="automationModeTab" onclick="switchProductionMode('automation')">
+                            <i class="fas fa-robot"></i>
+                            批量模式
+                        </button>
+                    </div>
+                </div>
+
+                <div id="manualProductionMode">
+                    <!-- 流程步骤指示器 -->
+                    <div class="process-steps">
+                    <div class="step active" data-step="1">
+                        <div class="step-number">1</div>
+                        <div class="step-title">商品识别与卖点提炼</div>
+                    </div>
+                    <div class="step" data-step="2">
+                        <div class="step-number">2</div>
+                        <div class="step-title">脚本生成</div>
+                    </div>
+                    <div class="step" data-step="3">
+                        <div class="step-number">3</div>
+                        <div class="step-title">视频混剪</div>
+                    </div>
+                    <div class="step" data-step="4">
+                        <div class="step-number">4</div>
+                        <div class="step-title">下载完成</div>
+                    </div>
+                    </div>
+
+                    <!-- 步骤1：商品识别与卖点提炼 -->
+                    <div class="step-content active" id="step1">
+                    <div class="step-header">
+                        <h3>步骤1：商品识别与卖点提炼</h3>
+                        <p>请输入商品ID或链接，系统将自动识别商品信息并生成卖点</p>
+                    </div>
+                    
+                    <div class="product-identification">
+                        <!-- 商品ID输入区域 -->
+                        <div class="form-group">
+                            <label for="productId">*商品ID或链接</label>
+                            <div class="input-group">
+                                <input type="text" id="productId" placeholder="请输入唯品会商品链接或ID">
+                                <button class="btn btn-primary" onclick="identifyProduct()">识别商品</button>
+                            </div>
+                            <!-- 原料库状态提示 -->
+                            <div class="material-hint" id="materialHint" style="display: none;">
+                                <span class="hint-text" id="materialHintText"></span>
+                                <button class="hint-link" id="materialHintLink" onclick="uploadNewMaterial()" style="display: none;">上传素材</button>
+                            </div>
+                        </div>
+                        
+                        <!-- 识别后的商品信息 -->
+                        <div class="product-info" id="productInfo" style="display: none;">
+                            <div class="product-card">
+                                <div class="product-image">
+                                    <img src="https://youke1.picui.cn/s1/2025/08/25/68abcee61f235.png" alt="商品图片" id="productImage">
+                                </div>
+                                <div class="product-details">
+                                    <h4 id="productName">商品名称</h4>
+                                    <p id="productLink">商品链接</p>
+                                    <div class="product-tags">
+                                        <span class="tag">女装</span>
+                                        <span class="tag">连衣裙</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- AI商品信息 -->
+                        <div class="ai-product-info" id="aiProductInfo" style="display: none;">
+                            <h4>商品信息</h4>
+                            
+                            <!-- AI商品简称 -->
+                            <div class="info-section">
+                                <label>AI商品简称</label>
+                                <div class="ai-name-tags">
+                                    <span class="name-tag" onclick="toggleNameTag(this)">儿童纯棉百搭小清新碎花上衣</span>
+                                </div>
+                            </div>
+                            
+                            <!-- AI商品卖点 -->
+                            <div class="info-section">
+                                <label>AI商品卖点</label>
+                                <div class="ai-selling-points">
+                                    <div class="selling-point-tags">
+                                        <span class="point-tag" onclick="togglePointTag(this)">柔软亲肤透气不闷热</span>
+                                        <span class="point-tag" onclick="togglePointTag(this)">荷叶领口</span>
+                                        <span class="point-tag" onclick="togglePointTag(this)">纯棉绣花面料</span>
+                                    </div>
+                                    <button class="btn btn-sm btn-outline refresh-btn" onclick="refreshAISellingPoints()">
+                                        <i class="fas fa-sync-alt"></i> 换一换
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- 爆款方案 -->
+                        <div class="hot-schemes" id="hotSchemes" style="display: none;">
+                            <h4>爆款方案</h4>
+                            
+                            <!-- 爆款方案1 -->
+                            <div class="scheme-item">
+                                <h5>爆款方案1</h5>
+                                <div class="scheme-content">
+                                    <div class="scheme-section">
+                                        <label>商品简称</label>
+                                        <div class="scheme-name-tags">
+                                            <span class="name-tag" onclick="toggleNameTag(this)">儿童纯棉百搭小清新碎花上衣</span>
+                                        </div>
+                                    </div>
+                                    <div class="scheme-section">
+                                        <label>商品卖点</label>
+                                        <div class="selling-point-tags">
+                                            <span class="point-tag" onclick="togglePointTag(this)">荷叶领口</span>
+                                            <span class="point-tag" onclick="togglePointTag(this)">纯棉面料</span>
+                                            <span class="point-tag" onclick="togglePointTag(this)">亲肤透气</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- 爆款方案2 -->
+                            <div class="scheme-item">
+                                <h5>爆款方案2</h5>
+                                <div class="scheme-content">
+                                    <div class="scheme-section">
+                                        <label>商品简称</label>
+                                        <div class="scheme-name-tags">
+                                            <span class="name-tag" onclick="toggleNameTag(this)">儿童纯棉百搭小清新碎花上衣</span>
+                                        </div>
+                                    </div>
+                                    <div class="scheme-section">
+                                        <label>商品卖点</label>
+                                        <div class="selling-point-tags">
+                                            <span class="point-tag" onclick="togglePointTag(this)">荷叶领口</span>
+                                            <span class="point-tag" onclick="togglePointTag(this)">纯棉面料</span>
+                                            <span class="point-tag" onclick="togglePointTag(this)">亲肤透气</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- 爆款方案3 -->
+                            <div class="scheme-item">
+                                <h5>爆款方案3</h5>
+                                <div class="scheme-content">
+                                    <div class="scheme-section">
+                                        <label>商品简称</label>
+                                        <div class="scheme-name-tags">
+                                            <span class="name-tag" onclick="toggleNameTag(this)">儿童纯棉百搭小清新碎花上衣</span>
+                                        </div>
+                                    </div>
+                                    <div class="scheme-section">
+                                        <label>商品卖点</label>
+                                        <div class="selling-point-tags">
+                                            <span class="point-tag" onclick="togglePointTag(this)">荷叶领口</span>
+                                            <span class="point-tag" onclick="togglePointTag(this)">纯棉面料</span>
+                                            <span class="point-tag" onclick="togglePointTag(this)">亲肤透气</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- 自定义区域 -->
+                        <div class="custom-section" id="customSection" style="display: none;">
+                            <h4>自定义</h4>
+                            
+                            <div class="custom-grid">
+                                <!-- 自定义简称 -->
+                                <div class="custom-item">
+                                    <label>自定义简称</label>
+                                    <input type="text" id="customName" placeholder="请输入描述内容">
+                                </div>
+                                
+                                <!-- 自定义卖点 -->
+                                <div class="custom-item">
+                                    <label>自定义卖点</label>
+                                    <div class="unified-tag-input" id="unifiedTagInput">
+                                        <div class="tag-input-container">
+                                            <div class="existing-tags" id="existingTags">
+                                                <span class="custom-tag">
+                                                    柔软亲肤透气不闷热
+                                                    <i class="fas fa-times" onclick="removeCustomTag(this)"></i>
+                                                </span>
+                                                <span class="custom-tag">
+                                                    荷叶领口
+                                                    <i class="fas fa-times" onclick="removeCustomTag(this)"></i>
+                                                </span>
+                                            </div>
+                                            <input type="text" id="customTagInput" placeholder="输入卖点后按回车添加" onkeypress="addCustomTag(event)">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- 步骤1的下一步按钮 -->
+                    <div class="step1-actions" id="step1Actions" style="display: none;">
+                        <button class="btn btn-primary" onclick="goToScriptGeneration()">下一步</button>
+                    </div>
+                    </div>
+
+                    <!-- 步骤2：脚本生成 -->
+                    <div class="step-content" id="step2">
+                    <!-- 商品信息展示模块 -->
+                    <div class="product-info-display" id="productInfoDisplay">
+                        <div class="product-info-header">
+                            <i class="fas fa-info-circle"></i>
+                            <span>确认的商品信息</span>
+                        </div>
+                        <div class="product-info-content">
+                            <div class="product-info-row">
+                                <label>商品标题：</label>
+                                <span class="product-title" id="confirmedProductTitle">儿童纯棉百搭小清新碎花上衣</span>
+                            </div>
+                            <div class="product-info-row">
+                                <label>商品卖点：</label>
+                                <div class="product-selling-points" id="confirmedSellingPoints">
+                                    <span class="selling-point-tag">亲肤柔软</span>
+                                    <span class="selling-point-tag">透气不闷热</span>
+                                    <span class="selling-point-tag">荷叶领口</span>
+                                    <span class="selling-point-tag">纯棉面料</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="script-generation-layout">
+                        <!-- 左侧配置区域 -->
+                        <div class="script-config">
+                            <!-- 生成方式选择 -->
+                            <div class="config-section">
+                                <div class="config-tabs">
+                                    <button class="config-tab active" data-method="ai">AI生成</button>
+                                    <button class="config-tab" data-method="split">AI裂变</button>
+                                </div>
+                            </div>
+
+                            <!-- AI生成配置 -->
+                            <div class="config-panel active" id="aiConfig">
+                                <!-- 模型选择 -->
+                                <div class="config-item">
+                                    <label>AI模型</label>
+                                    <div class="radio-group">
+                                        <label class="radio-item">
+                                            <input type="radio" name="aiModel" value="deepseekr1" checked>
+                                            <span>DeepSeekR1</span>
+                                        </label>
+                                        <label class="radio-item">
+                                            <input type="radio" name="aiModel" value="qwen">
+                                            <span>Qwen</span>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <!-- 应用场景 -->
+                                <div class="config-item">
+                                    <label class="required">应用场景</label>
+                                    <div class="radio-group">
+                                        <label class="radio-item">
+                                            <input type="radio" name="scenario" value="daily" checked>
+                                            <span>日常</span>
+                                        </label>
+                                        <label class="radio-item">
+                                            <input type="radio" name="scenario" value="platform">
+                                            <span>平台心智</span>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <!-- 优惠信息 -->
+                                <div class="config-item">
+                                    <label>优惠信息</label>
+                                    <input type="text" class="config-input" placeholder="请输入描述内容">
+                                </div>
+
+                                <!-- 脚本风格 -->
+                                <div class="config-item">
+                                    <label class="required">脚本风格</label>
+                                    <div class="radio-group">
+                                        <label class="radio-item">
+                                            <input type="radio" name="style" value="any" checked>
+                                            <span>不限</span>
+                                        </label>
+                                        <label class="radio-item">
+                                            <input type="radio" name="style" value="boss">
+                                            <span>老板人设</span>
+                                        </label>
+                                        <label class="radio-item">
+                                            <input type="radio" name="style" value="influencer">
+                                            <span>达人种草</span>
+                                        </label>
+                                        <label class="radio-item">
+                                            <input type="radio" name="style" value="family">
+                                            <span>家庭视角</span>
+                                        </label>
+                                        <label class="radio-item">
+                                            <input type="radio" name="style" value="marketing">
+                                            <span>网感营销</span>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <!-- 适用人群 -->
+                                <div class="config-item">
+                                    <label>适用人群</label>
+                                    <input type="text" class="config-input" placeholder="请输入描述内容">
+                                </div>
+
+                                <!-- 自定义痛点 -->
+                                <div class="config-item">
+                                    <label>自定义痛点</label>
+                                    <input type="text" class="config-input" placeholder="请输入描述内容">
+                                </div>
+
+                                <!-- 字数范围 -->
+                                <div class="config-item">
+                                    <label class="required">字数范围</label>
+                                    <div class="word-count-selector">
+                                        <select class="config-select" id="wordCountRange" onchange="updateWordCountDisplay()">
+                                            <option value="50-75">50-75字 (≈10-15S正常口播时长)</option>
+                                            <option value="75-150">75-150字 (≈15-30S正常口播时长)</option>
+                                            <option value="150-300">150-300字 (≈30-60S正常口播时长)</option>
+                                            <option value="300+">≥300字 (≈60S正常口播时长)</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- AI裂变配置 -->
+                            <div class="config-panel" id="splitConfig">
+                                <!-- 爆款脚本 -->
+                                <div class="config-item">
+                                    <label>爆款脚本</label>
+                                    <div class="hot-script-section">
+                                        <!-- 三级品类选择器 -->
+                                        <div class="category-selector" id="categorySelector">
+                                            <div class="category-level" id="level1">
+                                                <div class="category-header" onclick="toggleCategoryLevel('level1')">
+                                                    <span class="category-label">一级品类</span>
+                                                    <span class="category-placeholder" style="color: #333;">服装鞋帽</span>
+                                                    <i class="fas fa-chevron-down expand-icon"></i>
+                                                </div>
+                                                <div class="category-options" id="level1Options">
+                                                    <!-- 一级品类选项将通过JavaScript动态生成 -->
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="category-level" id="level2">
+                                                <div class="category-header" onclick="toggleCategoryLevel('level2')">
+                                                    <span class="category-label">二级品类</span>
+                                                    <span class="category-placeholder" style="color: #333;">女装</span>
+                                                    <i class="fas fa-chevron-down expand-icon"></i>
+                                                </div>
+                                                <div class="category-options" id="level2Options">
+                                                    <!-- 二级品类选项将通过JavaScript动态生成 -->
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="category-level" id="level3">
+                                                <div class="category-header" onclick="toggleCategoryLevel('level3')">
+                                                    <span class="category-label">三级品类</span>
+                                                    <span class="category-placeholder" style="color: #333;">上衣</span>
+                                                    <i class="fas fa-chevron-down expand-icon"></i>
+                                                </div>
+                                                <div class="category-options" id="level3Options">
+                                                    <!-- 三级品类选项将通过JavaScript动态生成 -->
+                                                </div>
+                                            </div>
+                                            
+                                            <!-- 当前选择显示 -->
+                                            <div class="selected-category" id="selectedCategory" style="display: flex;">
+                                                <span class="selected-label">已选择：</span>
+                                                <span class="selected-path" id="selectedPath">服装鞋帽 > 女装 > 上衣</span>
+                                                <button class="btn btn-sm btn-outline" onclick="clearCategorySelection()">重新选择</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- 爆款脚本AI推荐 -->
+                                <div class="config-item">
+                                    <label>爆款脚本 AI推荐</label>
+                                    <div class="ai-recommendation">
+                                        <textarea class="config-textarea" rows="6" readonly>给大家推荐一款绝对让你爱不释脚的男鞋——我们的经典百搭男板鞋！这款鞋子采用优质帆布面料，鞋底采用耐磨橡胶材质，不仅舒适透气，而且非常耐穿。无论是搭配牛仔裤还是休闲裤，都能轻松驾驭各种场合。鞋子的设计简约时尚，经典的黑白配色永远不会过时。最重要的是，这款鞋子的性价比超高，绝对是学生党和上班族的首选！</textarea>
+                                        <div class="recommendation-actions">
+                                            <button class="btn btn-sm btn-outline" onclick="changeRecommendation()">换一换</button>
+                                            <button class="btn btn-sm btn-outline" onclick="editRecommendation()">自行修改</button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- 参考脚本 -->
+                                <div class="config-item">
+                                    <label>参考脚本</label>
+                                    <input type="text" class="config-input" placeholder="请输入你希望学习的脚本">
+                                </div>
+                            </div>
+
+                            <!-- 底部按钮 -->
+                            <div class="config-actions">
+                                <button class="btn btn-secondary" onclick="resetScriptConfig()">重置</button>
+                                <button class="btn btn-primary" onclick="generateScript()">立即生成</button>
+                            </div>
+                        </div>
+
+                        <!-- 右侧脚本列表 -->
+                        <div class="script-results-panel">
+                            <div class="results-header">
+                                <h4>生成的脚本</h4>
+                                <div class="header-actions">
+                                    <!-- 音色配置 -->
+                                    <button class="btn btn-outline" onclick="openVoiceToneModal()">
+                                        <i class="fas fa-microphone"></i>
+                                        音色：<span id="selectedTone">甜美女生</span>
+                                    </button>
+                                    
+                                    <!-- 生成选项 -->
+                                    <div class="video-options-inline">
+                                        <div class="options-title">生成选项</div>
+                                        <div class="options-grid-inline">
+                                            <div class="option-item">
+                                                <label class="checkbox-label small">
+                                                    <input type="checkbox" id="scriptEnableSubtitles" checked onchange="handleScriptVideoOptionChange('scriptEnableSubtitles', this.checked)">
+                                                    <span class="checkmark"></span>
+                                                    字幕
+                                                </label>
+                                            </div>
+                                            <div class="option-item">
+                                                <label class="checkbox-label small">
+                                                    <input type="checkbox" id="scriptEnableBGM" checked onchange="handleScriptVideoOptionChange('scriptEnableBGM', this.checked)">
+                                                    <span class="checkmark"></span>
+                                                    BGM
+                                                </label>
+                                            </div>
+                                            <div class="option-item">
+                                                <label class="checkbox-label small">
+                                                    <input type="checkbox" id="scriptEnableFlowerText" checked onchange="handleScriptVideoOptionChange('scriptEnableFlowerText', this.checked)">
+                                                    <span class="checkmark"></span>
+                                                    四要素
+                                                </label>
+                                            </div>
+                                            <div class="option-item">
+                                                <label class="checkbox-label small">
+                                                    <input type="checkbox" id="scriptEnableEndBoard" checked onchange="handleScriptVideoOptionChange('scriptEnableEndBoard', this.checked)">
+                                                    <span class="checkmark"></span>
+                                                    尾板
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <button class="btn btn-primary" onclick="startProduction()">开始制作</button>
+                                </div>
+                            </div>
+                            <div class="script-list" id="scriptList">
+                                <!-- 脚本项目将在这里动态添加 -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 步骤3：视频混剪 -->
+                <div class="step-content" id="step3">
+                    <div class="step-header">
+                        <h3>步骤3：视频混剪</h3>
+                        <p>基于脚本和素材进行智能混剪，生成最终视频</p>
+                    </div>
+                    
+                    <div class="video-editing-layout">
+                        <!-- 左侧脚本区域 -->
+                        <div class="script-panel">
+                            <div class="panel-header">
+                                <h4>脚本内容</h4>
+                                <span class="script-duration">预计时长：45秒</span>
+                            </div>
+                            <div class="script-content" id="scriptContent">
+                                <div class="script-sentence" data-segment="1" data-time="0-8">
+                                    <span class="sentence-number">1</span>
+                                    <span class="sentence-text">大家好，今天给大家推荐一款超美的儿童纯棉上衣！</span>
+                                    <span class="sentence-duration">8s</span>
+                                </div>
+                                <div class="script-sentence" data-segment="2" data-time="8-18">
+                                    <span class="sentence-number">2</span>
+                                    <span class="sentence-text">这款小清新碎花上衣采用100%纯棉面料制作，亲肤柔软透气不闷热。</span>
+                                    <span class="sentence-duration">10s</span>
+                                </div>
+                                <div class="script-sentence" data-segment="3" data-time="18-28">
+                                    <span class="sentence-number">3</span>
+                                    <span class="sentence-text">荷叶领口设计甜美可爱，碎花图案时尚百搭。</span>
+                                    <span class="sentence-duration">10s</span>
+                                </div>
+                                <div class="script-sentence" data-segment="4" data-time="28-38">
+                                    <span class="sentence-number">4</span>
+                                    <span class="sentence-text">无论是日常穿搭还是聚会场合都能轻松驾驭。</span>
+                                    <span class="sentence-duration">10s</span>
+                                </div>
+                                <div class="script-sentence" data-segment="5" data-time="38-45">
+                                    <span class="sentence-number">5</span>
+                                    <span class="sentence-text">妈妈们快来给宝贝选购吧！</span>
+                                    <span class="sentence-duration">7s</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- 右侧镜头区域 -->
+                        <div class="shots-panel">
+                            <div class="panel-header">
+                                <h4>镜头画面</h4>
+                                <span class="shots-count">共5个镜头</span>
+                            </div>
+                            <div class="shots-grid" id="shotsGrid">
+                                <div class="shot-item" data-segment="1" onclick="selectShot(1)">
+                                    <div class="shot-thumbnail">
+                                        <img src="https://youke1.picui.cn/s1/2025/08/25/68abcee61f235.png" alt="镜头1">
+                                        <div class="shot-overlay">
+                                            <i class="fas fa-play"></i>
+                                        </div>
+                                    </div>
+                                    <div class="shot-info">
+                                        <span class="shot-number">镜头1</span>
+                                        <span class="shot-duration">0-8s</span>
+                                        <span class="shot-description">开场介绍</span>
+                                    </div>
+                                </div>
+                                
+                                <div class="shot-item" data-segment="2" onclick="selectShot(2)">
+                                    <div class="shot-thumbnail">
+                                        <img src="https://youke1.picui.cn/s1/2025/08/25/68abd1330b651.png" alt="镜头2">
+                                        <div class="shot-overlay">
+                                            <i class="fas fa-play"></i>
+                                        </div>
+                                    </div>
+                                    <div class="shot-info">
+                                        <span class="shot-number">镜头2</span>
+                                        <span class="shot-duration">8-18s</span>
+                                        <span class="shot-description">面料质感展示</span>
+                                    </div>
+                                </div>
+                                
+                                <div class="shot-item" data-segment="3" onclick="selectShot(3)">
+                                    <div class="shot-thumbnail">
+                                        <img src="https://youke1.picui.cn/s1/2025/08/25/68abd13504421.jpg" alt="镜头3">
+                                        <div class="shot-overlay">
+                                            <i class="fas fa-play"></i>
+                                        </div>
+                                    </div>
+                                    <div class="shot-info">
+                                        <span class="shot-number">镜头3</span>
+                                        <span class="shot-duration">18-28s</span>
+                                        <span class="shot-description">荷叶领口设计</span>
+                                    </div>
+                                </div>
+                                
+                                <div class="shot-item" data-segment="4" onclick="selectShot(4)">
+                                    <div class="shot-thumbnail">
+                                        <img src="https://youke1.picui.cn/s1/2025/08/25/68abd13484aea.png" alt="镜头4">
+                                        <div class="shot-overlay">
+                                            <i class="fas fa-play"></i>
+                                        </div>
+                                    </div>
+                                    <div class="shot-info">
+                                        <span class="shot-number">镜头4</span>
+                                        <span class="shot-duration">28-38s</span>
+                                        <span class="shot-description">搭配场景展示</span>
+                                    </div>
+                                </div>
+                                
+                                <div class="shot-item" data-segment="5" onclick="selectShot(5)">
+                                    <div class="shot-thumbnail">
+                                        <img src="https://youke1.picui.cn/s1/2025/08/25/68abcee61f235.png" alt="镜头5">
+                                        <div class="shot-overlay">
+                                            <i class="fas fa-play"></i>
+                                        </div>
+                                    </div>
+                                    <div class="shot-info">
+                                        <span class="shot-number">镜头5</span>
+                                        <span class="shot-duration">38-45s</span>
+                                        <span class="shot-description">购买引导</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- 底部操作区域 -->
+                    <div class="video-actions">
+                        <button class="btn btn-outline" onclick="previewVideo()">预览视频</button>
+                        <button class="btn btn-secondary" onclick="editShots()">编辑镜头</button>
+                        <button class="btn btn-primary" onclick="generateVideo()">生成视频</button>
+                    </div>
+                </div>
+
+                <!-- 步骤4：下载完成 -->
+                <div class="step-content" id="step4">
+                    <div class="step-header">
+                        <h3>步骤4：下载完成</h3>
+                        <p>视频制作完成，可以下载到本地</p>
+                    </div>
+                    
+                    <div class="download-complete">
+                        <div class="success-message">
+                            <i class="fas fa-check-circle"></i>
+                            <h4>视频制作成功！</h4>
+                            <p>您的视频已经生成完成，可以下载到本地使用</p>
+                        </div>
+                        
+                        <div class="video-info">
+                            <div class="info-item">
+                                <span class="label">视频名称：</span>
+                                <span class="value">时尚连衣裙2024新款_混剪视频.mp4</span>
+                            </div>
+                            <div class="info-item">
+                                <span class="label">视频时长：</span>
+                                <span class="value">45秒</span>
+                            </div>
+                            <div class="info-item">
+                                <span class="label">文件大小：</span>
+                                <span class="value">15.2MB</span>
+                            </div>
+                            <div class="info-item">
+                                <span class="label">生成时间：</span>
+                                <span class="value">2024-01-15 14:30:25</span>
+                            </div>
+                        </div>
+                        
+                        <div class="download-actions">
+                            <button class="btn btn-primary" onclick="downloadVideo()">
+                                <i class="fas fa-download"></i>
+                                下载视频
+                            </button>
+                            <button class="btn btn-secondary" onclick="shareVideo()">
+                                <i class="fas fa-share"></i>
+                                分享视频
+                            </button>
+                            <button class="btn btn-outline" onclick="createNew()">
+                                <i class="fas fa-plus"></i>
+                                制作新视频
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                </div>
+
+                <!-- 批量模式：商品 + 脚本前置配置 -->
+                <div id="automationProductionMode" class="automation-mode" style="display: none;">
+                    <div class="automation-hero">
+                        <div class="automation-hero-copy">
+                            <h3>批量配置商品 ID 与脚本文案</h3>
+                            <p>为每个商品填写 ID 与脚本文案（默认 3 条，可继续添加）；提交后系统基于已确认脚本执行视频生产，生产条数随脚本数量走。</p>
+                        </div>
+                    </div>
+
+                    <div class="automation-grid automation-grid-single">
+                        <section class="automation-panel automation-launch-panel">
+                            <div class="automation-product-rows-header">
+                                <h4>商品与脚本</h4>
+                                <div class="automation-product-rows-actions">
+                                    <button type="button" class="btn btn-outline btn-sm" onclick="triggerAutomationExcelUpload()">
+                                        <i class="fas fa-file-excel"></i>
+                                        上传EXCEL
+                                    </button>
+                                    <button type="button" class="btn btn-outline btn-sm" onclick="addAutomationProductRow()">
+                                        <i class="fas fa-plus"></i>
+                                        添加商品
+                                    </button>
+                                </div>
+                            </div>
+                            <input type="file" id="automationExcelInput" class="automation-excel-input" accept=".xlsx,.xls" onchange="handleAutomationExcelUpload(event)">
+                            <p class="automation-excel-tip">Excel 需包含「商品ID」「脚本」两列；同一商品ID多行将自动合并为该商品下的多条脚本。</p>
+
+                            <div id="automationProductRows" class="automation-product-rows"></div>
+
+                            <div class="automation-global-options">
+                                <label>生成选项</label>
+                                <div class="automation-option-row">
+                                    <label class="checkbox-label small">
+                                        <input type="checkbox" id="automationSubtitles" checked>
+                                        <span class="checkmark"></span>
+                                        字幕
+                                    </label>
+                                    <label class="checkbox-label small">
+                                        <input type="checkbox" id="automationBGM" checked>
+                                        <span class="checkmark"></span>
+                                        BGM
+                                    </label>
+                                    <label class="checkbox-label small">
+                                        <input type="checkbox" id="automationFlowerText" checked>
+                                        <span class="checkmark"></span>
+                                        四要素
+                                    </label>
+                                    <label class="checkbox-label small">
+                                        <input type="checkbox" id="automationEndBoard" checked>
+                                        <span class="checkmark"></span>
+                                        尾板
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="automation-launch-note">
+                                <i class="fas fa-wand-magic-sparkles"></i>
+                                <span>脚本由人工前置确认；提交后自动完成商品识别、音色与视频参数配置及视频生产。</span>
+                            </div>
+
+                            <div class="automation-actions">
+                                <button class="btn btn-primary" onclick="startAutomationBatch()">
+                                    <i class="fas fa-paper-plane"></i>
+                                    提交并开始生产
+                                </button>
+                                <span id="automationInputHint">请至少添加 1 个商品并填写脚本</span>
+                            </div>
+                        </section>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+
+
+
+    <!-- 配音主播选择弹窗 -->
+    <div id="voiceModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>选择配音主播</h3>
+                <span class="close" onclick="closeVoiceModal()">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div class="voice-options">
+                    <div class="voice-option" data-voice="sweet-female">
+                        <div class="voice-avatar">👩</div>
+                        <div class="voice-info">
+                            <h4>甜美女声</h4>
+                            <p>温柔甜美，适合时尚、美妆类视频</p>
+                            <button class="btn btn-sm btn-outline" onclick="playVoiceDemo('sweet-female')">试听</button>
+                        </div>
+                    </div>
+                    <div class="voice-option" data-voice="energetic-female">
+                        <div class="voice-avatar">👱‍♀️</div>
+                        <div class="voice-info">
+                            <h4>活力女声</h4>
+                            <p>充满活力，适合运动、生活类视频</p>
+                            <button class="btn btn-sm btn-outline" onclick="playVoiceDemo('energetic-female')">试听</button>
+                        </div>
+                    </div>
+                    <div class="voice-option" data-voice="magnetic-male">
+                        <div class="voice-avatar">👨</div>
+                        <div class="voice-info">
+                            <h4>磁性男声</h4>
+                            <p>沉稳磁性，适合商务、科技类视频</p>
+                            <button class="btn btn-sm btn-outline" onclick="playVoiceDemo('magnetic-male')">试听</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeVoiceModal()">取消</button>
+                <button class="btn btn-primary" onclick="confirmVoiceSelection()" disabled>确认选择</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 任务抽屉背景遮罩 -->
+    <div id="taskDrawerOverlay" class="task-drawer-overlay" onclick="closeTaskDrawer()"></div>
+    
+    <!-- 任务抽屉 -->
+    <div id="taskDrawer" class="task-drawer">
+        <div class="drawer-header">
+            <h3>视频任务列表</h3>
+            <div class="drawer-close-actions">
+                <button class="drawer-minimize" onclick="minimizeTaskDrawer()" title="最小化">
+                    <i class="fas fa-minus"></i>
+                </button>
+                <button class="drawer-close" onclick="closeTaskDrawer()" title="关闭">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+        </div>
+        <div class="drawer-content">
+            <!-- 搜索区域 -->
+            <div class="task-search">
+                <div class="search-row">
+                    <div class="search-field">
+                        <label>任务ID</label>
+                        <input type="text" id="taskIdSearch" placeholder="请输入任务ID">
+                    </div>
+                    <div class="search-field">
+                        <label>任务名称</label>
+                        <input type="text" id="taskNameSearch" placeholder="请输入任务名称">
+                    </div>
+                </div>
+                <div class="search-actions">
+                    <button class="btn btn-primary" onclick="searchTasks()">搜索</button>
+                    <button class="btn btn-secondary" onclick="resetTaskSearch()">重置</button>
+                </div>
+            </div>
+            
+            <!-- 任务统计 -->
+            <div class="task-summary">
+                <h4>所有任务</h4>
+                <span class="task-count" id="taskCountText">共为您找到 68 个相关的任务</span>
+            </div>
+            
+            <!-- 任务列表 -->
+            <div class="drawer-task-list" id="drawerTaskList">
+                <!-- 任务项将在这里动态添加 -->
+            </div>
+        </div>
+    </div>
+
+    <!-- 任务按钮 -->
+    <div id="taskButton" class="task-button" onclick="openTaskDrawer()">
+        <span class="task-icon">📋</span>
+        <span class="task-count" id="taskCount">0</span>
+    </div>
+
+    <!-- 音色选择弹窗 -->
+    <div class="modal" id="voiceToneModal">
+        <div class="modal-content voice-tone-modal">
+            <div class="modal-header">
+                <h4>选择音色</h4>
+                <button class="modal-close" onclick="closeVoiceToneModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="voice-tone-grid">
+                    <div class="voice-tone-item" onclick="selectVoiceTone('甜美女生', this)">
+                        <div class="tone-avatar">
+                            <i class="fas fa-female"></i>
+                        </div>
+                        <div class="tone-info">
+                            <h5>甜美女生</h5>
+                            <p>温柔甜美，适合美妆、服装类</p>
+                        </div>
+                        <div class="tone-actions">
+                            <button class="btn btn-sm btn-outline" onclick="playToneDemo('甜美女生', event)">
+                                <i class="fas fa-play"></i> 试听
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="voice-tone-item" onclick="selectVoiceTone('磁性男声', this)">
+                        <div class="tone-avatar">
+                            <i class="fas fa-male"></i>
+                        </div>
+                        <div class="tone-info">
+                            <h5>磁性男声</h5>
+                            <p>低沉磁性，适合数码、汽车类</p>
+                        </div>
+                        <div class="tone-actions">
+                            <button class="btn btn-sm btn-outline" onclick="playToneDemo('磁性男声', event)">
+                                <i class="fas fa-play"></i> 试听
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="voice-tone-item" onclick="selectVoiceTone('活力少年', this)">
+                        <div class="tone-avatar">
+                            <i class="fas fa-child"></i>
+                        </div>
+                        <div class="tone-info">
+                            <h5>活力少年</h5>
+                            <p>青春活力，适合运动、游戏类</p>
+                        </div>
+                        <div class="tone-actions">
+                            <button class="btn btn-sm btn-outline" onclick="playToneDemo('活力少年', event)">
+                                <i class="fas fa-play"></i> 试听
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="voice-tone-item" onclick="selectVoiceTone('知性女声', this)">
+                        <div class="tone-avatar">
+                            <i class="fas fa-user-graduate"></i>
+                        </div>
+                        <div class="tone-info">
+                            <h5>知性女声</h5>
+                            <p>知性优雅，适合教育、知识类</p>
+                        </div>
+                        <div class="tone-actions">
+                            <button class="btn btn-sm btn-outline" onclick="playToneDemo('知性女声', event)">
+                                <i class="fas fa-play"></i> 试听
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="voice-tone-item" onclick="selectVoiceTone('可爱童声', this)">
+                        <div class="tone-avatar">
+                            <i class="fas fa-baby"></i>
+                        </div>
+                        <div class="tone-info">
+                            <h5>可爱童声</h5>
+                            <p>天真可爱，适合儿童、玩具类</p>
+                        </div>
+                        <div class="tone-actions">
+                            <button class="btn btn-sm btn-outline" onclick="playToneDemo('可爱童声', event)">
+                                <i class="fas fa-play"></i> 试听
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="voice-tone-item" onclick="selectVoiceTone('成熟男声', this)">
+                        <div class="tone-avatar">
+                            <i class="fas fa-user-tie"></i>
+                        </div>
+                        <div class="tone-info">
+                            <h5>成熟男声</h5>
+                            <p>稳重成熟，适合商务、金融类</p>
+                        </div>
+                        <div class="tone-actions">
+                            <button class="btn btn-sm btn-outline" onclick="playToneDemo('成熟男声', event)">
+                                <i class="fas fa-play"></i> 试听
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeVoiceToneModal()">取消</button>
+                <button class="btn btn-primary" onclick="saveVoiceTone()">保存</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 原料库页面 -->
+    <div class="material-library-modal" id="materialLibraryModal">
+        <div class="material-library-container">
+            <!-- 筛选项区域 -->
+            <div class="filter-section material-search-bar">
+                <div class="filter-row filter-row-4">
+                    <div class="filter-item">
+                        <label>品牌名称</label>
+                        <input type="text" class="filter-input" id="filterBrandName" placeholder="请输入品牌名称">
+                    </div>
+                    <div class="filter-item">
+                        <label>商品ID</label>
+                        <input type="text" class="filter-input" id="filterProductId" placeholder="请输入商品ID">
+                    </div>
+                    <div class="filter-item">
+                        <label>商品名称</label>
+                        <input type="text" class="filter-input" id="filterProductName" placeholder="请输入商品名称">
+                    </div>
+                    <div class="filter-item">
+                        <label>素材名称</label>
+                        <input type="text" class="filter-input" id="filterMaterialName" placeholder="请输入素材名称">
+                    </div>
+                </div>
+                <div class="filter-row filter-row-6">
+                    <div class="filter-item">
+                        <label>素材状态</label>
+                        <select class="filter-select" id="filterStatus">
+                            <option value="">全部</option>
+                            <option value="enabled" selected>启用</option>
+                            <option value="disabled">屏蔽</option>
+                            <option value="draft">草稿</option>
+                        </select>
+                    </div>
+                    <div class="filter-item">
+                        <label>素材类型</label>
+                        <select class="filter-select" id="filterMaterialType">
+                            <option value="">全部</option>
+                            <option value="自运营实拍" selected>自运营实拍</option>
+                            <option value="代理素材">代理素材</option>
+                            <option value="混剪AI视频">混剪AI视频</option>
+                        </select>
+                    </div>
+                    <div class="filter-item">
+                        <label>来源类型</label>
+                        <select class="filter-select" id="filterSourceType">
+                            <option value="">请选择来源类型</option>
+                            <option value="人工实拍">人工实拍</option>
+                            <option value="AI镜头">AI镜头</option>
+                            <option value="AI爆款复刻">AI爆款复刻</option>
+                        </select>
+                    </div>
+                    <div class="filter-item">
+                        <label>编导</label>
+                        <select class="filter-select" id="filterDirector">
+                            <option value="">请选择编导</option>
+                            <option value="范家荣">范家荣</option>
+                            <option value="李明">李明</option>
+                            <option value="王芳">王芳</option>
+                        </select>
+                    </div>
+                    <div class="filter-item filter-item-wide">
+                        <label>上传时间</label>
+                        <div class="date-range-inputs">
+                            <input type="date" class="filter-input" id="startDate" placeholder="开始日期">
+                            <span class="date-separator">至</span>
+                            <input type="date" class="filter-input" id="endDate" placeholder="结束日期">
+                        </div>
+                    </div>
+                    <div class="filter-item">
+                        <label>上传OA</label>
+                        <input type="text" class="filter-input" id="filterUploadOA" placeholder="请输入上传OA">
+                    </div>
+                </div>
+                <div class="filter-actions">
+                    <button class="btn btn-primary" onclick="searchMaterials()">查询</button>
+                    <button class="btn btn-secondary" onclick="resetFilters()">重置</button>
+                </div>
+            </div>
+
+            <!-- 操作按钮 -->
+            <div class="action-section">
+                <button class="btn btn-primary" onclick="showUploadModal()">
+                    <i class="fas fa-upload"></i>
+                    上传素材
+                </button>
+                <button class="btn btn-outline" onclick="exportMaterials()">
+                    <i class="fas fa-download"></i>
+                    导出素材
+                </button>
+            </div>
+
+            <!-- 列表字段 -->
+            <div class="list-section">
+                <div class="table-container">
+                    <table class="material-table">
+                        <thead>
+                            <tr>
+                                <th class="thumbnail-column">视频封面</th>
+                                <th>素材源ID</th>
+                                <th>素材类型</th>
+                                <th>来源类型</th>
+                                <th>编导</th>
+                                <th>视频画面标签</th>
+                                <th>品牌名称</th>
+                                <th>商品ID</th>
+                                <th>商品名称</th>
+                                <th>素材批次</th>
+                                <th>素材名称</th>
+                                <th>素材状态</th>
+                                <th>文件类型</th>
+                                <th>上传时间</th>
+                                <th>更新时间</th>
+                                <th>上传OA</th>
+                                <th class="actions-column">操作</th>
+                            </tr>
+                        </thead>
+                        <tbody id="materialTableBody">
+                            <!-- 数据行将在这里动态生成 -->
+                        </tbody>
+                    </table>
+                </div>
+                <div class="pagination-section">
+                    <div class="pagination-info">
+                        <span id="materialTotalCount">共0条</span>
+                    </div>
+                    <div class="pagination" id="materialPagination"></div>
+                    <div class="page-size">
+                        <select id="materialLibPageSize" onchange="changeMaterialLibPageSize()">
+                            <option value="20" selected>20条/页</option>
+                            <option value="50">50条/页</option>
+                            <option value="100">100条/页</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 操作栏 -->
+            <div class="operation-bar">
+                <div class="operation-header">
+                    <span>操作栏</span>
+                    <label class="toggle-switch">
+                        <input type="checkbox" checked>
+                        <span class="toggle-slider"></span>
+                        <span class="toggle-label">开启</span>
+                    </label>
+                </div>
+                <div class="operation-actions">
+                    <a href="#" onclick="editMaterial()">编辑</a>
+                    <a href="#" onclick="viewMaterial()">查看</a>
+                    <a href="#" onclick="deleteMaterial()">删除</a>
+                    <a href="#" onclick="enableMaterial()">启用</a>
+                    <a href="#" onclick="disableMaterial()">屏蔽</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 上传素材弹窗 -->
+    <div class="upload-modal" id="uploadModal">
+        <div class="upload-container">
+            <div class="upload-header">
+                <h3>上传素材</h3>
+                <button class="close-btn" onclick="closeUploadModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="upload-content">
+                <!-- 基本信息 -->
+                <div class="upload-section">
+                    <h4>基本信息</h4>
+                    <div class="form-row">
+                        <div class="form-item">
+                            <label>商品ID *</label>
+                            <input type="text" id="uploadProductId" placeholder="请输入商品ID" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-item">
+                            <label>是否默认启用状态 *</label>
+                            <div class="radio-group">
+                                <label class="radio-item">
+                                    <input type="radio" name="enableStatus" value="yes" checked>
+                                    <span>是</span>
+                                </label>
+                                <label class="radio-item">
+                                    <input type="radio" name="enableStatus" value="no">
+                                    <span>否</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-item">
+                            <label>批次 *</label>
+                            <input type="number" id="uploadBatch" placeholder="请输入批次号" min="1" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-item">
+                            <label>视频类型 *</label>
+                            <div class="radio-group">
+                                <label class="radio-item">
+                                    <input type="radio" name="videoType" value="internal" checked>
+                                    <span>内部镜头</span>
+                                </label>
+                                <label class="radio-item">
+                                    <input type="radio" name="videoType" value="proxy">
+                                    <span>代理视频</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 文件上传 -->
+                <div class="upload-section">
+                    <h4>文件上传</h4>
+                    <div class="upload-area" id="uploadArea">
+                        <div class="upload-placeholder">
+                            <i class="fas fa-cloud-upload-alt"></i>
+                            <p>点击或拖拽文件到此处上传</p>
+                            <p class="upload-hint">支持1-10个视频文件，总计不超过100条</p>
+                        </div>
+                        <input type="file" id="fileInput" multiple accept="video/*" style="display: none;">
+                    </div>
+                    <div class="upload-list" id="uploadList">
+                        <!-- 上传的文件列表将在这里显示 -->
+                    </div>
+                </div>
+            </div>
+            <div class="upload-footer">
+                <button class="btn btn-secondary" onclick="closeUploadModal()">取消</button>
+                <button class="btn btn-primary" onclick="submitUpload()">提交</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 视频预览弹窗 -->
+    <div class="video-preview-modal" id="videoPreviewModal">
+        <div class="video-preview-container">
+            <div class="video-preview-header">
+                <h3>视频预览</h3>
+                <button class="close-btn" onclick="closeVideoPreview()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="video-preview-content">
+                <video id="previewVideo" controls>
+                    <source src="" type="video/mp4">
+                    您的浏览器不支持视频播放。
+                </video>
+                <div class="video-info">
+                    <h4 id="previewVideoTitle">视频标题</h4>
+                    <p id="previewVideoDesc">视频描述信息</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 视频库页面 -->
+    <div class="video-library-modal" id="videoLibraryModal">
+        <div class="video-library-container">
+            <!-- 顶部搜索和筛选区域 -->
+            <div class="library-header">
+                <div class="search-section">
+                    <div class="search-row">
+                        <div class="search-field">
+                            <i class="fas fa-search"></i>
+                            <input type="text" id="productIdSearch" placeholder="请输入商品ID" oninput="searchVideos()">
+                            <i class="fas fa-times clear-btn" onclick="clearSearch('productIdSearch')"></i>
+                        </div>
+                        <div class="search-field">
+                            <i class="fas fa-search"></i>
+                            <input type="text" id="oaAccountSearch" placeholder="请输入OA账号" oninput="searchVideos()">
+                            <i class="fas fa-times clear-btn" onclick="clearSearch('oaAccountSearch')"></i>
+                        </div>
+                    </div>
+                    <div class="filter-section">
+                        <button class="btn btn-outline" onclick="showFilterOptions()">
+                            <i class="fas fa-filter"></i>
+                            筛选
+                        </button>
+                        <select class="filter-select" id="sortSelect">
+                            <option value="latest">最新上传</option>
+                            <option value="oldest">最早上传</option>
+                            <option value="name">按名称排序</option>
+                        </select>
+                        <div class="date-range">
+                            <i class="fas fa-calendar"></i>
+                            <span id="dateRangeText">2022-05-09 至 2022-05-16</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="action-section">
+                    <button class="btn btn-primary" onclick="batchExport()">
+                        <i class="fas fa-download"></i>
+                        批量导出
+                    </button>
+                    <div class="result-count" id="resultCount">共为你找到68个相关的视频</div>
+                </div>
+            </div>
+
+            <!-- 主要内容区域 -->
+            <div class="library-content">
+                <div class="content-header">
+                    <h3>所有素材</h3>
+                </div>
+                <div class="video-grid" id="videoLibraryGrid">
+                    <!-- 视频项目将在这里动态生成 -->
+                </div>
+            </div>
+
+            <!-- 分页区域 -->
+            <div class="pagination-section">
+                <div class="pagination">
+                    <button class="page-btn" onclick="changePage('prev')">
+                        <i class="fas fa-chevron-left"></i>
+                    </button>
+                    <button class="page-btn active" onclick="changePage(1)">1</button>
+                    <button class="page-btn" onclick="changePage(2)">2</button>
+                    <button class="page-btn" onclick="changePage(3)">3</button>
+                    <button class="page-btn" onclick="changePage(4)">4</button>
+                    <button class="page-btn" onclick="changePage(5)">5</button>
+                    <button class="page-btn" onclick="changePage(6)">6</button>
+                    <button class="page-btn" onclick="changePage(7)">7</button>
+                    <button class="page-btn" onclick="changePage(8)">8</button>
+                    <button class="page-btn" onclick="changePage(9)">9</button>
+                    <button class="page-btn" onclick="changePage('next')">
+                        <i class="fas fa-chevron-right"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 视频编辑页面 -->
+    <div class="video-editor-modal" id="videoEditorModal">
+        <div class="video-editor-container">
+            <!-- 顶部工具栏 -->
+            <div class="editor-header">
+                <div class="editor-breadcrumbs">
+                    <span>AI创作工具</span>
+                    <i class="fas fa-chevron-right"></i>
+                    <span>视频剪辑</span>
+                </div>
+                <div class="editor-actions">
+                    <button class="btn btn-primary" onclick="submitVideoChanges()">提交修改</button>
+                    <button class="btn btn-secondary" onclick="closeVideoEditor()">
+                        <i class="fas fa-times"></i>
+                    </button>
+                    <div class="user-info">
+                        <span>david01.chen</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 主要内容区域 -->
+            <div class="editor-main">
+                <!-- 左侧控制面板 -->
+                <div class="editor-control-panel">
+                    <div class="control-section">
+                        <h4>视频优化</h4>
+
+                        <!-- 文本编辑区域 -->
+                        <div class="text-editor">
+                            <label>脚本文案</label>
+                            <textarea id="scriptText" placeholder="请输入视频文案..." oninput="updateCharacterCount()">跑步想要轻松，这双运动鞋千万要码住。唯品会大牌好货每天3折疯抢。这双安踏跑步鞋3.5折起，新用户可领至高25元券。双层中底能消化冲击，落地平稳保护膝盖，网眼排气满足慢跑。点击链接赶紧下单吧</textarea>
+                            <div class="character-count">
+                                <span id="charCount">94</span>/102
+                            </div>
+                        </div>
+
+                        <!-- 音色选择 -->
+                        <div class="voice-selection">
+                            <div class="voice-tabs">
+                                <button class="voice-tab active" onclick="switchVoiceTab('male')">男性</button>
+                                <button class="voice-tab" onclick="switchVoiceTab('female')">女性</button>
+                                <button class="voice-tab" onclick="switchVoiceTab('neutral')">中性</button>
+                            </div>
+                            <div class="voice-grid" id="voiceGrid">
+                                <!-- 音色选项将在这里动态生成 -->
+                            </div>
+                        </div>
+
+                        <!-- 音效控制 -->
+                        <div class="audio-controls">
+                            <div class="control-item">
+                                <label>口播语速</label>
+                                <div class="slider-container">
+                                    <input type="range" id="speechRate" min="0.5" max="2.0" step="0.1" value="1.0" oninput="updateSpeechRate()">
+                                    <span class="slider-value" id="speechRateValue">1.0</span>
+                                </div>
+                            </div>
+                            <div class="control-item">
+                                <label>口播音量</label>
+                                <div class="slider-container">
+                                    <input type="range" id="toneVolume" min="0" max="100" value="85" oninput="updateToneVolume()">
+                                    <span class="slider-value" id="toneVolumeValue">85%</span>
+                                </div>
+                            </div>
+                            
+                            <!-- 视频生成选项 -->
+                            <div class="video-options">
+                                <div class="options-title">生成选项</div>
+                                <div class="options-grid">
+                                    <div class="option-item">
+                                        <label class="checkbox-label small">
+                                            <input type="checkbox" id="enableSubtitles" checked onchange="handleVideoOptionChange('enableSubtitles', this.checked)">
+                                            <span class="checkmark"></span>
+                                            字幕
+                                        </label>
+                                    </div>
+                                    <div class="option-item bgm-option-group">
+                                        <label class="checkbox-label small">
+                                            <input type="checkbox" id="enableBGM" checked onchange="handleVideoOptionChange('enableBGM', this.checked)">
+                                            <span class="checkmark"></span>
+                                            BGM
+                                        </label>
+                                        <button type="button" class="bgm-change-link" onclick="openBgmLibrary()">更换BGM</button>
+                                        <span class="selected-bgm-label" id="selectedBgmLabel"></span>
+                                    </div>
+                                    <div class="option-item">
+                                        <label class="checkbox-label small">
+                                            <input type="checkbox" id="enableFlowerText" checked onchange="handleVideoOptionChange('enableFlowerText', this.checked)">
+                                            <span class="checkmark"></span>
+                                            四要素
+                                        </label>
+                                    </div>
+                                    <div class="option-item">
+                                        <label class="checkbox-label small">
+                                            <input type="checkbox" id="enableEndBoard" checked onchange="handleVideoOptionChange('enableEndBoard', this.checked)">
+                                            <span class="checkmark"></span>
+                                            尾板
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 右侧视频预览 -->
+                <div class="editor-video-preview">
+                    <div class="video-player-container">
+                        <video id="editorVideoPlayer" controls preload="metadata">
+                            <source src="https://12131231-1302391623.cos.ap-beijing.myqcloud.com/VIP%E8%87%AAAAI%E7%88%86%E4%B8%B8%E6%8A%A4%E8%82%A4%E5%A5%970161%2B%E7%AB%96%E7%89%88%E8%A7%86%E9%A2%91%2B%E4%B8%B8%E7%BE%8E%2B%E7%BE%8E%E5%AE%B9%E6%8A%A4%E8%82%A4%2B6917920520629265102%2BAIGC%2B3.mp4" type="video/mp4">
+                            您的浏览器不支持视频播放。
+                        </video>
+                        <!-- 字幕覆盖层 -->
+                        <div id="subtitleOverlay" style="display:none;" class="video-subtitle-overlay">正在为您展示商品亮点，清爽透气，柔软亲肤</div>
+                        <!-- 四要素覆盖层（价格图片） -->
+                        <img id="fourElementsOverlay" style="display:none;" class="video-price-overlay" src="https://12131231-1302391623.cos.ap-beijing.myqcloud.com/%E4%BB%B7%E6%A0%BC%E6%A0%87%E5%9B%BE%E7%89%87.png" alt="价格信息">
+                    </div>
+                </div>
+            </div>
+
+            <!-- 底部时间轴 -->
+            <div class="editor-timeline">
+                <div class="timeline-header">
+                    <button class="btn btn-sm btn-primary" onclick="addTimelineSegment()">
+                        <i class="fas fa-plus"></i>
+                    </button>
+                    <span class="timeline-time">00:00:00</span>
+                </div>
+                <div class="timeline-track" id="timelineTrack">
+                    <!-- 时间轴片段将在这里动态生成 -->
+                </div>
+                <div class="timeline-footer">
+                    <span class="timeline-time">00:20:00</span>
+                    <button class="btn btn-sm btn-primary" onclick="addTimelineSegment()">
+                        <i class="fas fa-plus"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 视频替换弹窗 -->
+    <div class="video-replace-modal" id="videoReplaceModal">
+        <div class="video-replace-container">
+            <div class="video-replace-header">
+                <h3>替换视频片段</h3>
+                <div class="header-actions">
+                    <button class="btn btn-outline btn-sm" onclick="openVideoUploadModal()">
+                        <i class="fas fa-upload"></i>
+                        自主上传
+                    </button>
+                    <button class="close-btn" onclick="closeVideoReplaceModal()">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="video-replace-content">
+                <!-- 素材库选择区域 -->
+                <div class="material-library-section">
+                    <div class="library-header">
+                        <h5>素材库</h5>
+                        <div class="library-search">
+                            <input type="text" id="materialSearchInput" placeholder="搜索素材..." oninput="searchMaterialGrid()">
+                            <i class="fas fa-search"></i>
+                        </div>
+                    </div>
+                    
+                    <div class="material-grid" id="materialGrid">
+                        <!-- 素材项目将在这里动态生成 -->
+                    </div>
+                    
+                    <div class="library-pagination">
+                        <div class="pagination-info">
+                            <span id="materialCount">共45条</span>
+                        </div>
+                        <div class="pagination">
+                            <button class="page-btn" onclick="changeMaterialPage('prev')">
+                                <i class="fas fa-chevron-left"></i>
+                            </button>
+                            <button class="page-btn active" onclick="changeMaterialPage(1)">1</button>
+                            <button class="page-btn" onclick="changeMaterialPage(2)">2</button>
+                            <button class="page-btn" onclick="changeMaterialPage(3)">3</button>
+                            <button class="page-btn" onclick="changeMaterialPage(4)">4</button>
+                            <button class="page-btn" onclick="changeMaterialPage(5)">5</button>
+                            <button class="page-btn" onclick="changeMaterialPage('next')">
+                                <i class="fas fa-chevron-right"></i>
+                            </button>
+                        </div>
+                        <div class="page-size">
+                            <select id="materialPageSize">
+                                <option value="10">10条/页</option>
+                                <option value="20">20条/页</option>
+                                <option value="50">50条/页</option>
+                            </select>
+                            <button class="btn btn-sm" onclick="goToMaterialPage()">前往</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="video-replace-footer">
+                <button class="btn btn-secondary" onclick="closeVideoReplaceModal()">取消</button>
+                <button class="btn btn-primary" onclick="confirmVideoReplace()" id="confirmReplaceBtn" disabled>确认替换</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 视频上传弹窗 -->
+    <div class="video-upload-modal" id="videoUploadModal">
+        <div class="video-upload-container">
+            <div class="video-upload-header">
+                <h3>上传视频素材</h3>
+                <button class="close-btn" onclick="closeVideoUploadModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="video-upload-content">
+                <!-- 文件上传 -->
+                <div class="upload-section">
+                    <h4>文件上传</h4>
+                    <div class="upload-area" id="uploadArea">
+                        <div class="upload-placeholder">
+                            <i class="fas fa-cloud-upload-alt"></i>
+                            <p>点击或拖拽文件到此处上传</p>
+                            <p class="upload-hint">支持1-10个视频文件，总计不超过100条</p>
+                        </div>
+                        <input type="file" id="fileInput" multiple accept="video/*" style="display: none;">
+                    </div>
+                    <div class="upload-list" id="uploadList">
+                        <!-- 上传的文件列表将在这里显示 -->
+                    </div>
+                </div>
+
+                <!-- 同步选项 -->
+                <div class="upload-section">
+                    <div class="sync-option">
+                        <label class="checkbox-item">
+                            <input type="checkbox" id="syncToLibrary">
+                            <span class="checkmark"></span>
+                            <span class="checkbox-label">同步至原料库</span>
+                        </label>
+                        <p class="sync-hint">勾选后，上传的视频将永久保存到原料库中，供后续使用</p>
+                    </div>
+                </div>
+            </div>
+            <div class="video-upload-footer">
+                <button class="btn btn-secondary" onclick="closeVideoUploadModal()">取消</button>
+                <button class="btn btn-primary" onclick="submitVideoUpload()">提交</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- BGM 库弹窗 -->
+    <div class="bgm-library-modal" id="bgmLibraryModal">
+        <div class="bgm-library-container">
+            <div class="bgm-library-header">
+                <h3>BGM 库</h3>
+                <button type="button" class="close-btn" onclick="closeBgmLibrary()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+
+            <div class="bgm-filter-section">
+                <div class="bgm-filter-row">
+                    <div class="bgm-filter-item">
+                        <label>音频名称</label>
+                        <input type="text" id="bgmFilterAudioName" class="bgm-filter-input" placeholder="请输入音频名称">
+                    </div>
+                    <div class="bgm-filter-item">
+                        <label>歌曲名称</label>
+                        <input type="text" id="bgmFilterSongName" class="bgm-filter-input" placeholder="请输入歌曲名称">
+                    </div>
+                    <div class="bgm-filter-item">
+                        <label>创建人</label>
+                        <input type="text" id="bgmFilterCreator" class="bgm-filter-input" placeholder="请输入手机号">
+                    </div>
+                    <div class="bgm-filter-item">
+                        <label>一级品类</label>
+                        <select id="bgmFilterCategory" class="bgm-filter-select">
+                            <option value="">请选择一级品类</option>
+                            <option value="服装鞋帽">服装鞋帽</option>
+                            <option value="美妆护肤">美妆护肤</option>
+                            <option value="运动户外">运动户外</option>
+                            <option value="家居生活">家居生活</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="bgm-filter-row bgm-filter-row-secondary">
+                    <div class="bgm-filter-item bgm-filter-date">
+                        <label>创建时间</label>
+                        <div class="bgm-date-range">
+                            <input type="date" id="bgmFilterStartDate" class="bgm-filter-input">
+                            <span>至</span>
+                            <input type="date" id="bgmFilterEndDate" class="bgm-filter-input">
+                        </div>
+                    </div>
+                    <div class="bgm-filter-item">
+                        <label>标签</label>
+                        <button type="button" class="btn btn-outline btn-sm bgm-tag-filter-btn">
+                            <i class="fas fa-filter"></i>
+                            筛选
+                        </button>
+                    </div>
+                    <div class="bgm-filter-actions">
+                        <button type="button" class="btn btn-primary" onclick="searchBgmLibrary()">搜索</button>
+                        <button type="button" class="btn btn-secondary" onclick="resetBgmLibraryFilters()">重置</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bgm-library-content">
+                <div class="bgm-grid" id="bgmGrid"></div>
+                <div class="bgm-pagination">
+                    <span id="bgmCountText">共0条</span>
+                    <div class="bgm-pagination-controls" id="bgmPaginationControls"></div>
+                </div>
+            </div>
+
+            <div class="bgm-library-footer">
+                <button type="button" class="btn btn-secondary" onclick="closeBgmLibrary()">取消</button>
+                <button type="button" class="btn btn-primary" id="confirmBgmBtn" onclick="confirmBgmSelection()" disabled>确认选择</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+    <script src="script.js?v=automation-mode-45"></script>
+</body>
+</html>
