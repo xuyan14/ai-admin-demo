@@ -5189,6 +5189,94 @@
             display: block;
         }
 
+        .ve-save-other-input input[readonly] {
+            background: #f7f8fa;
+            cursor: default;
+            color: #4e5969;
+        }
+
+        .ve-multi-select {
+            position: relative;
+            margin-top: 8px;
+        }
+
+        .ve-multi-select-trigger {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+            height: 36px;
+            padding: 0 12px;
+            border: 1px solid #c9cdd4;
+            border-radius: 6px;
+            background: #fff;
+            font-size: 14px;
+            color: #1d2129;
+            cursor: pointer;
+            box-sizing: border-box;
+            transition: border-color 0.15s;
+        }
+
+        .ve-multi-select-trigger:hover {
+            border-color: #165dff;
+        }
+
+        .ve-multi-select-trigger .placeholder {
+            color: #86909c;
+        }
+
+        .ve-multi-select-trigger .arrow {
+            font-size: 16px;
+            color: #86909c;
+            transition: transform 0.2s;
+        }
+
+        .ve-multi-select.open .ve-multi-select-trigger .arrow {
+            transform: rotate(180deg);
+        }
+
+        .ve-multi-select-panel {
+            position: absolute;
+            top: calc(100% + 4px);
+            left: 0;
+            right: 0;
+            max-height: 220px;
+            overflow-y: auto;
+            background: #fff;
+            border: 1px solid #e5e6eb;
+            border-radius: 6px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            z-index: 10;
+            display: none;
+            padding: 6px 0;
+        }
+
+        .ve-multi-select.open .ve-multi-select-panel {
+            display: block;
+        }
+
+        .ve-multi-select-option {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 12px;
+            font-size: 14px;
+            color: #1d2129;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .ve-multi-select-option:hover {
+            background: #f7f8fa;
+        }
+
+        .ve-multi-select-option input[type="checkbox"] {
+            width: 16px;
+            height: 16px;
+            accent-color: #165dff;
+            cursor: pointer;
+        }
+
         .ve-save-tip {
             font-size: 13px;
             color: #86909c;
@@ -10849,6 +10937,18 @@
             }
             renderVeForm();
             renderVeTaskList();
+            bindVeSaveVideoTagsOutside();
+        }
+
+        function bindVeSaveVideoTagsOutside() {
+            if (window._veSaveVideoTagsOutsideBound) return;
+            window._veSaveVideoTagsOutsideBound = true;
+            document.addEventListener('click', function (e) {
+                const select = document.getElementById('veSaveVideoTagsSelect');
+                if (select && !select.contains(e.target)) {
+                    select.classList.remove('open');
+                }
+            });
         }
 
         function buildVeDemoTasks() {
@@ -11377,11 +11477,48 @@
                 otherInput.value = '';
                 otherInput.parentElement.classList.remove('show');
             }
+            const productIdInput = document.getElementById('veSaveProductId');
+            if (productIdInput) productIdInput.value = '';
+            const productWrap = document.getElementById('veSaveProductWrap');
+            if (productWrap) productWrap.style.display = '';
+            const batchInput = document.getElementById('veSaveBatch');
+            if (batchInput) batchInput.value = '';
+            document.querySelectorAll('#veSaveVideoTagsPanel input[type="checkbox"]').forEach(el => { el.checked = false; });
+            const tagsText = document.getElementById('veSaveVideoTagsText');
+            if (tagsText) {
+                tagsText.textContent = '请选择视频画面标签（可多选）';
+                tagsText.classList.add('placeholder');
+            }
+            const tagsSelect = document.getElementById('veSaveVideoTagsSelect');
+            if (tagsSelect) tagsSelect.classList.remove('open');
         }
 
         function onVeSaveDirectorChange(value) {
             const wrap = document.getElementById('veSaveDirectorOtherWrap');
             if (wrap) wrap.classList.toggle('show', value === '其他');
+        }
+
+        function toggleVeSaveVideoTagsPanel() {
+            const select = document.getElementById('veSaveVideoTagsSelect');
+            if (select) select.classList.toggle('open');
+        }
+
+        function onVeSaveVideoTagChange() {
+            const checked = Array.from(document.querySelectorAll('#veSaveVideoTagsPanel input[type="checkbox"]:checked'));
+            const textEl = document.getElementById('veSaveVideoTagsText');
+            if (!textEl) return;
+            if (checked.length) {
+                textEl.textContent = checked.map(el => el.value).join('、');
+                textEl.classList.remove('placeholder');
+            } else {
+                textEl.textContent = '请选择视频画面标签（可多选）';
+                textEl.classList.add('placeholder');
+            }
+        }
+
+        function closeVeSaveVideoTagsPanel() {
+            const select = document.getElementById('veSaveVideoTagsSelect');
+            if (select) select.classList.remove('open');
         }
 
         function openVeSaveLibraryModal() {
@@ -11393,6 +11530,11 @@
             const countEl = document.getElementById('veSaveCount');
             if (countEl) countEl.textContent = String(selected.length);
             resetVeSaveLibraryForm();
+            // 换商品模式：后台自动绑定商品ID，隐藏商品ID输入字段
+            const batch = veState.tasks.find(t => t.id === veState.activeViewTaskId);
+            const isProduct = (batch && batch.taskType === 'product') || veState.taskType === 'product';
+            const productWrap = document.getElementById('veSaveProductWrap');
+            if (productWrap) productWrap.style.display = isProduct ? 'none' : '';
             document.getElementById('veSaveLibraryModal').style.display = 'flex';
         }
 
@@ -11403,8 +11545,27 @@
         function confirmVeSaveToLibrary() {
             const enabled = document.querySelector('input[name="veSaveEnabled"]:checked')?.value;
             const directorRadio = document.querySelector('input[name="veSaveDirector"]:checked');
+            const productId = document.getElementById('veSaveProductId')?.value.trim();
+            const batch = document.getElementById('veSaveProductWrap');
+            const productIdVisible = batch && batch.style.display !== 'none';
+            const productBatch = veState.tasks.find(t => t.id === veState.activeViewTaskId);
+            const isProduct = (productBatch && productBatch.taskType === 'product') || veState.taskType === 'product';
+            const batchVal = document.getElementById('veSaveBatch')?.value.trim();
+            const videoTags = Array.from(document.querySelectorAll('#veSaveVideoTagsPanel input[type="checkbox"]:checked')).map(el => el.value);
             if (!enabled) {
                 showToast('请选择是否默认启用');
+                return;
+            }
+            if (productIdVisible && !productId) {
+                showToast('请输入商品ID');
+                return;
+            }
+            if (!videoTags.length) {
+                showToast('请选择视频画面标签');
+                return;
+            }
+            if (!batchVal) {
+                showToast('请输入批次');
                 return;
             }
             if (!directorRadio) {
@@ -11422,9 +11583,11 @@
             }
             const selected = getVeSelectedResults();
             const enabledLabel = enabled === 'yes' ? '默认启用' : '默认不启用';
+            const tagsLabel = videoTags.join('、');
             closeVeSaveLibraryModal();
             closeVeTaskViewModal();
-            showToast(`已将 ${selected.length} 个视频同步至原料库（${enabledLabel}，编导：${director}）`);
+            const productInfo = productIdVisible && productId ? `，商品ID：${productId}` : (isProduct ? '，商品ID：后台自动绑定' : '');
+            showToast(`已将 ${selected.length} 个视频同步至原料库（${enabledLabel}，编导：${director}${productInfo}，画面标签：${tagsLabel}，批次：${batchVal}）`);
         }
 
         // ===== 原料库 =====
@@ -19538,6 +19701,35 @@
                             <input type="radio" name="veSaveEnabled" value="no">
                             <span>否</span>
                         </label>
+                    </div>
+                </div>
+                <div class="ve-save-form-item" id="veSaveProductWrap">
+                    <label class="ve-save-label"><span class="required">*</span>商品ID</label>
+                    <div class="ve-save-other-input" style="margin-top:8px;display:block;">
+                        <input type="text" class="form-input" id="veSaveProductId" placeholder="请输入商品ID">
+                    </div>
+                </div>
+                <div class="ve-save-form-item">
+                    <label class="ve-save-label"><span class="required">*</span>视频画面标签</label>
+                    <div class="ve-multi-select" id="veSaveVideoTagsSelect">
+                        <div class="ve-multi-select-trigger" onclick="toggleVeSaveVideoTagsPanel()">
+                            <span class="ve-multi-select-text placeholder" id="veSaveVideoTagsText">请选择视频画面标签（可多选）</span>
+                            <span class="arrow">▾</span>
+                        </div>
+                        <div class="ve-multi-select-panel" id="veSaveVideoTagsPanel">
+                            <label class="ve-multi-select-option"><input type="checkbox" value="商品展示" onchange="onVeSaveVideoTagChange()">商品展示</label>
+                            <label class="ve-multi-select-option"><input type="checkbox" value="细节特写" onchange="onVeSaveVideoTagChange()">细节特写</label>
+                            <label class="ve-multi-select-option"><input type="checkbox" value="穿搭场景" onchange="onVeSaveVideoTagChange()">穿搭场景</label>
+                            <label class="ve-multi-select-option"><input type="checkbox" value="功能演示" onchange="onVeSaveVideoTagChange()">功能演示</label>
+                            <label class="ve-multi-select-option"><input type="checkbox" value="使用场景" onchange="onVeSaveVideoTagChange()">使用场景</label>
+                            <label class="ve-multi-select-option"><input type="checkbox" value="对比展示" onchange="onVeSaveVideoTagChange()">对比展示</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="ve-save-form-item">
+                    <label class="ve-save-label"><span class="required">*</span>批次</label>
+                    <div class="ve-save-other-input" style="margin-top:8px;display:block;">
+                        <input type="text" class="form-input" id="veSaveBatch" placeholder="请输入批次">
                     </div>
                 </div>
                 <div class="ve-save-form-item">
